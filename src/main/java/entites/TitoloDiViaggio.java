@@ -11,7 +11,6 @@ import java.time.LocalDate;
 public abstract class TitoloDiViaggio {
 
     @Column(name = "data_emissione")
-
     private  LocalDate dataEmissione;
     @Column(name = "data_scadenza" )
     private  LocalDate dataScadenza;
@@ -30,13 +29,7 @@ public abstract class TitoloDiViaggio {
         this.tipoDistributore = tipoDistributore;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDate getDataEmissione() {
         return dataEmissione;
@@ -65,7 +58,6 @@ public abstract class TitoloDiViaggio {
     @Override
     public String toString() {
         return "TitoloDiViaggio{" +
-                "id=" + id +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
                 ", tipoDistributore=" + tipoDistributore +

@@ -29,12 +29,12 @@ public class Biglietto extends TitoloDiViaggio {
     public Biglietto() {
     }
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+   
     public void setId(Long id) {
         this.id = id;
     }
