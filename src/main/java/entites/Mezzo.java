@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "mezzi")
 public class Mezzo {
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue
    private Long id;
    private int capienza;
    @Enumerated(EnumType.STRING)
@@ -20,7 +20,7 @@ public class Mezzo {
    private LocalDate dataServizio;
    private List<ServizioEffettivo> serviziEffettivi;
    private List<Biglietto> bigliettiVidimati;
-// private Tratta tratta;
+   private Tratta tratta;
 
    public Mezzo(int capienza, TipoMezzo tipoMezzo, LocalDate dataServizio) {
       this.capienza = capienza;
@@ -78,14 +78,14 @@ public class Mezzo {
    public void setBigliettiVidimati(List<Biglietto> bigliettiVidimati) {
     this.bigliettiVidimati = bigliettiVidimati;
    }
-//
-//   public Tratta getTratta() {
-//      return tratta;
-//   }
-//
-//   public void setTratta(Tratta tratta) {
-//      this.tratta = tratta;
-//   }
+
+   public Tratta getTratta() {
+      return tratta;
+  }
+
+  public void setTratta(Tratta tratta) {
+      this.tratta = tratta;
+  }
 
    @Override
    public String toString() {

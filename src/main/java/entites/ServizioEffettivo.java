@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Table(name = "servizi_effettivi")
 public class ServizioEffettivo {
     @Id
+    @GeneratedValue
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "stato_servizio")
