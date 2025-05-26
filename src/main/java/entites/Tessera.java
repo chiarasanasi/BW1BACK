@@ -3,7 +3,6 @@ package entites;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDate;
@@ -14,19 +13,20 @@ import java.util.List;
 public class Tessera {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String codiceUnivoco;
     private LocalDate dataEmissione;
     private LocalDate dataScadenza;
 
-    //@OneToMany
-    // private List<Abbonamento> abbonamenti = new ArrayList<>();
+    //@OneToMany (mappedBy = "tessera", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Abbonamento> abbonamenti = new ArrayList<>();
 
+    public Tessera() {
+    }
 
-    public Tessera(Long id, String codiceUnivoco, LocalDate dataEmissione, LocalDate dataScadenza) {
-        this.id = id;
+    public Tessera(String codiceUnivoco, LocalDate dataEmissione, LocalDate dataScadenza) {
         this.codiceUnivoco = codiceUnivoco;
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;

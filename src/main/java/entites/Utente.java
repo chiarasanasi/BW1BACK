@@ -2,23 +2,23 @@ package entites;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-
 @Entity
 public class Utente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
    private String nome;
    private String cognome;
 
-   //@OneToOne
+   //@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tessera_id", referencedColumnName = "id")
     private Tessera tessera;
 
-    public Utente(Long id, String nome, String cognome, Tessera tessera) {
-        this.id = id;
+    public Utente() {
+    }
+
+    public Utente(String nome, String cognome, Tessera tessera) {
         this.nome = nome;
         this.cognome = cognome;
         this.tessera = tessera;
