@@ -11,7 +11,7 @@ import java.util.List;
 public class Mezzo {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private int id;
+   private Long id;
    private int capienza;
    @Enumerated(EnumType.STRING)
    @Column(name = "tipo_mezzo")
@@ -19,7 +19,7 @@ public class Mezzo {
    @Column(name = "data_servizio")
    private LocalDate dataServizio;
    private List<ServizioEffettivo> serviziEffettivi;
-// private List<Biglietto> bigliettiVidimati;
+   private List<Biglietto> bigliettiVidimati;
 // private Tratta tratta;
 
    public Mezzo(int capienza, TipoMezzo tipoMezzo, LocalDate dataServizio) {
@@ -31,11 +31,11 @@ public class Mezzo {
    public Mezzo() {
    }
 
-   public int getId() {
+   public Long getId() {
       return id;
    }
 
-   public void setId(int id) {
+   public void setId(Long id) {
       this.id = id;
    }
 
@@ -71,13 +71,13 @@ public class Mezzo {
       this.serviziEffettivi = serviziEffettivi;
    }
 
-//   public List<Biglietto> getBigliettiVidimati() {
-//      return bigliettiVidimati;
-//   }
-//
-//   public void setBigliettiVidimati(List<Biglietto> bigliettiVidimati) {
-//      this.bigliettiVidimati = bigliettiVidimati;
-//   }
+  public List<Biglietto> getBigliettiVidimati() {
+      return bigliettiVidimati;
+   }
+
+   public void setBigliettiVidimati(List<Biglietto> bigliettiVidimati) {
+    this.bigliettiVidimati = bigliettiVidimati;
+   }
 //
 //   public Tratta getTratta() {
 //      return tratta;
