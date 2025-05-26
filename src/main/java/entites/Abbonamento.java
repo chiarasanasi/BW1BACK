@@ -14,7 +14,9 @@ import java.time.LocalDate;
         @Id
         @GeneratedValue
         private Long id;
-//        private Utente utente;
+        // @ManyToOne
+        // @JoinColumn(name = "utente_id")
+        // private Utente utente;
         @Enumerated(EnumType.STRING)
         private Validita validita;
 
