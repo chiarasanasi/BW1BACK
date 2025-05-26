@@ -15,8 +15,6 @@ public class Tessera {
     @Id
     @GeneratedValue
     private Long id;
-
-    private String codiceUnivoco;
     private LocalDate dataEmissione;
     private LocalDate dataScadenza;
 
@@ -26,18 +24,13 @@ public class Tessera {
     public Tessera() {
     }
 
-    public Tessera(String codiceUnivoco, LocalDate dataEmissione, LocalDate dataScadenza) {
-        this.codiceUnivoco = codiceUnivoco;
+    public Tessera(LocalDate dataEmissione, LocalDate dataScadenza) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public String getCodiceUnivoco() {
-        return codiceUnivoco;
     }
 
     public LocalDate getDataEmissione() {
@@ -52,10 +45,6 @@ public class Tessera {
         this.id = id;
     }
 
-    public void setCodiceUnivoco(String codiceUnivoco) {
-        this.codiceUnivoco = codiceUnivoco;
-    }
-
     public void setDataEmissione(LocalDate dataEmissione) {
         this.dataEmissione = dataEmissione;
     }
@@ -68,7 +57,6 @@ public class Tessera {
     public String toString() {
         return "Tessera{" +
                 "id=" + id +
-                ", codiceUnivoco='" + codiceUnivoco + '\'' +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
                 '}';
