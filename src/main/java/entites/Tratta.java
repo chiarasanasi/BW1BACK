@@ -1,7 +1,12 @@
 package entites;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.time.LocalTime;
 
+@Entity
+@Table
 public class Tratta {
 
     //Qui ci andrà la relazione ONE TO MANY con l'entità Mezzo
