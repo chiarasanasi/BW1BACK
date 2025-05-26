@@ -1,5 +1,10 @@
 package entites;
 
+import jakarta.persistence.Entity;
+import jdk.jfr.Experimental;
+
+@Entity
+
 public class DistributoreAutomatico extends PuntoDiEmissione {
     private boolean attivo;
 

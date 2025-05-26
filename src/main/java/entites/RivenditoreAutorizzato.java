@@ -1,6 +1,9 @@
 package entites;
 
+import jakarta.persistence.Entity;
+
 import java.util.List;
+@Entity
 
 public class RivenditoreAutorizzato extends PuntoDiEmissione{
     private String indirizzo;
