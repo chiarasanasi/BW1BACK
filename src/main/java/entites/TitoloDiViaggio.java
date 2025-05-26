@@ -30,13 +30,7 @@ public abstract class TitoloDiViaggio {
         this.tipoDistributore = tipoDistributore;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDate getDataEmissione() {
         return dataEmissione;
@@ -65,7 +59,6 @@ public abstract class TitoloDiViaggio {
     @Override
     public String toString() {
         return "TitoloDiViaggio{" +
-                "id=" + id +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
                 ", tipoDistributore=" + tipoDistributore +
