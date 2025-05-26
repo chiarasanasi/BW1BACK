@@ -1,0 +1,27 @@
+package entites;
+
+import java.util.List;
+
+public class RivenditoreAutorizzato extends PuntoDiEmissione{
+    private String indirizzo;
+
+    public RivenditoreAutorizzato(String nome, List titoloDiViaggioList, String indirizzo) {
+        super(nome, titoloDiViaggioList);
+        this.indirizzo = indirizzo;
+    }
+
+    public String getIndirizzo() {
+        return indirizzo;
+    }
+
+    public void setIndirizzo(String indirizzo) {
+        this.indirizzo = indirizzo;
+    }
+
+    @Override
+    public String toString() {
+        return "RivenditoreAutorizzato{" +
+                "indirizzo='" + indirizzo + '\'' +
+                "} " + super.toString();
+    }
+}
