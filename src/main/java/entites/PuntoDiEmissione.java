@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Entity
 
-public class PuntoDiEmissione {
+public abstract class PuntoDiEmissione {
     @Id
     @GeneratedValue
     private Long id;
