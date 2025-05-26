@@ -1,0 +1,2 @@
+public class ClasseProva {
+}
