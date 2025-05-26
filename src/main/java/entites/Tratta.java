@@ -1,7 +1,6 @@
 package entites;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalTime;
 
@@ -10,10 +9,19 @@ import java.time.LocalTime;
 public class Tratta {
 
     //Qui ci andrà la relazione ONE TO MANY con l'entità Mezzo
+    @Id
+    @GeneratedValue
+    private Long id;
 
+    @Column(name = "zona_di_partenza")
     private String zonaDiPartenza;
+
     private String capolinea;
+
+    @Column(name = "tempo_percorrenza_previsto")
     private LocalTime tempoPercorrenzaPrevisto;
+
+    @Column(name = "tempo_percorrenza_effettivo")
     private LocalTime tempoPercorrenzaEffettivo;
 
     //Costruttore vuoto
@@ -21,8 +29,6 @@ public class Tratta {
     }
 
     //Costruttore
-
-
     public Tratta(String zonaDiPartenza, String capolinea, LocalTime tempoPercorrenzaPrevisto, LocalTime tempoPercorrenzaEffettivo) {
         this.zonaDiPartenza = zonaDiPartenza;
         this.capolinea = capolinea;
@@ -64,15 +70,23 @@ public class Tratta {
         this.tempoPercorrenzaEffettivo = tempoPercorrenzaEffettivo;
     }
 
-    // To String
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    // To String
     @Override
     public String toString() {
         return "Tratta{" +
-                "Zona di p artenza = '" + zonaDiPartenza + '\'' +
-                ", Capolinea = '" + capolinea + '\'' +
-                ", Tempo di percorrenza previsto = " + tempoPercorrenzaPrevisto +
-                ", Tempo di percorrenza effettivo = " + tempoPercorrenzaEffettivo +
+                "id=" + id +
+                ", zonaDiPartenza='" + zonaDiPartenza + '\'' +
+                ", capolinea='" + capolinea + '\'' +
+                ", tempoPercorrenzaPrevisto=" + tempoPercorrenzaPrevisto +
+                ", tempoPercorrenzaEffettivo=" + tempoPercorrenzaEffettivo +
                 '}';
     }
 }
