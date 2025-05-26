@@ -3,10 +3,12 @@ package entites;
 import jakarta.persistence.Entity;
 import jdk.jfr.Experimental;
 
+import java.util.List;
+
 @Entity
 
 public class DistributoreAutomatico extends PuntoDiEmissione {
-    private boolean attivo;
+    private Boolean attivo;
 
     public DistributoreAutomatico(String nome, List<TitoloDiViaggio> titoloDiViaggioList, boolean attivo) {
         super(nome,  titoloDiViaggioList);

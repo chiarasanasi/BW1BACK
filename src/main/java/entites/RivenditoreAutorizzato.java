@@ -21,6 +21,10 @@ public class RivenditoreAutorizzato extends PuntoDiEmissione{
         this.indirizzo = indirizzo;
     }
 
+    public RivenditoreAutorizzato(String nome, List titoloDiViaggioList) {
+        super(nome, titoloDiViaggioList);
+    }
+
     @Override
     public String toString() {
         return "RivenditoreAutorizzato{" +
