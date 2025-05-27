@@ -32,7 +32,7 @@ public class TesseraDao {
             em.getTransaction().commit();
             System.out.println("La tessera con ID " + t.getId() + " è stata rimossa dal DB");
         }else{
-            System.out.println("Nessuna tessera con ID " + t.getId() + " è stata trovata");
+            System.out.println("Nessuna tessera con ID " + id + " è stata trovata");
         }
 
     }

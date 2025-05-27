@@ -15,6 +15,7 @@ public class MezzoDao {
         em.getTransaction().begin();
         em.persist(mezzo);
         em.getTransaction().commit();
+        System.out.println("Il mezzo " + mezzo.getId() + " è stato aggiunto al DB");
     }
 
     public Mezzo getById(Long id){
@@ -30,7 +31,7 @@ public class MezzoDao {
             em.getTransaction().commit();
             System.out.println("Il mezzo " + mezzo + " è stato aggiunto al DB");
         } else {
-            System.out.println("Il mezzo " + mezzo + " non esiste");
+            System.out.println("Il mezzo " + id + " non esiste");
         }
     }
 }
