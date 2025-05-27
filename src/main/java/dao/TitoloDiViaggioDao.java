@@ -8,10 +8,10 @@ import jakarta.persistence.Persistence;
 
 public class TitoloDiViaggioDao {
 
-    private final EntityManagerFactory emf;
+    private  EntityManagerFactory emf;
 
     public TitoloDiViaggioDao() {
-        this.emf = Persistence.createEntityManagerFactory("postgres"); 
+        this.emf = Persistence.createEntityManagerFactory("postgres");
     }
 
     public TitoloDiViaggio getById(Long id) {
