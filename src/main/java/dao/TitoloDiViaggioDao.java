@@ -43,36 +43,43 @@ public class TitoloDiViaggioDao {
     }
 
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
-
+            // Crea una TypedQuery che conta il numero di biglietti emessi tra due date
             TypedQuery<Long> query = em.createQuery(
                     "SELECT COUNT(b) FROM Biglietto b WHERE b.dataEmissione BETWEEN :inizio AND :fine",
                     Long.class);
+            // Imposta i parametri della query con le date fornite
             query.setParameter("inizio", inizio);
             query.setParameter("fine", fine);
-            return query.getSingleResult();
+            return query.getSingleResult();// Esegue la query e restituisce il risultato
         }
 
         public boolean controlloValiditaAbbonamentoTramiteIdTessera (Long idTessera, LocalDate oggi){
+            // Crea una TypedQuery per selezionare abbonamenti validi associati a una tessera specifica
+            //e con data di scadenza non passata.
             TypedQuery<Abbonamento> query = em.createQuery(
                     "SELECT a FROM Abbonamento a WHERE a.tessera.id = :idTessera AND a.dataScadenza >= :oggi",
                     Abbonamento.class);
+            // Imposta i parametri della query con l'ID della tessera e la data odierna
             query.setParameter("idTessera", idTessera);
             query.setParameter("oggi", oggi);
-            return !query.getResultList().isEmpty();
+            return !query.getResultList().isEmpty(); // Verifica se esistono abbonamenti validi e restituisce true se almeno uno è presente
 
         }
 
         public List<Biglietto> ricercaBiglietti (Long idMezzo){
+            // Crea una TypedQuery per selezionare biglietti associati a un mezzo specifico
             TypedQuery<Biglietto> query = em.createQuery(
                     "SELECT b FROM Biglietto b WHERE b.mezzo.id = :idMezzo",
                     Biglietto.class);
             query.setParameter("idMezzo", idMezzo);
-            return query.getResultList();
+            return query.getResultList(); // Esegue la query e restituisce la lista dei biglietti
 
         }
 
         public List<Biglietto> ricercaBigliettiVidimatiPerPeriodo (LocalDate inizio, LocalDate fine){
+            // Crea una query per selezionare tutti i biglietti vidimati in un determinato intervallo di tempo
             return em.createQuery(
+                    // JPQL: seleziona tutti i Biglietti con stato di vidimazione = VIDIMATO e dataEmissione compresa tra inizio e fine
                             "SELECT b FROM Biglietto b WHERE b.vidimazione = :stato AND b.dataEmissione BETWEEN :inizio AND :fine",
                             Biglietto.class)
                     .setParameter("stato", Vidimazione.VIDIMATO)
