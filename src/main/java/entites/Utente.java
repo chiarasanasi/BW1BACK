@@ -11,8 +11,8 @@ public class Utente {
    private String nome;
    private String cognome;
 
-   //@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tessera_id", referencedColumnName = "id")
+   @OneToOne
+    @JoinColumn(name = "tessera_id")
     private Tessera tessera;
 
     public Utente() {

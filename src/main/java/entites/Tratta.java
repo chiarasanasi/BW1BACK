@@ -3,6 +3,7 @@ package entites;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table
@@ -23,6 +24,9 @@ public class Tratta {
 
     @Column(name = "tempo_percorrenza_effettivo")
     private LocalTime tempoPercorrenzaEffettivo;
+
+    @OneToMany(mappedBy = "tratta_percorrenza")
+    private List<Percorrenza> trattaPercorrenze;
 
     //Costruttore vuoto
     public Tratta() {

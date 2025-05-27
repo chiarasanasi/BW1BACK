@@ -16,84 +16,102 @@ public class Mezzo {
    @Enumerated(EnumType.STRING)
    @Column(name = "tipo_mezzo")
    private TipoMezzo tipoMezzo;
-   @Column(name = "data_servizio")
-   private LocalDate dataServizio;
-   private List<ServizioEffettivo> serviziEffettivi;
+   @Column(name = "periodo_servizio")
+   private LocalDate periodoServizio;
+    @Column(name = "periodo_manutenzione")
+    private LocalDate periodoManutenzione;
+   private List<ServizioManutenzione> serviziEffettivi;
+
+   @OneToMany(mappedBy = "mezzo")
    private List<Biglietto> bigliettiVidimati;
-   private Tratta tratta;
 
-   public Mezzo(int capienza, TipoMezzo tipoMezzo, LocalDate dataServizio) {
-      this.capienza = capienza;
-      this.tipoMezzo = tipoMezzo;
-      this.dataServizio = dataServizio;
-   }
+  @OneToMany(mappedBy = "mezzo_percorrenza")
+  private List<Percorrenza> mezzoPercorrenze;
+  @OneToOne
+  @JoinColumn(name = "servizio_manutenzione_id")
+  private ServizioManutenzione servizioManutenzione;
 
-   public Mezzo() {
-   }
+    public Mezzo() {
+    }
 
-   public Long getId() {
-      return id;
-   }
+    public Mezzo(int capienza, TipoMezzo tipoMezzo, LocalDate periodoServizio, LocalDate periodoManutenzione, List<ServizioManutenzione> serviziEffettivi, List<Biglietto> bigliettiVidimati) {
+        this.capienza = capienza;
+        this.tipoMezzo = tipoMezzo;
+        this.periodoServizio = periodoServizio;
+        this.periodoManutenzione = periodoManutenzione;
+        this.serviziEffettivi = serviziEffettivi;
+        this.bigliettiVidimati = bigliettiVidimati;
 
-   public void setId(Long id) {
-      this.id = id;
-   }
+    }
 
-   public int getCapienza() {
-      return capienza;
-   }
+    public Long getId() {
+        return id;
+    }
 
-   public void setCapienza(int capienza) {
-      this.capienza = capienza;
-   }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   public TipoMezzo getTipoMezzo() {
-      return tipoMezzo;
-   }
+    public int getCapienza() {
+        return capienza;
+    }
 
-   public void setTipoMezzo(TipoMezzo tipoMezzo) {
-      this.tipoMezzo = tipoMezzo;
-   }
+    public void setCapienza(int capienza) {
+        this.capienza = capienza;
+    }
 
-   public LocalDate getDataServizio() {
-      return dataServizio;
-   }
+    public TipoMezzo getTipoMezzo() {
+        return tipoMezzo;
+    }
 
-   public void setDataServizio(LocalDate dataServizio) {
-      this.dataServizio = dataServizio;
-   }
+    public void setTipoMezzo(TipoMezzo tipoMezzo) {
+        this.tipoMezzo = tipoMezzo;
+    }
 
-   public List<ServizioEffettivo> getServiziEffettivi() {
-      return serviziEffettivi;
-   }
+    public LocalDate getPeriodoServizio() {
+        return periodoServizio;
+    }
 
-   public void setServiziEffettivi(List<ServizioEffettivo> serviziEffettivi) {
-      this.serviziEffettivi = serviziEffettivi;
-   }
+    public void setPeriodoServizio(LocalDate periodoServizio) {
+        this.periodoServizio = periodoServizio;
+    }
 
-  public List<Biglietto> getBigliettiVidimati() {
-      return bigliettiVidimati;
-   }
+    public LocalDate getPeriodoManutenzione() {
+        return periodoManutenzione;
+    }
 
-   public void setBigliettiVidimati(List<Biglietto> bigliettiVidimati) {
-    this.bigliettiVidimati = bigliettiVidimati;
-   }
+    public void setPeriodoManutenzione(LocalDate periodoManutenzione) {
+        this.periodoManutenzione = periodoManutenzione;
+    }
 
-   public Tratta getTratta() {
-      return tratta;
-  }
+    public List<ServizioManutenzione> getServiziEffettivi() {
+        return serviziEffettivi;
+    }
 
-  public void setTratta(Tratta tratta) {
-      this.tratta = tratta;
-  }
+    public void setServiziEffettivi(List<ServizioManutenzione> serviziEffettivi) {
+        this.serviziEffettivi = serviziEffettivi;
+    }
 
-   @Override
-   public String toString() {
-      return "Mezzo{" +
-              "id=" + id +
-              ", capienza=" + capienza +
-              ", tipoMezzo=" + tipoMezzo +
-              ", dataServizio=" + dataServizio +
-              '}';
-   }
+    public List<Biglietto> getBigliettiVidimati() {
+        return bigliettiVidimati;
+    }
+
+    public void setBigliettiVidimati(List<Biglietto> bigliettiVidimati) {
+        this.bigliettiVidimati = bigliettiVidimati;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Mezzo{" +
+                "id=" + id +
+                ", capienza=" + capienza +
+                ", tipoMezzo=" + tipoMezzo +
+                ", periodoServizio=" + periodoServizio +
+                ", periodoManutenzione=" + periodoManutenzione +
+                ", serviziEffettivi=" + serviziEffettivi +
+                ", bigliettiVidimati=" + bigliettiVidimati +
+                '}';
+    }
 }

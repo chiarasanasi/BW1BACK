@@ -1,9 +1,7 @@
 package entites;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,8 +16,9 @@ public class Tessera {
     private LocalDate dataEmissione;
     private LocalDate dataScadenza;
 
-    //@OneToMany (mappedBy = "tessera", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Abbonamento> abbonamenti = new ArrayList<>();
+    @OneToOne(mappedBy = "tessera")
+
+    private Abbonamento abbonamento;
 
     public Tessera() {
     }

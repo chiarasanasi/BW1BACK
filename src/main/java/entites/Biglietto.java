@@ -2,16 +2,16 @@ package entites;
 
 import enumeration.TipoDistributore;
 import enumeration.Vidimazione;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+@Entity
 public class Biglietto extends TitoloDiViaggio {
 
-
+    @ManyToOne
+    @JoinColumn(name = "mezzo_id")
+    private Mezzo mezzo;
     @Enumerated(EnumType.STRING)
     private Vidimazione vidimazione;
     @Id

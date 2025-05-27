@@ -18,7 +18,10 @@ public abstract class TitoloDiViaggio {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_distributore")
     private TipoDistributore tipoDistributore;
+    @ManyToOne
+    @JoinColumn(name = "punto_di_emissione_id")
 
+    private PuntoDiEmissione puntoDiEmissione;
     public TitoloDiViaggio() {
     }
 

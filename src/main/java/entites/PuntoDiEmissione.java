@@ -3,6 +3,7 @@ package entites;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public abstract class PuntoDiEmissione {
     @GeneratedValue
     private Long id;
     private String nome;
+    @OneToMany (mappedBy = "punto_di_emissione")
     private List<TitoloDiViaggio> titoloDiViaggioList;
 
     public PuntoDiEmissione(String nome,  List titoloDiViaggioList) {

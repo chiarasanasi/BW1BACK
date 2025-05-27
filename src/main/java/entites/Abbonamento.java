@@ -14,9 +14,11 @@ import java.time.LocalDate;
         @Id
         @GeneratedValue
         private Long id;
-        // @ManyToOne
-        // @JoinColumn(name = "utente_id")
-        // private Utente utente;
+        @OneToOne
+    @JoinColumn(name = "tessera_id")
+    private Tessera tessera;
+
+
         @Enumerated(EnumType.STRING)
         private Validita validita;
 
