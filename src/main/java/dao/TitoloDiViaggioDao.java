@@ -2,67 +2,36 @@ package dao;
 
 import entites.TitoloDiViaggio;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 
 public class TitoloDiViaggioDao {
 
-    private  EntityManagerFactory emf;
+    private EntityManager em;
 
-    public TitoloDiViaggioDao() {
-        this.emf = Persistence.createEntityManagerFactory("postgres");
-    }
-
-    public TitoloDiViaggio getById(Long id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.find(TitoloDiViaggio.class, id);
-        } finally {
-            em.close();
-        }
+    public TitoloDiViaggioDao(EntityManager em) {
+        this.em = em;
     }
 
     public void save(TitoloDiViaggio titoloDiViaggio) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(titoloDiViaggio);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw e;
-        } finally {
-            em.close();
-        }
+        em.getTransaction().begin();
+        em.persist(titoloDiViaggio);
+        em.getTransaction().commit();
+        System.out.println("Il titolo di viaggio con data emissione " + titoloDiViaggio.getDataEmissione() + " è stato aggiunto al DB");
     }
 
-    public void delete(Long id) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            TitoloDiViaggio titoloDiViaggio = em.find(TitoloDiViaggio.class, id);
-            if (titoloDiViaggio != null) {
-                em.remove(titoloDiViaggio);
-            }
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-            throw e;
-        } finally {
-            em.close();
-        }
+    public TitoloDiViaggio getById(Long id) {
+        return em.find(TitoloDiViaggio.class, id);
     }
 
-    public void close() {
-        if (emf != null && emf.isOpen()) {
-            emf.close();
+    public void remove(Long id) {
+        TitoloDiViaggio titoloDiViaggio = getById(id);
+
+        if (titoloDiViaggio != null) {
+            em.getTransaction().begin();
+            em.remove(titoloDiViaggio);
+            em.getTransaction().commit();
+            System.out.println("Il titolo di viaggio " + titoloDiViaggio + " è stato rimosso dal DB");
+        } else {
+            System.out.println("Il titolo di viaggio con ID " + id + " non esiste");
         }
     }
 }
