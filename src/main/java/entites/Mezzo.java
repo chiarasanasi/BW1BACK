@@ -9,27 +9,25 @@ import java.util.List;
 @Entity
 @Table(name = "mezzi")
 public class Mezzo {
-   @Id
-   @GeneratedValue
-   private Long id;
-   private int capienza;
-   @Enumerated(EnumType.STRING)
-   @Column(name = "tipo_mezzo")
-   private TipoMezzo tipoMezzo;
-   @Column(name = "periodo_servizio")
-   private LocalDate periodoServizio;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private int capienza;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_mezzo")
+    private TipoMezzo tipoMezzo;
+    @Column(name = "periodo_servizio")
+    private LocalDate periodoServizio;
     @Column(name = "periodo_manutenzione")
     private LocalDate periodoManutenzione;
-   private List<ServizioManutenzione> serviziEffettivi;
-
-   @OneToMany(mappedBy = "mezzo")
-   private List<Biglietto> bigliettiVidimati;
-
-  @OneToMany(mappedBy = "mezzo_percorrenza")
-  private List<Percorrenza> mezzoPercorrenze;
-  @OneToOne
-  @JoinColumn(name = "servizio_manutenzione_id")
-  private ServizioManutenzione servizioManutenzione;
+    private List<ServizioManutenzione> serviziEffettivi;
+    @OneToMany(mappedBy = "mezzo")
+    private List<Biglietto> bigliettiVidimati;
+    @OneToMany(mappedBy = "mezzo_percorrenza")
+    private List<Percorrenza> mezzoPercorrenze;
+    @OneToOne
+    @JoinColumn(name = "servizio_manutenzione_id")
+    private ServizioManutenzione servizioManutenzione;
 
     public Mezzo() {
     }

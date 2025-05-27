@@ -8,23 +8,16 @@ import java.util.List;
 @Entity
 @Table
 public class Tratta {
-
-    //Qui ci andrà la relazione ONE TO MANY con l'entità Mezzo
     @Id
     @GeneratedValue
     private Long id;
-
     @Column(name = "zona_di_partenza")
     private String zonaDiPartenza;
-
     private String capolinea;
-
     @Column(name = "tempo_percorrenza_previsto")
     private LocalTime tempoPercorrenzaPrevisto;
-
     @Column(name = "tempo_percorrenza_effettivo")
     private LocalTime tempoPercorrenzaEffettivo;
-
     @OneToMany(mappedBy = "tratta_percorrenza")
     private List<Percorrenza> trattaPercorrenze;
 
