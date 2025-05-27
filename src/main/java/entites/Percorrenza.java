@@ -22,8 +22,6 @@ public class Percorrenza {
     private Mezzo mezzo;
 
 
-
-
     public Percorrenza() {
     }
 
