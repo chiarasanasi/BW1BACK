@@ -12,7 +12,9 @@ public class Tessera {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(name = "data_emissione")
     private LocalDate dataEmissione;
+    @Column(name = "data_scadenza")
     private LocalDate dataScadenza;
     @OneToOne(mappedBy = "tessera")
     private Abbonamento abbonamento;

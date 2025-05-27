@@ -9,12 +9,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "titolo_di_viaggi")
 public abstract class TitoloDiViaggio {
-
     @Column(name = "data_emissione")
     private  LocalDate dataEmissione;
     @Column(name = "data_scadenza" )
     private  LocalDate dataScadenza;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_distributore")
     private TipoDistributore tipoDistributore;

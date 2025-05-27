@@ -7,10 +7,8 @@ public class Utente {
     @Id
     @GeneratedValue
     private Long id;
-
-   private String nome;
-   private String cognome;
-
+    private String nome;
+    private String cognome;
     @OneToOne
     @JoinColumn(name = "tessera_id")
     private Tessera tessera;
