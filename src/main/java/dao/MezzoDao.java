@@ -28,6 +28,7 @@ public class MezzoDao {
             em.getTransaction().begin();
             em.remove(mezzo);
             em.getTransaction().commit();
+            System.out.println("Il mezzo " + mezzo + " è stato aggiunto al DB");
         } else {
             System.out.println("Il mezzo " + mezzo + " non esiste");
         }
