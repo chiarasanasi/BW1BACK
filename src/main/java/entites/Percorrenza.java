@@ -3,6 +3,7 @@ package entites;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Percorrenza {
@@ -16,10 +17,10 @@ public class Percorrenza {
 
     @ManyToOne
     @JoinColumn(name = "tratta_id")
-    private Tratta tratta;
+    private List<Tratta> tratte;
     @ManyToOne
     @JoinColumn(name = "mezzo_id")
-    private Mezzo mezzo;
+    private List<Mezzo> mezzi;
 
 
     public Percorrenza() {
@@ -28,14 +29,6 @@ public class Percorrenza {
     public Percorrenza(LocalTime oraInizioTratta, LocalTime oraFineTratta) {
         this.oraInizioTratta = oraInizioTratta;
         this.oraFineTratta = oraFineTratta;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public LocalTime getOraInizioTratta() {
@@ -54,20 +47,20 @@ public class Percorrenza {
         this.oraFineTratta = oraFineTratta;
     }
 
-    public Tratta getTratta() {
-        return tratta;
+    public List<Tratta> getTratte() {
+        return tratte;
     }
 
-    public void setTratta(Tratta tratta) {
-        this.tratta = tratta;
+    public void setTratte(List<Tratta> tratte) {
+        this.tratte = tratte;
     }
 
-    public Mezzo getMezzo() {
-        return mezzo;
+    public List<Mezzo> getMezzi() {
+        return mezzi;
     }
 
-    public void setMezzo(Mezzo mezzo) {
-        this.mezzo = mezzo;
+    public void setMezzi(List<Mezzo> mezzi) {
+        this.mezzi = mezzi;
     }
 
     @Override
@@ -76,8 +69,8 @@ public class Percorrenza {
                 "id=" + id +
                 ", oraInizioTratta=" + oraInizioTratta +
                 ", oraFineTratta=" + oraFineTratta +
-                ", tratta=" + tratta +
-                ", mezzo=" + mezzo +
+                ", tratte=" + tratte +
+                ", mezzi=" + mezzi +
                 '}';
     }
 }
