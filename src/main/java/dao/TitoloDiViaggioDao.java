@@ -29,7 +29,7 @@ public class TitoloDiViaggioDao {
             em.getTransaction().begin();
             em.remove(titoloDiViaggio);
             em.getTransaction().commit();
-            System.out.println("Il titolo di viaggio " + titoloDiViaggio + " è stato rimosso dal DB");
+            System.out.println("Il titolo di viaggio con data di emissione " + titoloDiViaggio.getDataEmissione() + " è stato rimosso dal DB");
         } else {
             System.out.println("Il titolo di viaggio con ID " + id + " non esiste");
         }
