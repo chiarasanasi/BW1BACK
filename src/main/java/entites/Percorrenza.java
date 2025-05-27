@@ -13,12 +13,22 @@ public class Percorrenza {
     private LocalTime oraInizioTratta;
     @Column(name = "ora_fine_tratta")
     private LocalTime oraFineTratta;
+<<<<<<< HEAD
     @ManyToOne
     @JoinColumn(name = "tratta_id")
     private Tratta tratta;
     @ManyToOne
     @JoinColumn(name = "mezzo_id")
     private Mezzo mezzo;
+=======
+
+@ManyToOne
+@JoinColumn(name = "tratta_id")
+private Tratta tratta;
+@ManyToOne
+@JoinColumn(name = "mezzo_id")
+private Mezzo mezzo;
+>>>>>>> Roberto
 
     public Percorrenza() {
     }
