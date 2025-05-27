@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class TitoloDiViaggioDao {
 
-    private final EntityManagerFactory emf;
+    private  EntityManagerFactory emf;
 
     public TitoloDiViaggioDao() {
         this.emf = Persistence.createEntityManagerFactory("TrasportoPubblicoPU"); // Replace with your persistence unit name
@@ -28,7 +28,7 @@ public class TitoloDiViaggioDao {
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
-            throw e; 
+            throw e;
         } finally {
             em.close();
         }
