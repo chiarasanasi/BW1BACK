@@ -14,9 +14,10 @@ public class Percorrenza {
     private LocalTime oraInizioTratta;
    @Column(name = "ora_fine_tratta")
     private LocalTime oraFineTratta;
+
 @ManyToOne
 @JoinColumn(name = "tratta_id")
-    private Tratta tratta;
+private Tratta tratta;
 @ManyToOne
 @JoinColumn(name = "mezzo_id")
 private Mezzo mezzo;
