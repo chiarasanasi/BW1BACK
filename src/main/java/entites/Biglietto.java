@@ -16,23 +16,34 @@ public class Biglietto extends TitoloDiViaggio {
     private Mezzo mezzo;
     @Enumerated(EnumType.STRING)
     private Vidimazione vidimazione;
+    @Column(name = "data_vidimazione")
+    private LocalDate dataVidimazione;
 
-
-    public Biglietto(LocalDate dataEmissione, LocalDate dataScadenza, TipoDistributore tipoDistributore, Vidimazione vidimazione) {
-        super(dataEmissione, dataScadenza, tipoDistributore);
-        this.vidimazione = vidimazione;
-    }
 
     public Biglietto() {
+    }
+
+    public Biglietto(LocalDate dataEmissione, LocalDate dataScadenza, TipoDistributore tipoDistributore, Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
+        super(dataEmissione, dataScadenza, tipoDistributore);
+        this.mezzo = mezzo;
+        this.vidimazione = vidimazione;
+        this.dataVidimazione = dataVidimazione;
     }
 
     public Long getId() {
         return id;
     }
 
-   
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
     }
 
     public Vidimazione getVidimazione() {
@@ -43,11 +54,21 @@ public class Biglietto extends TitoloDiViaggio {
         this.vidimazione = vidimazione;
     }
 
+    public LocalDate getDataVidimazione() {
+        return dataVidimazione;
+    }
+
+    public void setDataVidimazione(LocalDate dataVidimazione) {
+        this.dataVidimazione = dataVidimazione;
+    }
+
     @Override
     public String toString() {
         return "Biglietto{" +
                 "id=" + id +
+                ", mezzo=" + mezzo +
                 ", vidimazione=" + vidimazione +
-                '}';
+                ", dataVidimazione=" + dataVidimazione +
+                "} " + super.toString();
     }
 }
