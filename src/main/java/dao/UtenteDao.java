@@ -2,7 +2,7 @@ package dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import model.Utente;
+import entites.Utente;
 
 public class UtenteDao {
 
