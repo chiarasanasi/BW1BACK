@@ -9,15 +9,12 @@ import java.util.List;
 
 @Entity
 public class Tessera {
-
     @Id
     @GeneratedValue
     private Long id;
     private LocalDate dataEmissione;
     private LocalDate dataScadenza;
-
     @OneToOne(mappedBy = "tessera")
-
     private Abbonamento abbonamento;
 
     public Tessera() {

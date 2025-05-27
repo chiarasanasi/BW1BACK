@@ -11,7 +11,7 @@ public class Utente {
    private String nome;
    private String cognome;
 
-   @OneToOne
+    @OneToOne
     @JoinColumn(name = "tessera_id")
     private Tessera tessera;
 

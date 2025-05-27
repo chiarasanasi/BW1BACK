@@ -8,17 +8,14 @@ import java.time.LocalDate;
 
 @Entity
 public class Biglietto extends TitoloDiViaggio {
-
+    @Id
+    @GeneratedValue
+    private  Long id;
     @ManyToOne
     @JoinColumn(name = "mezzo_id")
     private Mezzo mezzo;
     @Enumerated(EnumType.STRING)
     private Vidimazione vidimazione;
-    @Id
-    @GeneratedValue
-
-    private  Long id;
-
 
 
     public Biglietto(LocalDate dataEmissione, LocalDate dataScadenza, TipoDistributore tipoDistributore, Vidimazione vidimazione) {
@@ -28,7 +25,6 @@ public class Biglietto extends TitoloDiViaggio {
 
     public Biglietto() {
     }
-
 
     public Long getId() {
         return id;

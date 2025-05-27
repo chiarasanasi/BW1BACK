@@ -1,6 +1,5 @@
 package entites;
 
-
 import enumeration.TipoDistributore;
 import enumeration.Validita;
 import jakarta.persistence.*;
@@ -8,19 +7,15 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-    public class Abbonamento extends TitoloDiViaggio {
-
-
-        @Id
-        @GeneratedValue
-        private Long id;
-        @OneToOne
+public class Abbonamento extends TitoloDiViaggio {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @OneToOne
     @JoinColumn(name = "tessera_id")
     private Tessera tessera;
-
-
-        @Enumerated(EnumType.STRING)
-        private Validita validita;
+    @Enumerated(EnumType.STRING)
+    private Validita validita;
 
     public Abbonamento() {
     }
@@ -35,7 +30,6 @@ import java.time.LocalDate;
         return id;
     }
 
-   
     public void setId(Long id) {
         this.id = id;
     }
