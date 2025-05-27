@@ -45,7 +45,7 @@ public class TitoloDiViaggioDao {
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
 
             TypedQuery<Long> query = em.createQuery(
-                    "SELECT COUNT(b) FROM Biglietto b WHERE b.dataEmissione BETWEEN :inizio AND : fine",
+                    "SELECT COUNT(b) FROM Biglietto b WHERE b.dataEmissione BETWEEN :inizio AND :fine",
                     Long.class);
             query.setParameter("inizio", inizio);
             query.setParameter("fine", fine);
