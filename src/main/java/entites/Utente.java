@@ -26,11 +26,12 @@ public class Utente {
     public Utente() {
     }
 
-    public Utente(String nome, String cognome, String username, String password) {
+    public Utente(String nome, String cognome, String username, String password, Ruolo ruolo) {
         this.nome = nome;
         this.cognome = cognome;
         this.username = username;
         this.password = password;
+        this.ruolo = ruolo;
     }
 
     public Long getId() {

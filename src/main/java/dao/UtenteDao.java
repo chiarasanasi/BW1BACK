@@ -3,6 +3,7 @@ package dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import entites.Utente;
+import jakarta.persistence.TypedQuery;
 
 public class UtenteDao {
 
@@ -41,5 +42,13 @@ public class UtenteDao {
             if (tx.isActive()) tx.rollback();
             e.printStackTrace();
         }
+    }
+
+    //trova utente corrispondente per username e password
+    public Utente trovaTramiteUsernamePassword(String username, String password){
+        TypedQuery<Utente> query = em.createQuery("select u from Utente u where u.username = :username and u.password =:password", Utente.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        return query.getSingleResult();
     }
 }
