@@ -5,6 +5,8 @@ import entites.Percorrenza;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -63,6 +65,30 @@ public class PercorrenzaDao {
             em.close();
         }
     }
+    public Double tempoMedioPercorrenza(Long trattaId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // Effettuiamo un join sulla proprietà "tratte" poiché in Percorrenza è definita come List<Tratta>
+            String query = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p JOIN p.tratte t WHERE t.id = :trattaId";
+            List<Object[]> results = em.createQuery(query, Object[].class)
+                    .setParameter("trattaId", trattaId)
+                    .getResultList();
+
+            if (results.isEmpty()) {
+                return null;
+            }
+            long totalMinutes= 0;
+            for(Object[] row :results){
+                LocalTime inizio =(LocalTime) row[0];
+                LocalTime fine =(LocalTime) row[1];
+                totalMinutes += java.time.Duration.between(inizio,fine).toMinutes();
+            }
+            return totalMinutes / (double) results.size();
+        }
+        finally {
+            em.close();
+        }
+        }
 
     public void chiudi() {
         emf.close();
