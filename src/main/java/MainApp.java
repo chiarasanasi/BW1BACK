@@ -10,6 +10,7 @@ import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,6 +26,7 @@ public class MainApp {
         PercorrenzaDao percorrenzaDao = new PercorrenzaDao();
         TitoloDiViaggioDao titoloDiViaggioDao = new TitoloDiViaggioDao(em);
         TrattaDao trattaDao = new TrattaDao(em);
+        PuntoDiEmissione puntoDiEmissioneDao = new PuntoDiEmissione(em);
         ServizioManutenzioneDao servizioManutenzioneDao = new ServizioManutenzioneDao();
 
 
@@ -135,7 +137,7 @@ public class MainApp {
 
             Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username,password);
 
-            if(utenteLoggato!=null&&utenteLoggato.getRuolo()==Ruolo.UTENTE_NORMALE){
+            if(utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)){
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
                 System.out.println("Premi un tasto per accedere al Menù degli Utenti");
                 scanner.next();
@@ -180,7 +182,7 @@ public class MainApp {
                     }
                 }
             }
-            else if (utenteLoggato!=null&&utenteLoggato.getRuolo()==Ruolo.AMMINISTRATORE) {
+            else if (utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.AMMINISTRATORE)) {
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
                 System.out.println("Premi un tasto per accedere al Menù degli Amministratori");
                 scanner.next();

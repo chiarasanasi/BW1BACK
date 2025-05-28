@@ -16,7 +16,7 @@ public class Utente {
     private String username;
     @Column(length = 12, nullable = false)
     private String password;
-
+    @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
 
     @OneToOne
