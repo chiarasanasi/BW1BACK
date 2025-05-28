@@ -66,18 +66,6 @@ public class MezzoDao {
     }
 
 
-//    public void aggiornaStatoMezzo(Long idMezzo, StatoServizio nuovoStato) {
-//        em.getTransaction().begin();
-//
-//        TypedQuery<ServizioManutenzione> query = em.createQuery(
-//                "SELECT s FROM ServizioManutenzione s WHERE s.mezzo.id = :idMezzo", ServizioManutenzione.class);
-//        query.setParameter("idMezzo", idMezzo);
-//
-//        ServizioManutenzione servizio = query.getSingleResult();
-//        servizio.setStatoServizio(nuovoStato);
-//
-//        em.getTransaction().commit();
-//    }
 
 
 }
