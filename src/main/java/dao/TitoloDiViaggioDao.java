@@ -41,6 +41,7 @@ public class TitoloDiViaggioDao {
         }
     }
 
+
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
             // Crea una TypedQuery che conta il numero di biglietti emessi tra due date
             TypedQuery<Long> query = em.createQuery(
