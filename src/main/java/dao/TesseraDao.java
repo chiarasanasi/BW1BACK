@@ -1,6 +1,7 @@
 package dao;
 
 import entites.Tessera;
+import entites.Utente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -72,6 +73,10 @@ public class TesseraDao {
             System.out.println("Tessera non trovata.");
         }
     }
-
+    public Tessera creaTessera(LocalDate dataEmissione, Utente utente){
+        Tessera t = new Tessera(dataEmissione);
+        utente.setTessera(t);
+        return t;
+    }
 
 }
