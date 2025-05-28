@@ -66,7 +66,7 @@ public class TitoloDiViaggioDao {
 
         }
 
-        public List<Biglietto> ricercaBiglietti (Long idMezzo){
+        public List<Biglietto> ricercaBigliettipermezzoid (Long idMezzo){
             // Crea una TypedQuery per selezionare biglietti associati a un mezzo specifico
             TypedQuery<Biglietto> query = em.createQuery(
                     "SELECT b FROM Biglietto b WHERE b.mezzo.id = :idMezzo",
