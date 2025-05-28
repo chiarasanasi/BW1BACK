@@ -1,8 +1,7 @@
 package dao;
 
-import entites.Abbonamento;
-import entites.Biglietto;
-import entites.TitoloDiViaggio;
+import entites.*;
+import enumeration.TipoDistributore;
 import enumeration.Vidimazione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -76,6 +75,7 @@ public class TitoloDiViaggioDao {
 
         }
 
+
         public List<Biglietto> ricercaBigliettiVidimatiPerPeriodo (LocalDate inizio, LocalDate fine){
             // Crea una query per selezionare tutti i biglietti vidimati in un determinato intervallo di tempo
             return em.createQuery(
@@ -95,7 +95,6 @@ public class TitoloDiViaggioDao {
         query.setParameter("stato", Vidimazione.VIDIMATO);
         return query.getResultList();
         }
-
 
     }
 
