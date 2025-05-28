@@ -19,12 +19,13 @@ public class Tessera {
     @OneToOne(mappedBy = "tessera")
     private Abbonamento abbonamento;
 
-    public Tessera() {
-    }
 
-    public Tessera(LocalDate dataEmissione, LocalDate dataScadenza) {
+
+    public Tessera(LocalDate dataEmissione) {
         this.dataEmissione = dataEmissione;
-        this.dataScadenza = dataScadenza;
+        this.dataScadenza = dataEmissione.plusYears(1);
+    }
+    public Tessera() {
     }
 
     public Long getId() {

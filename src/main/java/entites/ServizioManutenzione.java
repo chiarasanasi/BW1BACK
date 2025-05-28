@@ -22,7 +22,7 @@ public class ServizioManutenzione {
     private LocalDate dataInizioServizio;
     @Column(name = "data_fine_servizio")
     private LocalDate dataFineServizio;
-    @OneToOne(mappedBy = "servizio_o_manutenzione" )
+    @OneToOne(mappedBy = "servizioManutenzione" )
     private Mezzo mezzo;
 
     public ServizioManutenzione() {

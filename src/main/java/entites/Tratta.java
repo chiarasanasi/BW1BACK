@@ -18,7 +18,7 @@ public class Tratta {
     private LocalTime tempoPercorrenzaPrevisto;
     @Column(name = "tempo_percorrenza_effettivo")
     private LocalTime tempoPercorrenzaEffettivo;
-    @OneToMany(mappedBy = "tratta_percorrenza")
+    @OneToMany(mappedBy = "tratta")
     private List<Percorrenza> trattaPercorrenze;
 
     //Costruttore vuoto

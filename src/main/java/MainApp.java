@@ -2,6 +2,7 @@ import dao.*;
 import entites.*;
 import enumeration.Ruolo;
 import enumeration.StatoServizio;
+import enumeration.TipoDistributore;
 import enumeration.TipoMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -46,6 +47,26 @@ public class MainApp {
         utenteDao.salva(u7);
         utenteDao.salva(u8);
 
+        Tessera ts1 = new Tessera(LocalDate.of(2020,1,1));
+        Tessera ts2 = new Tessera(LocalDate.of(2020,1,1));
+        Tessera ts3 = new Tessera(LocalDate.of(2020,1,1));
+        Tessera ts4 = new Tessera(LocalDate.of(2020,1,1));
+
+        tesseraDao.saveTessera(ts1);
+        tesseraDao.saveTessera(ts2);
+        tesseraDao.saveTessera(ts3);
+        tesseraDao.saveTessera(ts4);
+
+
+        u1.setTessera(ts1);
+        u2.setTessera(ts2);
+        u3.setTessera(ts3);
+        u4.setTessera(ts4);
+
+        utenteDao.salva(u1);
+        utenteDao.salva(u2);
+        utenteDao.salva(u3);
+        utenteDao.salva(u4);
 
         Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
         Mezzo m2 = new Mezzo(250, TipoMezzo.AUTOBUS);
@@ -98,6 +119,7 @@ public class MainApp {
         trattaDao.save(t4);
 
 
+
 //        ---------------------------------------------LOGIN / REGISTRAZIONE -----------------------------------------------------
         System.out.println("BENVENUTO!!");
         System.out.println("LOGIN --> 1 / REGISTRAZIONE --> 2");
@@ -117,28 +139,44 @@ public class MainApp {
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
                 System.out.println("Premi un tasto per accedere al Menù degli Utenti");
                 scanner.next();
+                int scelta = 100000;
+                boolean sceltaWhile = true;
 
-                System.out.println("MENU" + "\n" +
-                                "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
-                                "2 -> Rinnova la tua tessera" + "\n" +
-                                "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera"
-                        );
-                int scelta = scanner.nextInt();
-                scanner.nextLine();
+                while (sceltaWhile){
+                    System.out.println("MENU" + "\n" +
+                            "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
+                            "2 -> Rinnova la tua tessera" + "\n" +
+                            "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
+                            "0 -> Termina il programma ! "
+                    );
+                    scelta = scanner.nextInt();
+                    scanner.nextLine();
 
-                switch (scelta){
-                    case 1 -> {
-                        Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                        tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
-                    }
-                    case 2 -> {
-                        Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                        tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
-                    }
-                    case 3 ->{
-                        Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                        TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
-                        titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
+
+
+                    switch (scelta){
+                        case 1 -> {
+                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                            tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
+                        }
+                        case 2 -> {
+                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                            tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
+                        }
+                        case 3 ->{
+                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                            TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
+                            Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
+                            if(risultato){
+                                System.out.println("Il tuo abbonamento è valido");
+                            }else {
+                                System.out.println("Il tuo abbonamento non è valido");
+                            }
+                        }
+                        case 0 -> {
+                            System.out.println("Termina");
+                            sceltaWhile = false;
+                        }
                     }
                 }
             }
@@ -213,16 +251,16 @@ public class MainApp {
                         scanner.nextLine();
 
                         if(sceltaMezzo==1){
-                            ServizioManutenzione servizioMezzoScelto = m1.getServizioEffettivo();
+                            ServizioManutenzione servizioMezzoScelto = m1.getServizioManutenzione();
                             mezzoDao.updateStatoMezzo(m1.getId(),servizioMezzoScelto.getStatoServizio());
                         } else if (sceltaMezzo == 2) {
-                            ServizioManutenzione servizioMezzoScelto = m2.getServizioEffettivo();
+                            ServizioManutenzione servizioMezzoScelto = m2.getServizioManutenzione();
                             mezzoDao.updateStatoMezzo(m2.getId(),servizioMezzoScelto.getStatoServizio());
                         }else if (sceltaMezzo == 3) {
-                            ServizioManutenzione servizioMezzoScelto = m3.getServizioEffettivo();
+                            ServizioManutenzione servizioMezzoScelto = m3.getServizioManutenzione();
                             mezzoDao.updateStatoMezzo(m3.getId(),servizioMezzoScelto.getStatoServizio());
                         }else if (sceltaMezzo == 4) {
-                            ServizioManutenzione servizioMezzoScelto = m4.getServizioEffettivo();
+                            ServizioManutenzione servizioMezzoScelto = m4.getServizioManutenzione();
                             mezzoDao.updateStatoMezzo(m4.getId(),servizioMezzoScelto.getStatoServizio());
                         }else{
                             System.out.println("Il codice digitato non corrisponde a nessun mezzo presente nel DB");
@@ -336,8 +374,10 @@ public class MainApp {
             }
         }else if(loginOregistrazione == 2){
             // da continuare
+            System.out.println("registrazione");
         }else{
             //da continuare
+            System.out.println("ne registrazione ne login");
         }
 
 

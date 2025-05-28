@@ -20,12 +20,12 @@ public class Mezzo {
     private LocalDate periodoServizio;
     @Column(name = "periodo_manutenzione")
     private LocalDate periodoManutenzione;
-
-    private ServizioManutenzione servizioEffettivo;
+//
+//    private ServizioManutenzione servizioEffettivo;
 
     @OneToMany(mappedBy = "mezzo")
     private List<Biglietto> bigliettiVidimati;
-    @OneToMany(mappedBy = "mezzo_percorrenza")
+    @OneToMany(mappedBy = "mezzo")
     private List<Percorrenza> mezzoPercorrenze;
     @OneToOne
     @JoinColumn(name = "servizio_manutenzione_id")
@@ -80,13 +80,20 @@ public class Mezzo {
         this.periodoManutenzione = periodoManutenzione;
     }
 
-    public ServizioManutenzione getServizioEffettivo() {
-        return servizioEffettivo;
+    public ServizioManutenzione getServizioManutenzione() {
+        return servizioManutenzione;
     }
 
-    public void setServiziEffettivi(ServizioManutenzione servizioEffettivo) {
-        this.servizioEffettivo = servizioEffettivo;
+    public void setServizioManutenzione(ServizioManutenzione servizioManutenzione) {
+        this.servizioManutenzione = servizioManutenzione;
     }
+//    public ServizioManutenzione getServizioEffettivo() {
+//        return servizioEffettivo;
+//    }
+//
+//    public void setServiziEffettivi(ServizioManutenzione servizioEffettivo) {
+//        this.servizioEffettivo = servizioEffettivo;
+//    }
 
     public List<Biglietto> getBigliettiVidimati() {
         return bigliettiVidimati;
@@ -112,7 +119,7 @@ public class Mezzo {
                 ", tipoMezzo=" + tipoMezzo +
                 ", periodoServizio=" + periodoServizio +
                 ", periodoManutenzione=" + periodoManutenzione +
-                ", servizio Effettivo=" + servizioEffettivo +
+//                ", servizio Effettivo=" + servizioEffettivo +
                 ", bigliettiVidimati=" + bigliettiVidimati +
                 '}';
     }

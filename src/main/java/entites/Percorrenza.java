@@ -17,10 +17,10 @@ public class Percorrenza {
 
     @ManyToOne
     @JoinColumn(name = "tratta_id")
-    private List<Tratta> tratte;
+    private Tratta tratta;
     @ManyToOne
     @JoinColumn(name = "mezzo_id")
-    private List<Mezzo> mezzi;
+    private Mezzo mezzo;
 
 
     public Percorrenza() {
@@ -47,20 +47,20 @@ public class Percorrenza {
         this.oraFineTratta = oraFineTratta;
     }
 
-    public List<Tratta> getTratte() {
-        return tratte;
+    public Tratta getTratta() {
+        return tratta;
     }
 
-    public void setTratte(List<Tratta> tratte) {
-        this.tratte = tratte;
+    public void setTratte(Tratta tratta) {
+        this.tratta = tratta;
     }
 
-    public List<Mezzo> getMezzi() {
-        return mezzi;
+    public Mezzo getMezzo() {
+        return mezzo;
     }
 
-    public void setMezzi(List<Mezzo> mezzi) {
-        this.mezzi = mezzi;
+    public void setMezzi(Mezzo mezzo) {
+        this.mezzo = mezzo;
     }
 
     @Override
@@ -69,8 +69,8 @@ public class Percorrenza {
                 "id=" + id +
                 ", oraInizioTratta=" + oraInizioTratta +
                 ", oraFineTratta=" + oraFineTratta +
-                ", tratte=" + tratte +
-                ", mezzi=" + mezzi +
+                ", tratte=" + tratta +
+                ", mezzi=" + mezzo +
                 '}';
     }
 }

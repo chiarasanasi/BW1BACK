@@ -20,8 +20,8 @@ public class Abbonamento extends TitoloDiViaggio {
     public Abbonamento() {
     }
 
-    public Abbonamento(LocalDate dataEmissione, LocalDate dataScadenza, TipoDistributore tipoDistributore, Validita validita) {
-        super(dataEmissione, dataScadenza, tipoDistributore);
+    public Abbonamento(LocalDate dataEmissione, LocalDate dataScadenza, TipoDistributore tipoDistributore,PuntoDiEmissione puntoDiEmissione, Validita validita) {
+        super(dataEmissione, dataScadenza, tipoDistributore,puntoDiEmissione);
         this.validita = validita;
     }
 

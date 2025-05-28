@@ -23,8 +23,8 @@ public class Biglietto extends TitoloDiViaggio {
     public Biglietto() {
     }
 
-    public Biglietto(LocalDate dataEmissione, LocalDate dataScadenza, TipoDistributore tipoDistributore, Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
-        super(dataEmissione, dataScadenza, tipoDistributore);
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione,Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
         this.mezzo = mezzo;
         this.vidimazione = vidimazione;
         this.dataVidimazione = dataVidimazione;

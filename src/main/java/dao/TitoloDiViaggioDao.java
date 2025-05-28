@@ -95,6 +95,8 @@ public class TitoloDiViaggioDao {
         query.setParameter("stato", Vidimazione.VIDIMATO);
         return query.getResultList();
         }
+
+
     }
 
 
