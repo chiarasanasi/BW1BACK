@@ -68,7 +68,6 @@ public class PercorrenzaDao {
     public Double tempoMedioPercorrenza(Long trattaId) {
         EntityManager em = emf.createEntityManager();
         try {
-            // Effettuiamo un join sulla proprietà "tratte" poiché in Percorrenza è definita come List<Tratta>
             String query = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p JOIN p.tratte t WHERE t.id = :trattaId";
             List<Object[]> results = em.createQuery(query, Object[].class)
                     .setParameter("trattaId", trattaId)
