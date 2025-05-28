@@ -87,6 +87,14 @@ public class TitoloDiViaggioDao {
                     .setParameter("fine", fine)
                     .getResultList();
         }
+
+        public List<Biglietto> ricercaBigliettiVidimatiTramiteMezzo(Long IdMezzo){
+        TypedQuery<Biglietto> query = em.createQuery
+                ("select b from Biglietto b where b.mezzo.id = :idMezzo AND b.vidimazione = :stato", Biglietto.class);
+        query.setParameter("idMezzo", IdMezzo);
+        query.setParameter("stato", Vidimazione.VIDIMATO);
+        return query.getResultList();
+        }
     }
 
 

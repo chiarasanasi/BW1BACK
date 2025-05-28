@@ -1,7 +1,13 @@
 package dao;
 
 import entites.Mezzo;
+import entites.ServizioManutenzione;
+import enumeration.StatoServizio;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+import java.security.PublicKey;
+import java.util.List;
 
 public class MezzoDao {
 
@@ -34,4 +40,32 @@ public class MezzoDao {
             System.out.println("Il mezzo " + id + " non esiste");
         }
     }
+
+    public List<Mezzo> listaMezziManutenzione(){
+        TypedQuery<Mezzo> query =
+                em.createQuery("Select m from Mezzo m where m.servizioManutenzione.statoServizio =:stato", Mezzo.class);
+        query.setParameter("stato", StatoServizio.IN_MANUTENZIONE);
+        return query.getResultList();
+    }
+
+    public List<Mezzo> listaMezziInServizio(){
+        TypedQuery<Mezzo> query =
+                em.createQuery("Select m from Mezzo m where m.servizioManutenzione.statoServizio =:stato", Mezzo.class);
+        query.setParameter("stato", StatoServizio.IN_SERVIZIO);
+        return query.getResultList();
+    }
+
+    public void updateStatoMezzo(Long idMezzo, StatoServizio nuovoStato){
+        em.getTransaction().begin();
+        em.createQuery("update ServizioManutenzione sm set sm.statoServizio =:stato where sm.mezzo.id =:idMezzo")
+                .setParameter("stato", nuovoStato)
+                .setParameter("idMezzo", idMezzo)
+                .executeUpdate();
+
+        em.getTransaction().commit();
+    }
+
+
+
+
 }
