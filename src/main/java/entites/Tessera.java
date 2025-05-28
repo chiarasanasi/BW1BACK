@@ -51,6 +51,14 @@ public class Tessera {
         this.dataScadenza = dataScadenza;
     }
 
+    public Abbonamento getAbbonamento() {
+        return abbonamento;
+    }
+
+    public void setAbbonamento(Abbonamento abbonamento) {
+        this.abbonamento = abbonamento;
+    }
+
     @Override
     public String toString() {
         return "Tessera{" +

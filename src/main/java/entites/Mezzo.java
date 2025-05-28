@@ -20,7 +20,9 @@ public class Mezzo {
     private LocalDate periodoServizio;
     @Column(name = "periodo_manutenzione")
     private LocalDate periodoManutenzione;
-    private List<ServizioManutenzione> serviziEffettivi;
+
+    private ServizioManutenzione servizioEffettivo;
+
     @OneToMany(mappedBy = "mezzo")
     private List<Biglietto> bigliettiVidimati;
     @OneToMany(mappedBy = "mezzo_percorrenza")
@@ -32,13 +34,9 @@ public class Mezzo {
     public Mezzo() {
     }
 
-    public Mezzo(int capienza, TipoMezzo tipoMezzo, LocalDate periodoServizio, LocalDate periodoManutenzione, List<ServizioManutenzione> serviziEffettivi, List<Biglietto> bigliettiVidimati) {
+    public Mezzo(int capienza, TipoMezzo tipoMezzo) {
         this.capienza = capienza;
         this.tipoMezzo = tipoMezzo;
-        this.periodoServizio = periodoServizio;
-        this.periodoManutenzione = periodoManutenzione;
-        this.serviziEffettivi = serviziEffettivi;
-        this.bigliettiVidimati = bigliettiVidimati;
 
     }
 
@@ -82,12 +80,12 @@ public class Mezzo {
         this.periodoManutenzione = periodoManutenzione;
     }
 
-    public List<ServizioManutenzione> getServiziEffettivi() {
-        return serviziEffettivi;
+    public ServizioManutenzione getServizioEffettivo() {
+        return servizioEffettivo;
     }
 
-    public void setServiziEffettivi(List<ServizioManutenzione> serviziEffettivi) {
-        this.serviziEffettivi = serviziEffettivi;
+    public void setServiziEffettivi(ServizioManutenzione servizioEffettivo) {
+        this.servizioEffettivo = servizioEffettivo;
     }
 
     public List<Biglietto> getBigliettiVidimati() {
@@ -98,7 +96,13 @@ public class Mezzo {
         this.bigliettiVidimati = bigliettiVidimati;
     }
 
+    public List<Percorrenza> getMezzoPercorrenze() {
+        return mezzoPercorrenze;
+    }
 
+    public void setMezzoPercorrenze(List<Percorrenza> mezzoPercorrenze) {
+        this.mezzoPercorrenze = mezzoPercorrenze;
+    }
 
     @Override
     public String toString() {
@@ -108,7 +112,7 @@ public class Mezzo {
                 ", tipoMezzo=" + tipoMezzo +
                 ", periodoServizio=" + periodoServizio +
                 ", periodoManutenzione=" + periodoManutenzione +
-                ", serviziEffettivi=" + serviziEffettivi +
+                ", servizio Effettivo=" + servizioEffettivo +
                 ", bigliettiVidimati=" + bigliettiVidimati +
                 '}';
     }
