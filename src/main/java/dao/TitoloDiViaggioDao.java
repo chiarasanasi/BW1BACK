@@ -2,6 +2,7 @@ package dao;
 
 import entites.*;
 import enumeration.TipoDistributore;
+import enumeration.Validita;
 import enumeration.Vidimazione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -106,6 +107,25 @@ public class TitoloDiViaggioDao {
         query.setParameter("stato", Vidimazione.VIDIMATO);
         return query.getResultList();
         }
+
+    public void creaAbbonamentoPerUtente(Utente utente, Validita validita, TipoDistributore tipoDistributore, PuntoDiEmissione punto) {
+        LocalDate dataEmissione = LocalDate.now();
+        LocalDate dataScadenza = (validita == Validita.SETTIMANALE)
+                ? dataEmissione.plusWeeks(1)
+                : dataEmissione.plusMonths(1);
+
+        Tessera tessera = utente.getTessera();
+
+        Abbonamento nuovoAbbonamento = new Abbonamento(dataEmissione, tipoDistributore, punto, tessera, validita, dataScadenza);
+        tessera.setAbbonamento(nuovoAbbonamento);
+
+        em.getTransaction().begin();
+        em.persist(nuovoAbbonamento);
+        em.merge(tessera);
+        em.getTransaction().commit();
+
+        System.out.println("Abbonamento creato con successo.");
+    }
 
 
     }
