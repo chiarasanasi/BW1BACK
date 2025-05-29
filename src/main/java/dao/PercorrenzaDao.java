@@ -92,6 +92,25 @@ public class PercorrenzaDao {
         return null;
 
     }
+
+    public List<Long> ricercaTempiEffettiviTramiteTratta(Long trattaId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.tratta.id = :trattaId";
+            List<Object[]> results = em.createQuery(jpql, Object[].class)
+                    .setParameter("trattaId", trattaId)
+                    .getResultList();
+
+            return results.stream()
+                    .map(r -> java.time.Duration.between((LocalTime) r[0], (LocalTime) r[1]).toMinutes())
+                    .toList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+
     public Percorrenza creazionePercorrenza(LocalTime oraInizioTratta, LocalTime oraFineTratta){
         Percorrenza nuovaPercorrenza = new Percorrenza(oraInizioTratta, oraFineTratta);
         return nuovaPercorrenza;

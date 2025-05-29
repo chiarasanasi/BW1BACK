@@ -65,6 +65,21 @@ public class MezzoDao {
         em.getTransaction().commit();
     }
 
+    public long ripetizioneTrattaTramiteMezzo(Long idMezzo, Long idTratta) {
+        String jpql = """
+        SELECT COUNT(p)
+        FROM Percorrenza p
+        WHERE p.mezzo.id = :idMezzo AND p.tratta.id = :idTratta
+    """;
+
+        TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+        query.setParameter("idMezzo", idMezzo);
+        query.setParameter("idTratta", idTratta);
+
+        return query.getSingleResult();
+    }
+
+
 
 
 
