@@ -308,6 +308,8 @@ public class MainApp {
                             mezzoDao.listaMezziInServizio();
                         }
                         case 4 -> {
+
+                            //mettere questo
                             List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
 
                             if (mezzi.isEmpty()) {
@@ -348,7 +350,6 @@ public class MainApp {
                                 Mezzo mezzoScelto = mezzi.get(sceltaUpdateMezzo);
                                 ServizioManutenzione servizio = mezzoScelto.getServizioManutenzione();
 
-                                em.getTransaction().begin();
 
                                 if (servizio == null) {
                                     System.out.println("Il mezzo selezionato non ha un ServizioManutenzione associato. Ne verrà creato uno nuovo.");
@@ -364,46 +365,64 @@ public class MainApp {
                                         statoServizio = StatoServizio.IN_SERVIZIO;
                                     }
 
-                                    // Richiesta date
-                                    System.out.println("Ora dovrai inserire le date di inizio servizio. TUTTE con il seguente formato --> yyyy-mm-dd");
+                                    if(statoServizio.equals(StatoServizio.IN_SERVIZIO)) {
+                                        // Richiesta date
+                                        System.out.println("Ora dovrai inserire le date di inizio servizio. TUTTE con il seguente formato --> yyyy-mm-dd");
 
-                                    try {
-                                        System.out.println("Inserisci la data di inizio servizio :");
-                                        LocalDate inizioServizio = LocalDate.parse(scanner.nextLine());
+                                        try {
+                                            System.out.println("Inserisci la data di inizio servizio :");
+                                            LocalDate inizioServizio = LocalDate.parse(scanner.nextLine());
 
-                                        System.out.println("Inserisci la data di fine prevista :");
-                                        LocalDate finePrevista = LocalDate.parse(scanner.nextLine());
-
-                                        System.out.println("Inserisci la data effettiva di fine :");
-                                        LocalDate fineEffettiva = LocalDate.parse(scanner.nextLine());
-
-                                        System.out.println("Inserisci la data di ultima revisione :");
-                                        LocalDate ultimaRevisione = LocalDate.parse(scanner.nextLine());
-
-                                        servizio = new ServizioManutenzione(
-                                                statoServizio,
-                                                inizioServizio,
-                                                finePrevista,
-                                                fineEffettiva,
-                                                ultimaRevisione
-                                        );
+                                            System.out.println("Inserisci la data di fine prevista :");
+                                            LocalDate fineServizioPrevista = LocalDate.parse(scanner.nextLine());
 
 
-                                        // Collegamenti bidirezionali
-                                        servizio.setMezzo(mezzoScelto); // --> lato many
-                                        mezzoScelto.setServizioManutenzione(servizio); // --> lato one
+                                            servizio = new ServizioManutenzione(statoServizio, inizioServizio, fineServizioPrevista, true);
 
-                                        System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
-                                    }
-                                    catch (IllegalArgumentException e) {
-                                        System.out.println("Stato del servizio non valido. Operazione annullata.");
-                                        em.getTransaction().rollback();
-                                        break;
 
-                                    } catch (DateTimeParseException e) {
-                                        System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
-                                        em.getTransaction().rollback();
-                                        break;
+                                            mezzoScelto.setServizioManutenzione(servizio); // --> lato proprietario
+                                            mezzoDao.save(mezzoScelto);
+
+                                            System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
+                                        } catch (IllegalArgumentException e) {
+                                            System.out.println("Stato del servizio non valido. Operazione annullata.");
+                                            em.getTransaction().rollback();
+                                            break;
+
+                                        } catch (DateTimeParseException e) {
+                                            System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
+                                            em.getTransaction().rollback();
+                                            break;
+                                        }
+                                    }else if(statoServizio.equals(StatoServizio.IN_MANUTENZIONE)){
+                                            // Richiesta date
+                                            System.out.println("Ora dovrai inserire le date di inizio manutenzione. TUTTE con il seguente formato --> yyyy-mm-dd");
+
+                                            try {
+                                                System.out.println("Inserisci la data di inizio manutenzione :");
+                                                LocalDate inizioManutenzione = LocalDate.parse(scanner.nextLine());
+
+                                                System.out.println("Inserisci la data di fine prevista :");
+                                                LocalDate fineManutenzionePrevista = LocalDate.parse(scanner.nextLine());
+
+
+                                                servizio = new ServizioManutenzione(statoServizio,inizioManutenzione,fineManutenzionePrevista);
+
+                                                mezzoScelto.setServizioManutenzione(servizio); // --> lato proprietario
+                                                mezzoDao.save(mezzoScelto);
+
+                                                System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
+                                            }
+                                            catch (IllegalArgumentException e) {
+                                                System.out.println("Stato del servizio non valido. Operazione annullata.");
+                                                em.getTransaction().rollback();
+                                                break;
+
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
+                                                em.getTransaction().rollback();
+                                                break;
+                                        }
                                     }
                                 } else {
                                     StatoServizio stato = servizio.getStatoServizio();
@@ -418,8 +437,8 @@ public class MainApp {
                                         System.out.println("Lo stato era nullo. Settato di default a IN_SERVIZIO.");
                                     }
                                 }
-                                em.getTransaction().commit();
                             }
+                            break;
                         }
 
                         case 5 -> {

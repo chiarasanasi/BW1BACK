@@ -28,6 +28,21 @@ public class ServizioManutenzione {
     public ServizioManutenzione() {
     }
 
+    //costruttore per mezzo in servizio
+    public ServizioManutenzione(StatoServizio statoServizio, LocalDate dataInizioServizio, LocalDate dataFineServizio, boolean isServizio) {
+        this.statoServizio = statoServizio;
+        if (isServizio) {
+            this.dataInizioServizio = dataInizioServizio;
+            this.dataFineServizio = dataFineServizio;
+        }
+    }
+    //costruttore per mezzo in manutenzione
+    public ServizioManutenzione(StatoServizio statoServizio, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione) {
+        this.statoServizio = statoServizio;
+        this.dataInizioManutenzione = dataInizioManutenzione;
+        this.dataFineManutenzione = dataFineManutenzione;
+    }
+
     public ServizioManutenzione(StatoServizio statoServizio, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione, LocalDate dataInizioServizio, LocalDate dataFineServizio) {
         this.statoServizio = statoServizio;
         this.dataInizioManutenzione = dataInizioManutenzione;
