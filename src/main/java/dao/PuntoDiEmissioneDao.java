@@ -1,7 +1,11 @@
 package dao;
 
+import entites.DistributoreAutomatico;
 import entites.PuntoDiEmissione;
+import entites.RivenditoreAutorizzato;
 import jakarta.persistence.EntityManager;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +42,20 @@ public class PuntoDiEmissioneDao {
         }
     }
 
-    public PuntoDiEmissione creazionePuntoDiEmissione(String nome, List titoloDiViaggioList) {
-        PuntoDiEmissione nuovoPuntodiEmissione = new PuntoDiEmissione(nome, titoloDiViaggioList);
-        return nuovoPuntodiEmissione;
+    public DistributoreAutomatico creazionePuntoDiEmissione(String nome) {
+        DistributoreAutomatico distributore = new DistributoreAutomatico(nome, new ArrayList<>(), true);
+        em.getTransaction().begin();
+        em.persist(distributore);
+        em.getTransaction().commit();
+        return distributore;
+    }
+
+    public RivenditoreAutorizzato creazioneRivenditoreAutorizzato(String nome, String indirizzo) {
+        RivenditoreAutorizzato rivenditore = new RivenditoreAutorizzato(nome, new ArrayList<>(), indirizzo);
+        em.getTransaction().begin();
+        em.persist(rivenditore);
+        em.getTransaction().commit();
+        return rivenditore;
     }
 
 

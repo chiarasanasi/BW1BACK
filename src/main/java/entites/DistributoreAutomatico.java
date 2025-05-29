@@ -16,6 +16,7 @@ public class DistributoreAutomatico extends PuntoDiEmissione {
 
     private Boolean attivo;
 
+
     public DistributoreAutomatico(String nome, List<TitoloDiViaggio> titoloDiViaggioList, boolean attivo) {
         super(nome,  titoloDiViaggioList);
         this.attivo = attivo;

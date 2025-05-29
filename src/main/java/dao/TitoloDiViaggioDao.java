@@ -41,6 +41,17 @@ public class TitoloDiViaggioDao {
             System.out.println("Il titolo di viaggio con ID " + id + " non esiste");
         }
     }
+    public Biglietto creaBiglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo) {
+        Biglietto nuovoBiglietto = new Biglietto(
+                dataEmissione,
+                tipoDistributore,
+                puntoDiEmissione,
+                mezzo,
+                Vidimazione.NON_VIDIMATO,
+                null // dataVidimazione sarà null finché non viene vidimato
+        );
+        return nuovoBiglietto;
+    }
 
 
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
@@ -97,7 +108,6 @@ public class TitoloDiViaggioDao {
         return query.getResultList();
         }
 
-    // Metodo Abbonamento
     public void creaAbbonamentoPerUtente(Utente utente, Validita validita, TipoDistributore tipoDistributore, PuntoDiEmissione punto) {
         LocalDate dataEmissione = LocalDate.now();
         LocalDate dataScadenza = (validita == Validita.SETTIMANALE)
@@ -117,6 +127,7 @@ public class TitoloDiViaggioDao {
         System.out.println("Abbonamento creato con successo.");
     }
 
-}
+
+    }
 
 
