@@ -55,16 +55,6 @@ public abstract class TitoloDiViaggio {
         this.tipoDistributore = tipoDistributore;
     }
 
-    public PuntoDiEmissione getPuntoDiEmissione() {
-        return puntoDiEmissione;
-    }
-
-    public void setPuntoDiEmissione(PuntoDiEmissione puntoDiEmissione) {
-        this.puntoDiEmissione = puntoDiEmissione;
-    }
-
-
-
     @Override
     public String toString() {
         return "TitoloDiViaggio{" +
