@@ -84,6 +84,14 @@ public class ServizioManutenzione {
         this.dataFineServizio = dataFineServizio;
     }
 
+    public Mezzo getMezzo() {
+        return mezzo;
+    }
+
+    public void setMezzo(Mezzo mezzo) {
+        this.mezzo = mezzo;
+    }
+
     @Override
     public String toString() {
         return "ServizioManutenzione{" +

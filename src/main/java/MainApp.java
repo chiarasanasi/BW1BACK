@@ -7,6 +7,7 @@ import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -82,30 +83,30 @@ public class MainApp {
         ServizioManutenzione s3 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE,LocalDate.of(2025,5,1),LocalDate.now(),LocalDate.of(2023,1,1),LocalDate.of(2025,4,30));
         ServizioManutenzione s4 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE,LocalDate.of(2020,1,1),LocalDate.now(),LocalDate.of(2019,3,2),LocalDate.of(2019,12,31));
 
-        servizioManutenzioneDao.salva(s1);
-        servizioManutenzioneDao.salva(s2);
-        servizioManutenzioneDao.salva(s3);
-        servizioManutenzioneDao.salva(s4);
+//        servizioManutenzioneDao.salva(s1);
+//        servizioManutenzioneDao.salva(s2);
+//        servizioManutenzioneDao.salva(s3);
+//        servizioManutenzioneDao.salva(s4);
 
         Percorrenza p1 = new Percorrenza(LocalTime.of(5,0),LocalTime.of(23,59));
         Percorrenza p2 = new Percorrenza(LocalTime.of(6,0),LocalTime.of(1,0));
         Percorrenza p3 = new Percorrenza(LocalTime.of(12,0),LocalTime.of(3,0));
         Percorrenza p4 = new Percorrenza(LocalTime.of(15,0),LocalTime.of(22,59));
 
-        percorrenzaDao.salva(p1);
-        percorrenzaDao.salva(p2);
-        percorrenzaDao.salva(p3);
-        percorrenzaDao.salva(p4);
-
-        m1.setMezzoPercorrenze(List.of(p1,p2));
-        m2.setMezzoPercorrenze(List.of(p2,p3));
-        m3.setMezzoPercorrenze(List.of(p1,p4));
-        m4.setMezzoPercorrenze(List.of(p3,p4));
-
-        mezzoDao.save(m1);
-        mezzoDao.save(m2);
-        mezzoDao.save(m3);
-        mezzoDao.save(m4);
+//        percorrenzaDao.salva(p1);
+//        percorrenzaDao.salva(p2);
+//        percorrenzaDao.salva(p3);
+//        percorrenzaDao.salva(p4);
+//
+//        m1.setMezzoPercorrenze(List.of(p1,p2));
+//        m2.setMezzoPercorrenze(List.of(p2,p3));
+//        m3.setMezzoPercorrenze(List.of(p1,p4));
+//        m4.setMezzoPercorrenze(List.of(p3,p4));
+//
+//        mezzoDao.save(m1);
+//        mezzoDao.save(m2);
+//        mezzoDao.save(m3);
+//        mezzoDao.save(m4);
 
         Tratta t1 = new Tratta("Roma", "Milano", LocalTime.of(2, 30), LocalTime.of(2, 45));
         Tratta t2 = new Tratta("Napoli", "Bari", LocalTime.of(1, 15), LocalTime.of(1, 20));
@@ -113,10 +114,10 @@ public class MainApp {
 
         Tratta t4 = new Tratta("Firenze", "Pisa", LocalTime.of(0, 45), LocalTime.of(0, 50));
 
-        trattaDao.save(t1);
-        trattaDao.save(t2);
-        trattaDao.save(t3);
-        trattaDao.save(t4);
+//        trattaDao.save(t1);
+//        trattaDao.save(t2);
+//        trattaDao.save(t3);
+//        trattaDao.save(t4);
 
 
 
@@ -191,13 +192,16 @@ public class MainApp {
 
                             System.out.println("Tessera creata e assegnata all’utente " + utente.getNome() + " con successo!");
                         }
+
                         case 3 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
+                            break;
                         }
                         case 4 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
+                            break;
                         }
                         case 5 ->{
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
@@ -208,6 +212,7 @@ public class MainApp {
                             }else {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
+                            break;
                         }
                         case 6 -> {
                             System.out.println("Scegli la validità dell’abbonamento:");
@@ -223,6 +228,7 @@ public class MainApp {
                             PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
 
                             titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
+                            break;
                         }
 
 
@@ -230,6 +236,11 @@ public class MainApp {
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
+                            break;
+                        }
+                        default -> {
+                            System.out.println("Scelta non valida.");
+                            break;
                         }
                     }
                 }
@@ -255,257 +266,346 @@ public class MainApp {
                         "13 -> Crea nuova tratta"+ "\n" +
                         "14 -> Aggiungi Mezzo"+ "\n" +
                         "15 -> Crea Punto di emissione" + "\n" +
-                        "16 -> Crea Percorrenza"
+                        "16 -> Crea Percorrenza"  + "\n" +
+                        "0 -> Termina Programma"
 
                 );
                 int scelta = scanner.nextInt();
                 scanner.nextLine();
+                boolean sceltaWhile = true;
 
-                switch (scelta){
-                    case 1 -> {
-                        System.out.println("Ora ti chiederò di digitare anno, mese e giorno delle 2 date che segnano il periodo scelto");
+                while (sceltaWhile) {
+                    switch (scelta) {
+                        case 1 -> {
+                            System.out.println("Ora ti chiederò di digitare anno, mese e giorno delle 2 date che segnano il periodo scelto");
 
-                        System.out.println("Digita l'anno della data di inizio in numeri");
-                        int annoDataInizio = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il mese della data di inizio in numeri. Esempio --> Aprile = 4, Dicembre = 12");
-                        int meseDataInizio = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il giorno della data di inizio in numeri");
-                        int giornoDataInizio = scanner.nextInt();
-                        scanner.nextLine();
-
-
-                        System.out.println("Digita l'anno della data di fine in numeri");
-                        int annoDataFine = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il mese della data di fine in numeri. Esempio --> Aprile = 4, Dicembre = 12");
-                        int meseDataFine = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il giorno della data di fine in numeri");
-                        int giornoDataFine = scanner.nextInt();
-                        scanner.nextLine();
-
-
-                        titoloDiViaggioDao.numeroDiBigliettiInUnDatoPeriodo(LocalDate.of(annoDataInizio,meseDataInizio,giornoDataInizio), LocalDate.of(annoDataFine,meseDataFine,giornoDataFine));
-                    }
-                    case 2 -> {
-                        mezzoDao.listaMezziManutenzione();
-                    }
-                    case  3 -> {
-                        mezzoDao.listaMezziInServizio();
-                    }
-                    case 4 -> {
-
-                        List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
-
-                        if(mezzi.isEmpty()){
-                            System.out.println("Al momento nessun mezzo è stato aggiunto al DB");
-                        }else{
-                            System.out.println("Scegli tra i seguenti il mezzo di cui vuoi aggiornare lo stato :");
-                            for (int i = 0; i < mezzi.size(); i++) {
-                                if(mezzi.get(i).getMezzoPercorrenze() == null || mezzi.get(i).getMezzoPercorrenze().isEmpty()){
-                                    System.out.println(i + " -> Mezzo n°" + i + " al quale non è stata assegnata ancora nessuna percorrenza.");
-                                }else if(mezzi.get(i).getMezzoPercorrenze().size()>0){
-                                    System.out.println(i + " -> Mezzo n°" + i + " al quale sono state assegnate le seguenti percorrenze :");
-                                    List<Percorrenza> percorrenze = mezzi.get(i).getMezzoPercorrenze();
-                                    for (int j = 0; j < percorrenze.size(); j++) {
-                                        Tratta t = percorrenze.get(i).getTratta();
-                                        System.out.println(t.getZonaDiPartenza() + " da " + t.getCapolinea() + ". Tempo di percorrenza previsto -> " + t.getTempoPercorrenzaPrevisto());
-                                    }
-                                }
-                            }
-                            System.out.println("Digita il numero del mezzo che vuoi aggiornare");
-                            int sceltaUpdateMezzo = scanner.nextInt();
+                            System.out.println("Digita l'anno della data di inizio in numeri");
+                            int annoDataInizio = scanner.nextInt();
                             scanner.nextLine();
 
-                            ServizioManutenzione servizio = mezzi.get(sceltaUpdateMezzo).getServizioManutenzione();
-                            if (servizio == null) {
-                                System.out.println("Il mezzo selezionato non ha un oggetto ServizioManutenzione associato!");
+                            System.out.println("Digita il mese della data di inizio in numeri. Esempio --> Aprile = 4, Dicembre = 12");
+                            int meseDataInizio = scanner.nextInt();
+                            scanner.nextLine();
 
-                                servizio = new ServizioManutenzione();
-                                servizio.setStatoServizio(StatoServizio.IN_SERVIZIO); // default
-                                mezzi.get(sceltaUpdateMezzo).setServizioManutenzione(servizio);
-                                System.out.println("Perciò è stato creato un nuovo ServizioManutenzione e impostato a IN_SERVIZIO");
+                            System.out.println("Digita il giorno della data di inizio in numeri");
+                            int giornoDataInizio = scanner.nextInt();
+                            scanner.nextLine();
+
+
+                            System.out.println("Digita l'anno della data di fine in numeri");
+                            int annoDataFine = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println("Digita il mese della data di fine in numeri. Esempio --> Aprile = 4, Dicembre = 12");
+                            int meseDataFine = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println("Digita il giorno della data di fine in numeri");
+                            int giornoDataFine = scanner.nextInt();
+                            scanner.nextLine();
+
+
+                            titoloDiViaggioDao.numeroDiBigliettiInUnDatoPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine));
+                            break;
+                        }
+                        case 2 -> {
+                            mezzoDao.listaMezziManutenzione();
+                            break;
+                        }
+                        case 3 -> {
+                            mezzoDao.listaMezziInServizio();
+                            break;
+                        }
+                        case 4 -> {
+                            List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
+
+                            if (mezzi.isEmpty()) {
+                                System.out.println("Al momento nessun mezzo è stato aggiunto al DB");
                             } else {
-                                StatoServizio stato = servizio.getStatoServizio();
-                                if (stato == StatoServizio.IN_SERVIZIO) {
-                                    servizio.setStatoServizio(StatoServizio.IN_MANUTENZIONE);
-                                    System.out.println("Lo stato di servizio del mezzo ora è IN MANUTENZIONE");
-                                } else if (stato == StatoServizio.IN_MANUTENZIONE) {
-                                    servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
-                                    System.out.println("Lo stato di servizio del mezzo ora è IN SERVIZIO");
-                                } else {
-                                    servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
-                                    System.out.println("Lo stato di servizio del mezzo era nullo. Settato di default a IN SERVIZIO.");
+                                System.out.println("Scegli tra i seguenti il mezzo di cui vuoi aggiornare lo stato:");
+
+                                for (int i = 0; i < mezzi.size(); i++) {
+                                    Mezzo mezzo = mezzi.get(i);
+                                    System.out.print(i + " -> Mezzo ID: " + mezzo.getId());
+
+                                    List<Percorrenza> percorrenze = mezzo.getMezzoPercorrenze();
+                                    if (percorrenze == null || percorrenze.isEmpty()) {
+                                        System.out.println(" (nessuna percorrenza assegnata)");
+                                    } else {
+                                        System.out.println(" (con le seguenti percorrenze):");
+                                        for (Percorrenza p : percorrenze) {
+                                            Tratta t = p.getTratta();
+                                            if (t != null) {
+                                                System.out.println("- " + t.getZonaDiPartenza() + " da " + t.getCapolinea() +
+                                                        " (tempo previsto: " + t.getTempoPercorrenzaPrevisto() + ")");
+                                            } else {
+                                                System.out.println("- Percorrenza senza tratta associata.");
+                                            }
+                                        }
+                                    }
                                 }
-//                                mezzoDao.updateStatoMezzo(mezzi.get(sceltaUpdateMezzo).getId(),mezzi.get(sceltaUpdateMezzo).getMezzoPercorrenze().);
+
+                                System.out.println("Digita il numero del mezzo che vuoi aggiornare:");
+                                int sceltaUpdateMezzo = scanner.nextInt();
+                                scanner.nextLine(); // Consuma il newline
+
+                                if (sceltaUpdateMezzo < 0 || sceltaUpdateMezzo >= mezzi.size()) {
+                                    System.out.println("Scelta non valida.");
+                                    break;
+                                }
+
+                                Mezzo mezzoScelto = mezzi.get(sceltaUpdateMezzo);
+                                ServizioManutenzione servizio = mezzoScelto.getServizioManutenzione();
+
+                                em.getTransaction().begin();
+
+                                if (servizio == null) {
+                                    System.out.println("Il mezzo selezionato non ha un ServizioManutenzione associato. Ne verrà creato uno nuovo.");
+
+                                    //  stato servizio
+                                    System.out.println("Inserisci lo stato del servizio (IN_SERVIZIO / IN_MANUTENZIONE):");
+                                    String statoInput = scanner.nextLine().toUpperCase();
+                                    StatoServizio statoServizio;
+                                    try {
+                                        statoServizio = StatoServizio.valueOf(statoInput);
+                                    } catch (IllegalArgumentException e) {
+                                        System.out.println("Valore non valido. Stato impostato a IN_SERVIZIO di default.");
+                                        statoServizio = StatoServizio.IN_SERVIZIO;
+                                    }
+
+                                    // Richiesta date
+                                    System.out.println("Ora dovrai inserire le date di inizio servizio. TUTTE con il seguente formato --> yyyy-mm-dd");
+
+                                    try {
+                                        System.out.println("Inserisci la data di inizio servizio :");
+                                        LocalDate inizioServizio = LocalDate.parse(scanner.nextLine());
+
+                                        System.out.println("Inserisci la data di fine prevista :");
+                                        LocalDate finePrevista = LocalDate.parse(scanner.nextLine());
+
+                                        System.out.println("Inserisci la data effettiva di fine :");
+                                        LocalDate fineEffettiva = LocalDate.parse(scanner.nextLine());
+
+                                        System.out.println("Inserisci la data di ultima revisione :");
+                                        LocalDate ultimaRevisione = LocalDate.parse(scanner.nextLine());
+
+                                        servizio = new ServizioManutenzione(
+                                                statoServizio,
+                                                inizioServizio,
+                                                finePrevista,
+                                                fineEffettiva,
+                                                ultimaRevisione
+                                        );
+
+
+                                        // Collegamenti bidirezionali
+                                        servizio.setMezzo(mezzoScelto); // --> lato many
+                                        mezzoScelto.setServizioManutenzione(servizio); // --> lato one
+
+                                        System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
+                                    }
+                                    catch (IllegalArgumentException e) {
+                                        System.out.println("Stato del servizio non valido. Operazione annullata.");
+                                        em.getTransaction().rollback();
+                                        break;
+
+                                    } catch (DateTimeParseException e) {
+                                        System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
+                                        em.getTransaction().rollback();
+                                        break;
+                                    }
+                                } else {
+                                    StatoServizio stato = servizio.getStatoServizio();
+                                    if (stato == StatoServizio.IN_SERVIZIO) {
+                                        servizio.setStatoServizio(StatoServizio.IN_MANUTENZIONE);
+                                        System.out.println("Lo stato di servizio del mezzo ora è IN_MANUTENZIONE.");
+                                    } else if (stato == StatoServizio.IN_MANUTENZIONE) {
+                                        servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
+                                        System.out.println("Lo stato di servizio del mezzo ora è IN_SERVIZIO.");
+                                    } else {
+                                        servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
+                                        System.out.println("Lo stato era nullo. Settato di default a IN_SERVIZIO.");
+                                    }
+                                }
+                                em.getTransaction().commit();
                             }
-                        }
-                    }
-                    case 5 -> {
-                        System.out.println("pippa");
-                    }
-                    case 6 -> {
-                        System.out.println("uguale a 5");
-                    }
-                    case 7 -> {
-                        System.out.println("uguale a 6, bisogna mettere un metodo che prende tutti i biglietti");
-                    }
-                    case 8 -> {
-                        System.out.println("Scegli uno di questi mezzi : "  + "\n" +
-                                "1 -> " + m1  + "\n" +
-                                "2 -> " + m2  + "\n" +
-                                "3 -> " + m3  + "\n" +
-                                "4 -> " + m4
-                        );
-                        int sceltaMezzo = scanner.nextInt();
-                        scanner.nextLine();
-
-                        if (sceltaMezzo==1){
-                            titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m1.getId());
-                        }else if(sceltaMezzo==2){
-                            titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m2.getId());
-                        }else if(sceltaMezzo==3){
-                            titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m3.getId());
-                        }else if(sceltaMezzo==4){
-                            titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m4.getId());
-                        }
-                    }
-                    case 9 -> {
-                        System.out.println("Ora ti chiederò di digitare anno, mese e giorno delle 2 date che segnano il periodo scelto");
-
-                        System.out.println("Digita l'anno della data di inizio in numeri");
-                        int annoDataInizio = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il mese della data di inizio in numeri. Esempio --> Aprile = 4, Dicembre = 12");
-                        int meseDataInizio = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il giorno della data di inizio in numeri");
-                        int giornoDataInizio = scanner.nextInt();
-                        scanner.nextLine();
-
-
-                        System.out.println("Digita l'anno della data di fine in numeri");
-                        int annoDataFine = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il mese della data di fine in numeri. Esempio --> Aprile = 4, Dicembre = 12");
-                        int meseDataFine = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.println("Digita il giorno della data di fine in numeri");
-                        int giornoDataFine = scanner.nextInt();
-                        scanner.nextLine();
-
-                        titoloDiViaggioDao.ricercaBigliettiVidimatiPerPeriodo(LocalDate.of(annoDataInizio,meseDataInizio,giornoDataInizio), LocalDate.of(annoDataFine,meseDataFine,giornoDataFine));
-                    }
-                    case 10 -> {
-                        System.out.println("pippaaaa");
-
-                    }
-                    case 11 -> {
-                        System.out.println("pippaaaaaaaaaa");
-
-                    }
-                    case 12 -> {
-                        //tutte le tratte nel db
-                        List<Tratta> tratteDisponibili = em.createQuery("SELECT t FROM Tratta t", Tratta.class).getResultList();
-
-                        if (tratteDisponibili.isEmpty()) {
-                            System.out.println("Nessuna tratta disponibile.");
                             break;
                         }
 
-                        System.out.println("Scegli una di queste tratte : "  + "\n" +
-                                "1 -> Roma a Milano"+  "\n" +
-                                "2 -> Napoli a Bari" +  "\n" +
-                                "3 -> Torino a Venezia" +  "\n" +
-                                "4 -> Firenze a Pisa"
-                        );
+                        case 5 -> {
+                            System.out.println("pippa");
+                            break;
+                        }
+                        case 6 -> {
+                            System.out.println("uguale a 5");
+                            break;
+                        }
+                        case 7 -> {
+                            System.out.println("uguale a 6, bisogna mettere un metodo che prende tutti i biglietti");
+                            break;
+                        }
+                        case 8 -> {
+                            System.out.println("Scegli uno di questi mezzi : " + "\n" +
+                                    "1 -> " + m1 + "\n" +
+                                    "2 -> " + m2 + "\n" +
+                                    "3 -> " + m3 + "\n" +
+                                    "4 -> " + m4
+                            );
+                            int sceltaMezzo = scanner.nextInt();
+                            scanner.nextLine();
 
-                        System.out.print("Inserisci il numero della tratta scelta (1-4): ");
-                        int sceltaTratta = scanner.nextInt();
+                            if (sceltaMezzo == 1) {
+                                titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m1.getId());
+                            } else if (sceltaMezzo == 2) {
+                                titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m2.getId());
+                            } else if (sceltaMezzo == 3) {
+                                titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m3.getId());
+                            } else if (sceltaMezzo == 4) {
+                                titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m4.getId());
+                            }
+                            break;
+                        }
+                        case 9 -> {
+                            System.out.println("Ora ti chiederò di digitare anno, mese e giorno delle 2 date che segnano il periodo scelto");
 
-                        if (sceltaTratta < 1 || sceltaTratta > 4) {
+                            System.out.println("Digita l'anno della data di inizio in numeri");
+                            int annoDataInizio = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println("Digita il mese della data di inizio in numeri. Esempio --> Aprile = 4, Dicembre = 12");
+                            int meseDataInizio = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println("Digita il giorno della data di inizio in numeri");
+                            int giornoDataInizio = scanner.nextInt();
+                            scanner.nextLine();
+
+
+                            System.out.println("Digita l'anno della data di fine in numeri");
+                            int annoDataFine = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println("Digita il mese della data di fine in numeri. Esempio --> Aprile = 4, Dicembre = 12");
+                            int meseDataFine = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.println("Digita il giorno della data di fine in numeri");
+                            int giornoDataFine = scanner.nextInt();
+                            scanner.nextLine();
+
+                            titoloDiViaggioDao.ricercaBigliettiVidimatiPerPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine));
+                            break;
+                        }
+                        case 10 -> {
+                            System.out.println("pippaaaa");
+                            break;
+                        }
+                        case 11 -> {
+                            System.out.println("pippaaaaaaaaaa");
+                            break;
+
+                        }
+                        case 12 -> {
+                            //tutte le tratte nel db
+                            List<Tratta> tratteDisponibili = em.createQuery("SELECT t FROM Tratta t", Tratta.class).getResultList();
+
+                            if (tratteDisponibili.isEmpty()) {
+                                System.out.println("Nessuna tratta disponibile.");
+                                break;
+                            }
+
+                            System.out.println("Scegli una di queste tratte : " + "\n" +
+                                    "1 -> Roma a Milano" + "\n" +
+                                    "2 -> Napoli a Bari" + "\n" +
+                                    "3 -> Torino a Venezia" + "\n" +
+                                    "4 -> Firenze a Pisa"
+                            );
+
+                            System.out.print("Inserisci il numero della tratta scelta (1-4): ");
+                            int sceltaTratta = scanner.nextInt();
+
+                            if (sceltaTratta < 1 || sceltaTratta > 4) {
+                                System.out.println("Scelta non valida.");
+                                break;
+                            }
+
+                            Tratta trattaScelta = tratteDisponibili.get(scelta - 1);
+                            Long trattaId = trattaScelta.getId();
+
+                            Double tempoMedio = percorrenzaDao.tempoMedioPercorrenza(trattaId);
+
+                            if (tempoMedio == null) {
+                                System.out.println("Nessuna percorrenza trovata per la tratta selezionata.");
+                            } else {
+                                System.out.println("Il tempo medio di percorrenza per la tratta scelta è: " + tempoMedio + " minuti.");
+                            }
+                            break;
+                        }
+
+                        case 13 -> {
+                            System.out.println("Creazione Nuova Tratta");
+
+                            System.out.print("Inserisci il luogo di partenza: ");
+                            String partenza = scanner.nextLine();
+
+                            System.out.print("Inserisci il luogo di arrivo: ");
+                            String arrivo = scanner.nextLine();
+
+                            System.out.print("Durata prevista - Ore: ");
+                            int oreDurata = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.print("Durata prevista - Minuti: ");
+                            int minutiDurata = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.print("Durata effettiva - Ore: ");
+                            int oreEffettiva = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.print("Durata effettiva - Minuti: ");
+                            int minutiEffettiva = scanner.nextInt();
+                            scanner.nextLine();
+
+                            LocalTime durataPrevista = LocalTime.of(oreDurata, minutiDurata);
+                            LocalTime durataEffettiva = LocalTime.of(oreEffettiva, minutiEffettiva);
+
+                            Tratta nuovaTratta = new Tratta(partenza, arrivo, durataPrevista, durataEffettiva);
+                            trattaDao.save(nuovaTratta);
+
+                            System.out.println("Nuova tratta creata con successo!");
+                            break;
+
+                        }
+
+                        case 16 -> {
+                            System.out.println("Creazione Nuova Percorrenza");
+
+                            System.out.print("Inserisci ora di inizio (HH:mm): ");
+                            String inputInizio = scanner.nextLine();
+                            LocalTime oraInizio = LocalTime.parse(inputInizio);
+
+                            System.out.print("Inserisci ora di fine (HH:mm): ");
+                            String inputFine = scanner.nextLine();
+                            LocalTime oraFine = LocalTime.parse(inputFine);
+
+                            Percorrenza nuovaPercorrenza = percorrenzaDao.creazionePercorrenza(oraInizio, oraFine);
+                            percorrenzaDao.salva(nuovaPercorrenza);
+
+                            System.out.println("Nuova percorrenza creata con successo.");
+                            break;
+                        }
+                        case 0 -> {
+                            System.out.println("Termina");
+                            sceltaWhile = false;
+                            break;
+                        }
+                        default -> {
                             System.out.println("Scelta non valida.");
                             break;
                         }
-
-                        Tratta trattaScelta = tratteDisponibili.get(scelta - 1);
-                        Long trattaId = trattaScelta.getId();
-
-                        Double tempoMedio = percorrenzaDao.tempoMedioPercorrenza(trattaId);
-
-                        if (tempoMedio == null) {
-                            System.out.println("Nessuna percorrenza trovata per la tratta selezionata.");
-                        } else {
-                            System.out.println("Il tempo medio di percorrenza per la tratta scelta è: " + tempoMedio + " minuti.");
-                        }
                     }
-
-                    case 13 -> {
-                        System.out.println("Creazione Nuova Tratta");
-
-                        System.out.print("Inserisci il luogo di partenza: ");
-                        String partenza = scanner.nextLine();
-
-                        System.out.print("Inserisci il luogo di arrivo: ");
-                        String arrivo = scanner.nextLine();
-
-                        System.out.print("Durata prevista - Ore: ");
-                        int oreDurata = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.print("Durata prevista - Minuti: ");
-                        int minutiDurata = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.print("Durata effettiva - Ore: ");
-                        int oreEffettiva = scanner.nextInt();
-                        scanner.nextLine();
-
-                        System.out.print("Durata effettiva - Minuti: ");
-                        int minutiEffettiva = scanner.nextInt();
-                        scanner.nextLine();
-
-                        LocalTime durataPrevista = LocalTime.of(oreDurata, minutiDurata);
-                        LocalTime durataEffettiva = LocalTime.of(oreEffettiva, minutiEffettiva);
-
-                        Tratta nuovaTratta = new Tratta(partenza, arrivo, durataPrevista, durataEffettiva);
-                        trattaDao.save(nuovaTratta);
-
-                        System.out.println("Nuova tratta creata con successo!");
-
-                    }
-
-                    case 16 -> {
-                        System.out.println("Creazione Nuova Percorrenza");
-
-                        System.out.print("Inserisci ora di inizio (HH:mm): ");
-                        String inputInizio = scanner.nextLine();
-                        LocalTime oraInizio = LocalTime.parse(inputInizio);
-
-                        System.out.print("Inserisci ora di fine (HH:mm): ");
-                        String inputFine = scanner.nextLine();
-                        LocalTime oraFine = LocalTime.parse(inputFine);
-
-                        Percorrenza nuovaPercorrenza = percorrenzaDao.creazionePercorrenza(oraInizio, oraFine);
-                        percorrenzaDao.salva(nuovaPercorrenza);
-
-                        System.out.println("Nuova percorrenza creata con successo.");
-                    }
-
-
-
                 }
-
 
             }
         }else if(loginOregistrazione == 2){

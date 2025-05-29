@@ -27,7 +27,7 @@ public class Mezzo {
     private List<Biglietto> bigliettiVidimati;
     @OneToMany(mappedBy = "mezzo")
     private List<Percorrenza> mezzoPercorrenze;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "servizio_manutenzione_id")
     private ServizioManutenzione servizioManutenzione;
 
