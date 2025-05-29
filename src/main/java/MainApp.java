@@ -175,6 +175,7 @@ public class MainApp {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
                         }
+                        
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
