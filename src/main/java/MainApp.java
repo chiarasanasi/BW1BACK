@@ -46,76 +46,76 @@ public class MainApp {
         utenteDao.salva(u7);
         utenteDao.salva(u8);
 
-        Tessera ts1 = new Tessera(LocalDate.of(2020,1,1));
-        Tessera ts2 = new Tessera(LocalDate.of(2020,1,1));
-        Tessera ts3 = new Tessera(LocalDate.of(2020,1,1));
-        Tessera ts4 = new Tessera(LocalDate.of(2020,1,1));
-
-        tesseraDao.saveTessera(ts1);
-        tesseraDao.saveTessera(ts2);
-        tesseraDao.saveTessera(ts3);
-        tesseraDao.saveTessera(ts4);
-
-
-        u1.setTessera(ts1);
-        u2.setTessera(ts2);
-        u3.setTessera(ts3);
-        u4.setTessera(ts4);
-
-        utenteDao.salva(u1);
-        utenteDao.salva(u2);
-        utenteDao.salva(u3);
-        utenteDao.salva(u4);
-
-        Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
-        Mezzo m2 = new Mezzo(250, TipoMezzo.AUTOBUS);
-        Mezzo m3 = new Mezzo(300, TipoMezzo.TRAM);
-        Mezzo m4 = new Mezzo(350, TipoMezzo.TRAM);
-
-        mezzoDao.save(m1);
-        mezzoDao.save(m2);
-        mezzoDao.save(m3);
-        mezzoDao.save(m4);
-
-        ServizioManutenzione s1 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO,LocalDate.of(2000,1,1),LocalDate.of(2000,3,1),LocalDate.of(2000,3,2),LocalDate.now());
-        ServizioManutenzione s2 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO,LocalDate.of(2022,3,12),LocalDate.of(2022,6,1),LocalDate.of(2022,6,3),LocalDate.now());
-        ServizioManutenzione s3 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE,LocalDate.of(2025,5,1),LocalDate.now(),LocalDate.of(2023,1,1),LocalDate.of(2025,4,30));
-        ServizioManutenzione s4 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE,LocalDate.of(2020,1,1),LocalDate.now(),LocalDate.of(2019,3,2),LocalDate.of(2019,12,31));
-
-        servizioManutenzioneDao.salva(s1);
-        servizioManutenzioneDao.salva(s2);
-        servizioManutenzioneDao.salva(s3);
-        servizioManutenzioneDao.salva(s4);
-
-        Percorrenza p1 = new Percorrenza(LocalTime.of(5,0),LocalTime.of(23,59));
-        Percorrenza p2 = new Percorrenza(LocalTime.of(6,0),LocalTime.of(1,0));
-        Percorrenza p3 = new Percorrenza(LocalTime.of(12,0),LocalTime.of(3,0));
-        Percorrenza p4 = new Percorrenza(LocalTime.of(15,0),LocalTime.of(22,59));
-
-        percorrenzaDao.salva(p1);
-        percorrenzaDao.salva(p2);
-        percorrenzaDao.salva(p3);
-        percorrenzaDao.salva(p4);
-
-        m1.setMezzoPercorrenze(List.of(p1,p2));
-        m2.setMezzoPercorrenze(List.of(p2,p3));
-        m3.setMezzoPercorrenze(List.of(p1,p4));
-        m4.setMezzoPercorrenze(List.of(p3,p4));
-
-        mezzoDao.save(m1);
-        mezzoDao.save(m2);
-        mezzoDao.save(m3);
-        mezzoDao.save(m4);
-
-        Tratta t1 = new Tratta("Roma", "Milano", LocalTime.of(2, 30), LocalTime.of(2, 45));
-        Tratta t2 = new Tratta("Napoli", "Bari", LocalTime.of(1, 15), LocalTime.of(1, 20));
-        Tratta t3 = new Tratta("Torino", "Venezia", LocalTime.of(2, 0), LocalTime.of(2, 5));
-        Tratta t4 = new Tratta("Firenze", "Pisa", LocalTime.of(0, 45), LocalTime.of(0, 50));
-
-        trattaDao.save(t1);
-        trattaDao.save(t2);
-        trattaDao.save(t3);
-        trattaDao.save(t4);
+//        Tessera ts1 = new Tessera(LocalDate.of(2020,1,1));
+//        Tessera ts2 = new Tessera(LocalDate.of(2020,1,1));
+//        Tessera ts3 = new Tessera(LocalDate.of(2020,1,1));
+//        Tessera ts4 = new Tessera(LocalDate.of(2020,1,1));
+//
+//        tesseraDao.saveTessera(ts1);
+//        tesseraDao.saveTessera(ts2);
+//        tesseraDao.saveTessera(ts3);
+//        tesseraDao.saveTessera(ts4);
+//
+//
+//        u1.setTessera(ts1);
+//        u2.setTessera(ts2);
+//        u3.setTessera(ts3);
+//        u4.setTessera(ts4);
+//
+//        utenteDao.salva(u1);
+//        utenteDao.salva(u2);
+//        utenteDao.salva(u3);
+//        utenteDao.salva(u4);
+//
+//        Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
+//        Mezzo m2 = new Mezzo(250, TipoMezzo.AUTOBUS);
+//        Mezzo m3 = new Mezzo(300, TipoMezzo.TRAM);
+//        Mezzo m4 = new Mezzo(350, TipoMezzo.TRAM);
+//
+//        mezzoDao.save(m1);
+//        mezzoDao.save(m2);
+//        mezzoDao.save(m3);
+//        mezzoDao.save(m4);
+//
+//        ServizioManutenzione s1 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO,LocalDate.of(2000,1,1),LocalDate.of(2000,3,1),LocalDate.of(2000,3,2),LocalDate.now());
+//        ServizioManutenzione s2 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO,LocalDate.of(2022,3,12),LocalDate.of(2022,6,1),LocalDate.of(2022,6,3),LocalDate.now());
+//        ServizioManutenzione s3 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE,LocalDate.of(2025,5,1),LocalDate.now(),LocalDate.of(2023,1,1),LocalDate.of(2025,4,30));
+//        ServizioManutenzione s4 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE,LocalDate.of(2020,1,1),LocalDate.now(),LocalDate.of(2019,3,2),LocalDate.of(2019,12,31));
+//
+//        servizioManutenzioneDao.salva(s1);
+//        servizioManutenzioneDao.salva(s2);
+//        servizioManutenzioneDao.salva(s3);
+//        servizioManutenzioneDao.salva(s4);
+//
+//        Percorrenza p1 = new Percorrenza(LocalTime.of(5,0),LocalTime.of(23,59));
+//        Percorrenza p2 = new Percorrenza(LocalTime.of(6,0),LocalTime.of(1,0));
+//        Percorrenza p3 = new Percorrenza(LocalTime.of(12,0),LocalTime.of(3,0));
+//        Percorrenza p4 = new Percorrenza(LocalTime.of(15,0),LocalTime.of(22,59));
+//
+//        percorrenzaDao.salva(p1);
+//        percorrenzaDao.salva(p2);
+//        percorrenzaDao.salva(p3);
+//        percorrenzaDao.salva(p4);
+//
+//        m1.setMezzoPercorrenze(List.of(p1,p2));
+//        m2.setMezzoPercorrenze(List.of(p2,p3));
+//        m3.setMezzoPercorrenze(List.of(p1,p4));
+//        m4.setMezzoPercorrenze(List.of(p3,p4));
+//
+//        mezzoDao.save(m1);
+//        mezzoDao.save(m2);
+//        mezzoDao.save(m3);
+//        mezzoDao.save(m4);
+//
+//        Tratta t1 = new Tratta("Roma", "Milano", LocalTime.of(2, 30), LocalTime.of(2, 45));
+//        Tratta t2 = new Tratta("Napoli", "Bari", LocalTime.of(1, 15), LocalTime.of(1, 20));
+//        Tratta t3 = new Tratta("Torino", "Venezia", LocalTime.of(2, 0), LocalTime.of(2, 5));
+//      Tratta t4 = new Tratta("Firenze", "Pisa", LocalTime.of(0, 45), LocalTime.of(0, 50));
+//
+//       trattaDao.save(t1);
+//       trattaDao.save(t2);
+//       trattaDao.save(t3);
+//      trattaDao.save(t4);
 
 
 
@@ -143,10 +143,12 @@ public class MainApp {
 
                 while (sceltaWhile){
                     System.out.println("MENU" + "\n" +
-                            "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
-                            "2 -> Rinnova la tua tessera" + "\n" +
-                            "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
-                            "4 -> Crea un nuovo abbonamento" + "\n" + // Abbonamento
+                            "1 -> Creare Biglietto" + "\n" +
+                            "2 -> Crea Tessera" + "\n" +
+                            "3 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
+                            "4 -> Rinnova la tua tessera" + "\n" +
+                            "5 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
+                            "6 -> Crea un nuovo abbonamento" + "\n" + // Abbonamento
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
@@ -155,15 +157,15 @@ public class MainApp {
 
 
                     switch (scelta){
-                        case 1 -> {
+                        case 3 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
                         }
-                        case 2 -> {
+                        case 4 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
                         }
-                        case 3 ->{
+                        case 5 ->{
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
                             Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
@@ -175,7 +177,7 @@ public class MainApp {
                         }
 
                         // Metodo Abbonamento
-                        case 4 -> {
+                        case 6 -> {
                             System.out.println("Scegli la validità dell’abbonamento:");
                             System.out.println("1 -> SETTIMANALE");
                             System.out.println("2 -> MENSILE");
@@ -204,6 +206,7 @@ public class MainApp {
                 scanner.next();
 
                 System.out.println("MENU" + "\n" +
+                        "16 -> Aggiungi un mezzo" + "\n" +
                         "1 -> Calcola il numero di biglietti in un dato periodo" + "\n" +
                         "2 -> Lista dei mezzi in manutenzione" + "\n" +
                         "3 -> Lista dei mezzi in servizio"  + "\n" +
@@ -216,7 +219,9 @@ public class MainApp {
                         "10 -> Ripetizione tratta tramite mezzo"  + "\n" +
                         "11 -> Ricerca del tempo effettivo di una corsa tramite tratta"  + "\n" +
                         "12 -> Tempo medio di percorrenza di una tratta dato un mezzo" + "\n" +
-                        "13 -> Crea nuova tratta" // Metodo Tratta
+                        "13 -> Crea nuova tratta" + "\n" +
+                        "14 -> Crea percorrenza" + "\n" +
+                        "15 -> Crea punto di emissione"
 
                 );
                 int scelta = scanner.nextInt();
