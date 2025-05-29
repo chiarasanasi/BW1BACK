@@ -175,55 +175,7 @@ public class MainApp {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
                         }
-                        case 5 -> {
-                            try {
-                                System.out.print("Inserisci ID Utente: ");
-                                Long idUtente = scanner.nextLong();
-                                Utente utente = em.find(Utente.class, idUtente);
-                                if (utente == null) {
-                                    System.out.println("Utente non trovato!");
-                                    break;
-                                }
-
-                                System.out.print("Inserisci ID Mezzo: ");
-                                Long idMezzo = scanner.nextLong();
-                                Mezzo mezzo = em.find(Mezzo.class, idMezzo);
-                                if (mezzo == null) {
-                                    System.out.println("Mezzo non trovato!");
-                                    break;
-                                }
-
-                                System.out.print("Inserisci ID Punto di Emissione: ");
-                                Long idPunto = scanner.nextLong();
-                                PuntoDiEmissione punto = em.find(PuntoDiEmissione.class, idPunto);
-                                if (punto == null) {
-                                    System.out.println("Punto di emissione non trovato!");
-                                    break;
-                                }
-
-                                scanner.nextLine(); // consuma il newline
-                                System.out.print("Inserisci tipo distributore (AUTOMATICO, RIVENDITORE_AUTORIZZATO): ");
-                                String tipoStr = scanner.nextLine().toUpperCase();
-                                TipoDistributore tipo = TipoDistributore.valueOf(tipoStr);
-
-                                LocalDate dataEmissione = LocalDate.now();
-
-                                Biglietto nuovoBiglietto = titoloDiViaggioDao.creaBiglietto(dataEmissione, tipo, punto, mezzo);
-                                nuovoBiglietto.setUtente(utente);
-
-                                em.getTransaction().begin();
-                                em.persist(nuovoBiglietto);
-                                em.getTransaction().commit();
-
-                                System.out.println("Biglietto creato con successo!");
-
-                            } catch (Exception e) {
-                                if (em.getTransaction().isActive()) {
-                                    em.getTransaction().rollback();
-                                }
-                                System.out.println("Errore durante la creazione del biglietto: " + e.getMessage());
-                            }
-                        }
+                        
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
