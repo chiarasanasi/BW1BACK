@@ -354,45 +354,34 @@ public class MainApp {
                         System.out.println("pippaaaa");
 
                     }
-                    case 11 -> {
-                        System.out.println("pippaaaaaaaaaa");
+                    case 11:
+                        System.out.println("Inserisci l'ID della tratta:");
+                        Long idTratta = scanner.nextLong();
+                        scanner.nextLine();
 
-                    }
-                    case 12 -> {
-                        //tutte le tratte nel db
-                        List<Tratta> tratteDisponibili = em.createQuery("SELECT t FROM Tratta t", Tratta.class).getResultList();
+                        Tratta tratta = trattaDao.getById(idTratta);
 
-                        if (tratteDisponibili.isEmpty()) {
-                            System.out.println("Nessuna tratta disponibile.");
-                            break;
-                        }
-
-                        System.out.println("Scegli una di queste tratte : "  + "\n" +
-                                "1 -> Roma a Milano"+  "\n" +
-                                "2 -> Napoli a Bari" +  "\n" +
-                                "3 -> Torino a Venezia" +  "\n" +
-                                "4 -> Firenze a Pisa"
-                        );
-
-                        System.out.print("Inserisci il numero della tratta scelta (1-4): ");
-                        int sceltaTratta = scanner.nextInt();
-
-                        if (sceltaTratta < 1 || sceltaTratta > 4) {
-                            System.out.println("Scelta non valida.");
-                            break;
-                        }
-
-                        Tratta trattaScelta = tratteDisponibili.get(scelta - 1);
-                        Long trattaId = trattaScelta.getId();
-
-                        Double tempoMedio = percorrenzaDao.tempoMedioPercorrenza(trattaId);
-
-                        if (tempoMedio == null) {
-                            System.out.println("Nessuna percorrenza trovata per la tratta selezionata.");
+                        if (tratta != null) {
+                            System.out.println("Tratta: " + tratta.getZonaDiPartenza() + " → " + tratta.getCapolinea());
+                            System.out.println("Tempo effettivo della corsa: " + tratta.getTempoPercorrenzaEffettivo());
                         } else {
-                            System.out.println("Il tempo medio di percorrenza per la tratta scelta è: " + tempoMedio + " minuti.");
+                            System.out.println("Tratta non trovata.");
                         }
-                    }
+                        break;
+
+
+                    case 12:
+                        System.out.print("Inserisci l'ID della tratta: ");
+                        Long trattaId12 = scanner.nextLong();
+                        Double tempoMedioMinuti = percorrenzaDao.tempoMedioPercorrenza(trattaId12);
+
+                        if (tempoMedioMinuti != null) {
+                            System.out.println("Tempo medio di percorrenza: " + tempoMedioMinuti + " minuti.");
+                        } else {
+                            System.out.println("Nessuna percorrenza trovata per la tratta con ID " + trattaId12);
+                        }
+                        break;
+
 
                     // Metodo Tratta
                     case 13 -> {

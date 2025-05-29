@@ -116,9 +116,32 @@ public class PercorrenzaDao {
         return nuovaPercorrenza;
     }
 
+    public Double tempoMedioPercorrenzaPerMezzo(Long mezzoId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            String jpql = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.mezzo.id = :mezzoId";
+            List<Object[]> results = em.createQuery(jpql, Object[].class)
+                    .setParameter("mezzoId", mezzoId)
+                    .getResultList();
 
+            if (results.isEmpty()) return null;
 
+            long totalMinutes = 0;
+            for (Object[] row : results) {
+                LocalTime inizio = (LocalTime) row[0];
+                LocalTime fine = (LocalTime) row[1];
+                totalMinutes += java.time.Duration.between(inizio, fine).toMinutes();
+            }
+            return totalMinutes / (double) results.size();
+        } finally {
+            em.close();
+        }
     }
+
+
+
+
+}
 
 
 
