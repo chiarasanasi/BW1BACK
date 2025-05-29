@@ -137,26 +137,26 @@ public class MainApp {
 
             Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username,password);
 
-            if(utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)){
+            if(utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)) {
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
                 System.out.println("Premi un tasto per accedere al Menù degli Utenti");
                 scanner.next();
                 int scelta = 100000;
                 boolean sceltaWhile = true;
 
-                while (sceltaWhile){
+                while (sceltaWhile) {
                     System.out.println("MENU" + "\n" +
                             "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
                             "2 -> Rinnova la tua tessera" + "\n" +
                             "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
+                            "4 -> Acquista un biglietto" + "\n" +
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
                     scanner.nextLine();
 
 
-
-                    switch (scelta){
+                    switch (scelta) {
                         case 1 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
@@ -165,15 +165,24 @@ public class MainApp {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
                         }
-                        case 3 ->{
+                        case 3 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
                             Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
-                            if(risultato){
+                            if (risultato) {
                                 System.out.println("Il tuo abbonamento è valido");
-                            }else {
+                            } else {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
+                        }
+
+                        case 4 -> {
+                            System.out.println("Creazione Biglietto...");
+
+
+                            titoloDiViaggioDao.creaBiglietto(utenteLoggato);
+
+                            System.out.println("Biglietto creato con successo.");
                         }
 
                         case 0 -> {

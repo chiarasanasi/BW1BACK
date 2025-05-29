@@ -5,7 +5,6 @@ import enumeration.TipoDistributore;
 import enumeration.Vidimazione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -28,6 +27,7 @@ public class TitoloDiViaggioDao {
     public TitoloDiViaggio getById(Long id) {
         return em.find(TitoloDiViaggio.class, id);
     }
+
 
     public void remove(Long id) {
         TitoloDiViaggio titoloDiViaggio = getById(id);
