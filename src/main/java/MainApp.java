@@ -133,10 +133,6 @@ public class MainApp {
             String password = scanner.nextLine();
 
             Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
-
-
-
-
             if (utenteLoggato != null && utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)) {
 
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
@@ -169,8 +165,6 @@ public class MainApp {
                                 Utente utente = em.find(Utente.class, idUtente);
                                 if (utente == null) {
                                     System.out.println("Utente non trovato!");
-
-
 
                                 }
 
