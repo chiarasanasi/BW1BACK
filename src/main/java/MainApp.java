@@ -147,10 +147,10 @@ public class MainApp {
                     System.out.println("MENU" + "\n" +
                             "1 -> Crea Biglietto" + "\n" +
                             "2 -> Crea Tessera" + "\n" +
-                            "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
-                            "2 -> Rinnova la tua tessera" + "\n" +
-                            "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
-                            "4 -> Crea un nuovo abbonamento" + "\n" +
+                            "3 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
+                            "4 -> Rinnova la tua tessera" + "\n" +
+                            "5 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
+                            "6 -> Crea un nuovo abbonamento" + "\n" +
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
@@ -159,41 +159,9 @@ public class MainApp {
 
 
                     switch (scelta){
-                        case 1 -> {
-                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                            tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
-                        }
-                        case 2 -> {
-                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                            tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
-                        }
-                        case 3 ->{
-                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                            TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
-                            Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
-                            if(risultato){
-                                System.out.println("Il tuo abbonamento è valido");
-                            }else {
-                                System.out.println("Il tuo abbonamento non è valido");
-                            }
-                        }
 
+                        //case 1
 
-                        case 4 -> {
-                            System.out.println("Scegli la validità dell’abbonamento:");
-                            System.out.println("1 -> SETTIMANALE");
-                            System.out.println("2 -> MENSILE");
-                            int sceltaValidita = scanner.nextInt();
-                            scanner.nextLine();
-
-                            Validita validita = (sceltaValidita == 1) ? Validita.SETTIMANALE : Validita.MENSILE;
-
-                            TipoDistributore tipoDistributore = TipoDistributore.DISTRIBUTORE_AUTOMATICO;
-
-                            PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
-
-                            titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
-                        }
 
                         case 2 -> {
                             System.out.println("Creazione Tessera");
@@ -223,6 +191,41 @@ public class MainApp {
 
                             System.out.println("Tessera creata e assegnata all’utente " + utente.getNome() + " con successo!");
                         }
+                        case 3 -> {
+                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                            tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
+                        }
+                        case 4 -> {
+                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                            tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
+                        }
+                        case 5 ->{
+                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                            TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
+                            Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
+                            if(risultato){
+                                System.out.println("Il tuo abbonamento è valido");
+                            }else {
+                                System.out.println("Il tuo abbonamento non è valido");
+                            }
+                        }
+                        case 6 -> {
+                            System.out.println("Scegli la validità dell’abbonamento:");
+                            System.out.println("1 -> SETTIMANALE");
+                            System.out.println("2 -> MENSILE");
+                            int sceltaValidita = scanner.nextInt();
+                            scanner.nextLine();
+
+                            Validita validita = (sceltaValidita == 1) ? Validita.SETTIMANALE : Validita.MENSILE;
+
+                            TipoDistributore tipoDistributore = TipoDistributore.DISTRIBUTORE_AUTOMATICO;
+
+                            PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
+
+                            titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
+                        }
+
+
 
                         case 0 -> {
                             System.out.println("Termina");
