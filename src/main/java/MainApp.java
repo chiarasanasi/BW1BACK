@@ -27,24 +27,24 @@ public class MainApp {
         ServizioManutenzioneDao servizioManutenzioneDao = new ServizioManutenzioneDao();
 
 
-        Utente u1 = new Utente("Chiara","Sanasi","chiarasan","12345678", Ruolo.UTENTE_NORMALE);
-        Utente u2 = new Utente("Salvatore","Gianquinto","salvatore","a2345678", Ruolo.UTENTE_NORMALE);
-        Utente u3 = new Utente("Leonard","Dautaru","leo","b2345678", Ruolo.UTENTE_NORMALE);
-        Utente u4 = new Utente("Silvia","Gasperini","silvia","c2345678", Ruolo.UTENTE_NORMALE);
-        Utente u5 = new Utente("Roberto","Albergo","rob","d2345678", Ruolo.UTENTE_NORMALE);
-        Utente u6 = new Utente("Roberto","Ciancio","ciancio","e2345678", Ruolo.UTENTE_NORMALE);
-        Utente u7 = new Utente("Pietro","Sorbo","pietro","f2345678", Ruolo.UTENTE_NORMALE);
-
-        Utente u8 = new Utente("Vincenzo", "Napoli", "vinz", "g2345678", Ruolo.AMMINISTRATORE);
-
-        utenteDao.salva(u1);
-        utenteDao.salva(u2);
-        utenteDao.salva(u3);
-        utenteDao.salva(u4);
-        utenteDao.salva(u5);
-        utenteDao.salva(u6);
-        utenteDao.salva(u7);
-        utenteDao.salva(u8);
+//        Utente u1 = new Utente("Chiara","Sanasi","chiarasan","12345678", Ruolo.UTENTE_NORMALE);
+//        Utente u2 = new Utente("Salvatore","Gianquinto","salvatore","a2345678", Ruolo.UTENTE_NORMALE);
+//        Utente u3 = new Utente("Leonard","Dautaru","leo","b2345678", Ruolo.UTENTE_NORMALE);
+//        Utente u4 = new Utente("Silvia","Gasperini","silvia","c2345678", Ruolo.UTENTE_NORMALE);
+//        Utente u5 = new Utente("Roberto","Albergo","rob","d2345678", Ruolo.UTENTE_NORMALE);
+//        Utente u6 = new Utente("Roberto","Ciancio","ciancio","e2345678", Ruolo.UTENTE_NORMALE);
+//        Utente u7 = new Utente("Pietro","Sorbo","pietro","f2345678", Ruolo.UTENTE_NORMALE);
+//
+//        Utente u8 = new Utente("Vincenzo", "Napoli", "vinz", "g2345678", Ruolo.AMMINISTRATORE);
+//
+//        utenteDao.salva(u1);
+//        utenteDao.salva(u2);
+//        utenteDao.salva(u3);
+//        utenteDao.salva(u4);
+//        utenteDao.salva(u5);
+//        utenteDao.salva(u6);
+//        utenteDao.salva(u7);
+//        utenteDao.salva(u8);
 
 //        Tessera ts1 = new Tessera(LocalDate.of(2020,1,1));
 //        Tessera ts2 = new Tessera(LocalDate.of(2020,1,1));
@@ -67,15 +67,15 @@ public class MainApp {
 //        utenteDao.salva(u3);
 //        utenteDao.salva(u4);
 //
-//        Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
-//        Mezzo m2 = new Mezzo(250, TipoMezzo.AUTOBUS);
-//        Mezzo m3 = new Mezzo(300, TipoMezzo.TRAM);
-//        Mezzo m4 = new Mezzo(350, TipoMezzo.TRAM);
-//
-//        mezzoDao.save(m1);
-//        mezzoDao.save(m2);
-//        mezzoDao.save(m3);
-//        mezzoDao.save(m4);
+        Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
+        Mezzo m2 = new Mezzo(250, TipoMezzo.AUTOBUS);
+        Mezzo m3 = new Mezzo(300, TipoMezzo.TRAM);
+        Mezzo m4 = new Mezzo(350, TipoMezzo.TRAM);
+
+        mezzoDao.save(m1);
+        mezzoDao.save(m2);
+        mezzoDao.save(m3);
+        mezzoDao.save(m4);
 //
 //        ServizioManutenzione s1 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO,LocalDate.of(2000,1,1),LocalDate.of(2000,3,1),LocalDate.of(2000,3,2),LocalDate.now());
 //        ServizioManutenzione s2 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO,LocalDate.of(2022,3,12),LocalDate.of(2022,6,1),LocalDate.of(2022,6,3),LocalDate.now());
@@ -266,29 +266,50 @@ public class MainApp {
                         mezzoDao.listaMezziInServizio();
                     }
                     case 4 -> {
-                        System.out.println("Scegli uno di questi mezzi : "  + "\n" +
-                                "1 -> " + m1  + "\n" +
-                                "2 -> " + m2  + "\n" +
-                                "3 -> " + m3  + "\n" +
-                                "4 -> " + m4
-                                );
-                        int sceltaMezzo = scanner.nextInt();
-                        scanner.nextLine();
+                        List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
 
-                        if(sceltaMezzo==1){
-                            ServizioManutenzione servizioMezzoScelto = m1.getServizioManutenzione();
-                            mezzoDao.updateStatoMezzo(m1.getId(),servizioMezzoScelto.getStatoServizio());
-                        } else if (sceltaMezzo == 2) {
-                            ServizioManutenzione servizioMezzoScelto = m2.getServizioManutenzione();
-                            mezzoDao.updateStatoMezzo(m2.getId(),servizioMezzoScelto.getStatoServizio());
-                        }else if (sceltaMezzo == 3) {
-                            ServizioManutenzione servizioMezzoScelto = m3.getServizioManutenzione();
-                            mezzoDao.updateStatoMezzo(m3.getId(),servizioMezzoScelto.getStatoServizio());
-                        }else if (sceltaMezzo == 4) {
-                            ServizioManutenzione servizioMezzoScelto = m4.getServizioManutenzione();
-                            mezzoDao.updateStatoMezzo(m4.getId(),servizioMezzoScelto.getStatoServizio());
+                        if(mezzi.isEmpty()){
+                            System.out.println("Al momento nessun mezzo è stato aggiunto al DB");
                         }else{
-                            System.out.println("Il codice digitato non corrisponde a nessun mezzo presente nel DB");
+                            System.out.println("Scegli tra i seguenti il mezzo di cui vuoi aggiornare lo stato :");
+                            for (int i = 0; i < mezzi.size(); i++) {
+                                if(mezzi.get(i).getMezzoPercorrenze() == null || mezzi.get(i).getMezzoPercorrenze().isEmpty()){
+                                    System.out.println(i + " -> Mezzo n°" + i + " al quale non è stata assegnata ancora nessuna percorrenza.");
+                                }else if(mezzi.get(i).getMezzoPercorrenze().size()>0){
+                                    System.out.println(i + " -> Mezzo n°" + i + " al quale sono state assegnate le seguenti percorrenze :");
+                                    List<Percorrenza> percorrenze = mezzi.get(i).getMezzoPercorrenze();
+                                    for (int j = 0; j < percorrenze.size(); j++) {
+                                        Tratta t = percorrenze.get(i).getTratta();
+                                        System.out.println(t.getZonaDiPartenza() + " da " + t.getCapolinea() + ". Tempo di percorrenza previsto -> " + t.getTempoPercorrenzaPrevisto());
+                                    }
+                                }
+                            }
+                            System.out.println("Digita il numero del mezzo che vuoi aggiornare");
+                            int sceltaUpdateMezzo = scanner.nextInt();
+                            scanner.nextLine();
+
+                            ServizioManutenzione servizio = mezzi.get(sceltaUpdateMezzo).getServizioManutenzione();
+                            if (servizio == null) {
+                                System.out.println("Il mezzo selezionato non ha un oggetto ServizioManutenzione associato!");
+
+                                servizio = new ServizioManutenzione();
+                                servizio.setStatoServizio(StatoServizio.IN_SERVIZIO); // default
+                                mezzi.get(sceltaUpdateMezzo).setServizioManutenzione(servizio);
+                                System.out.println("Perciò è stato creato un nuovo ServizioManutenzione e impostato a IN_SERVIZIO");
+                            } else {
+                                StatoServizio stato = servizio.getStatoServizio();
+                                if (stato == StatoServizio.IN_SERVIZIO) {
+                                    servizio.setStatoServizio(StatoServizio.IN_MANUTENZIONE);
+                                    System.out.println("Lo stato di servizio del mezzo ora è IN MANUTENZIONE");
+                                } else if (stato == StatoServizio.IN_MANUTENZIONE) {
+                                    servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
+                                    System.out.println("Lo stato di servizio del mezzo ora è IN SERVIZIO");
+                                } else {
+                                    servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
+                                    System.out.println("Lo stato di servizio del mezzo era nullo. Settato di default a IN SERVIZIO.");
+                                }
+                                mezzoDao.updateStatoMezzo(mezzi.get(sceltaUpdateMezzo).getId(),mezzi.get(sceltaUpdateMezzo).getMezzoPercorrenze().);
+                            }
                         }
                     }
                     case 5 -> {
