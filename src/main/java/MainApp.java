@@ -136,14 +136,14 @@ public class MainApp {
 
             Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username,password);
 
-            if(utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)){
+            if(utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)) {
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
                 System.out.println("Premi un tasto per accedere al Menù degli Utenti");
                 scanner.next();
                 int scelta = 100000;
                 boolean sceltaWhile = true;
 
-                while (sceltaWhile){
+                while (sceltaWhile) {
                     System.out.println("MENU" + "\n" +
                             "1 -> Crea Biglietto" + "\n" +
                             "2 -> Crea Tessera" + "\n" +
@@ -157,83 +157,130 @@ public class MainApp {
                     scanner.nextLine();
 
 
+                    switch (scelta) {
 
-                    switch (scelta){
+                        case 1 ->  {
+                            try {
+                                System.out.print("Inserisci ID Utente: ");
+                                Long idUtente = scanner.nextLong();
+                                Utente utente = em.find(Utente.class, idUtente);
+                                if (utente == null) {
+                                    System.out.println("Utente non trovato!");
 
-                        //case 1
+                                }
+
+                                System.out.print("Inserisci ID Mezzo: ");
+                                Long idMezzo = scanner.nextLong();
+                                Mezzo mezzo = em.find(Mezzo.class, idMezzo);
+                                if (mezzo == null) {
+                                    System.out.println("Mezzo non trovato!");
+
+                                }
+
+                                System.out.print("Inserisci ID Punto di Emissione: ");
+                                Long idPunto = scanner.nextLong();
+                                PuntoDiEmissione punto = em.find(PuntoDiEmissione.class, idPunto);
+                                if (punto == null) {
+                                    System.out.println("Punto di emissione non trovato!");
+
+                                }
+
+                                scanner.nextLine(); // consuma il newline
+                                System.out.print("Inserisci tipo distributore (AUTOMATICO, RIVENDITORE_AUTORIZZATO): ");
+                                String tipoStr = scanner.nextLine().toUpperCase();
+                                TipoDistributore tipo = TipoDistributore.valueOf(tipoStr);
+
+                                LocalDate dataEmissione = LocalDate.now();
+
+                                Biglietto nuovoBiglietto = titoloDiViaggioDao.creaBiglietto(dataEmissione, tipo, punto, mezzo);
+                                nuovoBiglietto.setUtente(utente);
+
+                                em.getTransaction().begin();
+                                em.persist(nuovoBiglietto);
+                                em.getTransaction().commit();
+
+                                System.out.println("Biglietto creato con successo!");
+
+                            } catch (Exception e) {
+                                if (em.getTransaction().isActive()) {
+                                    em.getTransaction().rollback();
+                                }
+                                System.out.println("Errore durante la creazione del biglietto: " + e.getMessage());
+                            }
+                        }
 
 
-                        case 2 -> {
-                            System.out.println("Creazione Tessera");
+                            case 2 -> {
+                                System.out.println("Creazione Tessera");
 
-                            System.out.print("Inserisci l'ID dell'utente a cui assegnare la tessera: ");
+                                System.out.print("Inserisci l'ID dell'utente a cui assegnare la tessera: ");
 
-                            Long utenteId = scanner.nextLong();
-                            scanner.nextLine();
+                                Long utenteId = scanner.nextLong();
+                                scanner.nextLine();
 
-                            Utente utente = utenteDao.get(utenteId);
+                                Utente utente = utenteDao.get(utenteId);
 
-                            if (utente == null) {
-                                System.out.println("Utente non trovato.");
-                                break;
+                                if (utente == null) {
+                                    System.out.println("Utente non trovato.");
+                                    break;
+                                }
+
+                                if (utente.getTessera() != null) {
+                                    System.out.println("L'utente ha già una tessera.");
+                                    break;
+                                }
+
+                                LocalDate dataEmissione = LocalDate.now();
+                                Tessera nuovaTessera = tesseraDao.creaTessera(dataEmissione, utente);
+                                tesseraDao.saveTessera(nuovaTessera);
+
+                                utenteDao.salva(utente); // aggiorna legame utente-tessera
+
+                                System.out.println("Tessera creata e assegnata all’utente " + utente.getNome() + " con successo!");
+                            }
+                            case 3 -> {
+                                Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                                tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
+                            }
+                            case 4 -> {
+                                Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                                tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
+                            }
+                            case 5 -> {
+                                Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
+                                TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
+                                Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
+                                if (risultato) {
+                                    System.out.println("Il tuo abbonamento è valido");
+                                } else {
+                                    System.out.println("Il tuo abbonamento non è valido");
+                                }
+                            }
+                            case 6 -> {
+                                System.out.println("Scegli la validità dell’abbonamento:");
+                                System.out.println("1 -> SETTIMANALE");
+                                System.out.println("2 -> MENSILE");
+                                int sceltaValidita = scanner.nextInt();
+                                scanner.nextLine();
+
+                                Validita validita = (sceltaValidita == 1) ? Validita.SETTIMANALE : Validita.MENSILE;
+
+                                TipoDistributore tipoDistributore = TipoDistributore.DISTRIBUTORE_AUTOMATICO;
+
+                                PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
+
+                                titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
                             }
 
-                            if (utente.getTessera() != null) {
-                                System.out.println("L'utente ha già una tessera.");
-                                break;
+
+                            case 0 -> {
+                                System.out.println("Termina");
+                                sceltaWhile = false;
                             }
-
-                            LocalDate dataEmissione = LocalDate.now();
-                            Tessera nuovaTessera = tesseraDao.creaTessera(dataEmissione, utente);
-                            tesseraDao.saveTessera(nuovaTessera);
-
-                            utenteDao.salva(utente); // aggiorna legame utente-tessera
-
-                            System.out.println("Tessera creata e assegnata all’utente " + utente.getNome() + " con successo!");
-                        }
-                        case 3 -> {
-                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                            tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
-                        }
-                        case 4 -> {
-                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                            tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
-                        }
-                        case 5 ->{
-                            Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
-                            TitoloDiViaggio abbonamentoUtenteLoggato = tesseraUtenteLoggato.getAbbonamento();
-                            Boolean risultato = titoloDiViaggioDao.controlloValiditaAbbonamentoTramiteIdTessera(tesseraUtenteLoggato.getId(), LocalDate.now());
-                            if(risultato){
-                                System.out.println("Il tuo abbonamento è valido");
-                            }else {
-                                System.out.println("Il tuo abbonamento non è valido");
-                            }
-                        }
-                        case 6 -> {
-                            System.out.println("Scegli la validità dell’abbonamento:");
-                            System.out.println("1 -> SETTIMANALE");
-                            System.out.println("2 -> MENSILE");
-                            int sceltaValidita = scanner.nextInt();
-                            scanner.nextLine();
-
-                            Validita validita = (sceltaValidita == 1) ? Validita.SETTIMANALE : Validita.MENSILE;
-
-                            TipoDistributore tipoDistributore = TipoDistributore.DISTRIBUTORE_AUTOMATICO;
-
-                            PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
-
-                            titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
-                        }
-
-
-
-                        case 0 -> {
-                            System.out.println("Termina");
-                            sceltaWhile = false;
                         }
                     }
                 }
-            }
+
             else if (utenteLoggato!=null&&utenteLoggato.getRuolo().equals(Ruolo.AMMINISTRATORE)) {
                 System.out.println("Bentornat* " + utenteLoggato.getNome() + " !");
                 System.out.println("Premi un tasto per accedere al Menù degli Amministratori");
