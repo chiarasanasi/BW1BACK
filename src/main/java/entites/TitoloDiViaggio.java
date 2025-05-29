@@ -61,8 +61,8 @@ public abstract class TitoloDiViaggio {
         this.tipoDistributore = tipoDistributore;
     }
 
-
-
+    public void setUtente(Utente utente) {
+    }
 
     @Override
     public String toString() {
@@ -74,4 +74,6 @@ public abstract class TitoloDiViaggio {
                 ", puntoDiEmissione=" + puntoDiEmissione +
                 '}';
     }
+
+
 }

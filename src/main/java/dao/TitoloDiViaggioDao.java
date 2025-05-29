@@ -41,6 +41,8 @@ public class TitoloDiViaggioDao {
             System.out.println("Il titolo di viaggio con ID " + id + " non esiste");
         }
     }
+
+    // Metodo Crea Biglietto Utente
     public void creaBiglietto(Scanner scanner) {
         try {
             System.out.println("Inserisci ID Utente:");
@@ -69,8 +71,8 @@ public class TitoloDiViaggioDao {
 
             scanner.nextLine(); // consuma newline
             System.out.println("Inserisci tipo distributore (AUTOMATICO, RIVENDITORE_AUTORIZZATO):");
-            String tipoStr = scanner.nextLine().toUpperCase();
-            TipoDistributore tipo = TipoDistributore.valueOf(tipoStr);
+            String tipoDiStr = scanner.nextLine().toUpperCase();
+            TipoDistributore tipo = TipoDistributore.valueOf(tipoDiStr);
 
             //Genera codice univoco
             String codice = "BIG-" + System.currentTimeMillis();
@@ -82,7 +84,8 @@ public class TitoloDiViaggioDao {
             biglietto.setTipoDistributore(tipo);
             biglietto.setDataEmissione(LocalDate.now());
             biglietto.setVidimazione(Vidimazione.NON_VIDIMATO);
-
+            biglietto.setUtente(utente);
+            
             //Salva nel DB
             em.getTransaction().begin();
             em.persist(biglietto);
@@ -96,7 +99,7 @@ public class TitoloDiViaggioDao {
             System.out.println("Errore durante la creazione del biglietto: " + e.getMessage());
         }
     }
-  
+
 
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
             // Crea una TypedQuery che conta il numero di biglietti emessi tra due date
