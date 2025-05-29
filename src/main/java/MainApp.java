@@ -1,9 +1,6 @@
 import dao.*;
 import entites.*;
-import enumeration.Ruolo;
-import enumeration.StatoServizio;
-import enumeration.TipoDistributore;
-import enumeration.TipoMezzo;
+import enumeration.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -149,6 +146,7 @@ public class MainApp {
                             "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
                             "2 -> Rinnova la tua tessera" + "\n" +
                             "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
+                            "4 -> Crea un nuovo abbonamento" + "\n" + // Abbonamento
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
@@ -175,6 +173,24 @@ public class MainApp {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
                         }
+
+                        // Metodo Abbonamento
+                        case 4 -> {
+                            System.out.println("Scegli la validità dell’abbonamento:");
+                            System.out.println("1 -> SETTIMANALE");
+                            System.out.println("2 -> MENSILE");
+                            int sceltaValidita = scanner.nextInt();
+                            scanner.nextLine();
+
+                            Validita validita = (sceltaValidita == 1) ? Validita.SETTIMANALE : Validita.MENSILE;
+
+                            TipoDistributore tipoDistributore = TipoDistributore.DISTRIBUTORE_AUTOMATICO;
+
+                            PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
+
+                            titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
+                        }
+
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
@@ -199,7 +215,9 @@ public class MainApp {
                         "9 -> Ricerca dei biglietti vidimati in un dato periodo"  + "\n" +
                         "10 -> Ripetizione tratta tramite mezzo"  + "\n" +
                         "11 -> Ricerca del tempo effettivo di una corsa tramite tratta"  + "\n" +
-                        "12 -> Tempo medio di percorrenza di una tratta dato un mezzo"
+                        "12 -> Tempo medio di percorrenza di una tratta dato un mezzo" + "\n" +
+                        "13 -> Crea nuova tratta" // Metodo Tratta
+
                 );
                 int scelta = scanner.nextInt();
                 scanner.nextLine();
@@ -370,6 +388,44 @@ public class MainApp {
                             System.out.println("Il tempo medio di percorrenza per la tratta scelta è: " + tempoMedio + " minuti.");
                         }
                     }
+
+                    // Metodo Tratta
+                    case 13 -> {
+                        System.out.println("=== Creazione Nuova Tratta ===");
+
+                        System.out.print("Inserisci il luogo di partenza: ");
+                        String partenza = scanner.nextLine();
+
+                        System.out.print("Inserisci il luogo di arrivo: ");
+                        String arrivo = scanner.nextLine();
+
+                        System.out.print("Durata prevista - Ore: ");
+                        int oreDurata = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Durata prevista - Minuti: ");
+                        int minutiDurata = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Durata effettiva - Ore: ");
+                        int oreEffettiva = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Durata effettiva - Minuti: ");
+                        int minutiEffettiva = scanner.nextInt();
+                        scanner.nextLine();
+
+                        LocalTime durataPrevista = LocalTime.of(oreDurata, minutiDurata);
+                        LocalTime durataEffettiva = LocalTime.of(oreEffettiva, minutiEffettiva);
+
+                        Tratta nuovaTratta = new Tratta(partenza, arrivo, durataPrevista, durataEffettiva);
+                        trattaDao.save(nuovaTratta);
+
+                        System.out.println("Nuova tratta creata con successo!");
+
+                    }
+
+
                 }
 
 

@@ -3,6 +3,8 @@ package dao;
 import entites.Tratta;
 import jakarta.persistence.EntityManager;
 
+import java.time.LocalTime;
+
 public class TrattaDao {
     private EntityManager em;
     public TrattaDao(EntityManager em) {
@@ -31,4 +33,12 @@ public class TrattaDao {
             System.out.println("La tratta con ID " + id + " non esiste.");
         }
     }
+
+    // Metodo Tratta
+    public void creaTratta(String partenza, String arrivo, LocalTime durataPrevista, LocalTime durataEffettiva) {
+        Tratta nuovaTratta = new Tratta(partenza, arrivo, durataPrevista, durataEffettiva);
+        save(nuovaTratta);
+    }
+
+
 }
