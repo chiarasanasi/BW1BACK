@@ -1,9 +1,6 @@
 import dao.*;
 import entites.*;
-import enumeration.Ruolo;
-import enumeration.StatoServizio;
-import enumeration.TipoDistributore;
-import enumeration.TipoMezzo;
+import enumeration.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -33,7 +30,7 @@ public class MainApp {
         Utente u1 = new Utente("Chiara","Sanasi","chiarasan","12345678", Ruolo.UTENTE_NORMALE);
         Utente u2 = new Utente("Salvatore","Gianquinto","salvatore","a2345678", Ruolo.UTENTE_NORMALE);
         Utente u3 = new Utente("Leonard","Dautaru","leo","b2345678", Ruolo.UTENTE_NORMALE);
-        Utente u4 = new Utente("Silvia","Gasperini","silvia","c2345678", Ruolo.UTENTE_NORMALE);
+        Utente u4 = new Utente("Silvia","Gasparini","silvia","c2345678", Ruolo.UTENTE_NORMALE);
         Utente u5 = new Utente("Roberto","Albergo","rob","d2345678", Ruolo.UTENTE_NORMALE);
         Utente u6 = new Utente("Roberto","Ciancio","ciancio","e2345678", Ruolo.UTENTE_NORMALE);
         Utente u7 = new Utente("Pietro","Sorbo","pietro","f2345678", Ruolo.UTENTE_NORMALE);
@@ -146,9 +143,12 @@ public class MainApp {
 
                 while (sceltaWhile){
                     System.out.println("MENU" + "\n" +
+                            "1 -> Crea Biglietto" + "\n" +
+                            "2 -> Crea Tessera" + "\n" +
                             "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
                             "2 -> Rinnova la tua tessera" + "\n" +
                             "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
+                            "4 -> Crea un nuovo abbonamento" + "\n" +
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
@@ -175,7 +175,53 @@ public class MainApp {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
                         }
-                        
+
+
+                        case 4 -> {
+                            System.out.println("Scegli la validità dell’abbonamento:");
+                            System.out.println("1 -> SETTIMANALE");
+                            System.out.println("2 -> MENSILE");
+                            int sceltaValidita = scanner.nextInt();
+                            scanner.nextLine();
+
+                            Validita validita = (sceltaValidita == 1) ? Validita.SETTIMANALE : Validita.MENSILE;
+
+                            TipoDistributore tipoDistributore = TipoDistributore.DISTRIBUTORE_AUTOMATICO;
+
+                            PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
+
+                            titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
+                        }
+
+                        case 2 -> {
+                            System.out.println("Creazione Tessera");
+
+                            System.out.print("Inserisci l'ID dell'utente a cui assegnare la tessera: ");
+
+                            Long utenteId = scanner.nextLong();
+                            scanner.nextLine();
+
+                            Utente utente = utenteDao.get(utenteId);
+
+                            if (utente == null) {
+                                System.out.println("Utente non trovato.");
+                                break;
+                            }
+
+                            if (utente.getTessera() != null) {
+                                System.out.println("L'utente ha già una tessera.");
+                                break;
+                            }
+
+                            LocalDate dataEmissione = LocalDate.now();
+                            Tessera nuovaTessera = tesseraDao.creaTessera(dataEmissione, utente);
+                            tesseraDao.saveTessera(nuovaTessera);
+
+                            utenteDao.salva(utente); // aggiorna legame utente-tessera
+
+                            System.out.println("Tessera creata e assegnata all’utente " + utente.getNome() + " con successo!");
+                        }
+
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
@@ -200,7 +246,12 @@ public class MainApp {
                         "9 -> Ricerca dei biglietti vidimati in un dato periodo"  + "\n" +
                         "10 -> Ripetizione tratta tramite mezzo"  + "\n" +
                         "11 -> Ricerca del tempo effettivo di una corsa tramite tratta"  + "\n" +
-                        "12 -> Tempo medio di percorrenza di una tratta dato un mezzo"
+                        "12 -> Tempo medio di percorrenza di una tratta dato un mezzo" + "\n" +
+                        "13 -> Crea nuova tratta"+ "\n" +
+                        "14 -> Aggiungi Mezzo"+ "\n" +
+                        "15 -> Crea Punto di emissione" + "\n" +
+                        "16 -> Crea Percorrenza"
+
                 );
                 int scelta = scanner.nextInt();
                 scanner.nextLine();
@@ -249,7 +300,7 @@ public class MainApp {
                                 "2 -> " + m2  + "\n" +
                                 "3 -> " + m3  + "\n" +
                                 "4 -> " + m4
-                                );
+                        );
                         int sceltaMezzo = scanner.nextInt();
                         scanner.nextLine();
 
@@ -371,6 +422,61 @@ public class MainApp {
                             System.out.println("Il tempo medio di percorrenza per la tratta scelta è: " + tempoMedio + " minuti.");
                         }
                     }
+
+                    case 13 -> {
+                        System.out.println("Creazione Nuova Tratta");
+
+                        System.out.print("Inserisci il luogo di partenza: ");
+                        String partenza = scanner.nextLine();
+
+                        System.out.print("Inserisci il luogo di arrivo: ");
+                        String arrivo = scanner.nextLine();
+
+                        System.out.print("Durata prevista - Ore: ");
+                        int oreDurata = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Durata prevista - Minuti: ");
+                        int minutiDurata = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Durata effettiva - Ore: ");
+                        int oreEffettiva = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Durata effettiva - Minuti: ");
+                        int minutiEffettiva = scanner.nextInt();
+                        scanner.nextLine();
+
+                        LocalTime durataPrevista = LocalTime.of(oreDurata, minutiDurata);
+                        LocalTime durataEffettiva = LocalTime.of(oreEffettiva, minutiEffettiva);
+
+                        Tratta nuovaTratta = new Tratta(partenza, arrivo, durataPrevista, durataEffettiva);
+                        trattaDao.save(nuovaTratta);
+
+                        System.out.println("Nuova tratta creata con successo!");
+
+                    }
+
+                    case 16 -> {
+                        System.out.println("Creazione Nuova Percorrenza");
+
+                        System.out.print("Inserisci ora di inizio (HH:mm): ");
+                        String inputInizio = scanner.nextLine();
+                        LocalTime oraInizio = LocalTime.parse(inputInizio);
+
+                        System.out.print("Inserisci ora di fine (HH:mm): ");
+                        String inputFine = scanner.nextLine();
+                        LocalTime oraFine = LocalTime.parse(inputFine);
+
+                        Percorrenza nuovaPercorrenza = percorrenzaDao.creazionePercorrenza(oraInizio, oraFine);
+                        percorrenzaDao.salva(nuovaPercorrenza);
+
+                        System.out.println("Nuova percorrenza creata con successo.");
+                    }
+
+
+
                 }
 
 
