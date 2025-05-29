@@ -149,7 +149,7 @@ public class MainApp {
                             "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
                             "2 -> Rinnova la tua tessera" + "\n" +
                             "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
-                            "4 -> Acquista un biglietto" + "\n" +
+
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
@@ -176,14 +176,7 @@ public class MainApp {
                             }
                         }
 
-                        case 4 -> {
-                            System.out.println("Creazione Biglietto...");
 
-
-                            titoloDiViaggioDao.creaBiglietto(utenteLoggato);
-
-                            System.out.println("Biglietto creato con successo.");
-                        }
 
                         case 0 -> {
                             System.out.println("Termina");

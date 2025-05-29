@@ -43,62 +43,6 @@ public class TitoloDiViaggioDao {
     }
 
     // Metodo Crea Biglietto Utente
-    public void creaBiglietto(Scanner scanner) {
-        try {
-            System.out.println("Inserisci ID Utente:");
-            Long idUtente = scanner.nextLong();
-            Utente utente = em.find(Utente.class, idUtente);
-            if (utente == null) {
-                System.out.println("Utente non trovato!");
-                return;
-            }
-
-            System.out.println("Inserisci ID Mezzo:");
-            Long idMezzo = scanner.nextLong();
-            Mezzo mezzo = em.find(Mezzo.class, idMezzo);
-            if (mezzo == null) {
-                System.out.println("Mezzo non trovato!");
-                return;
-            }
-
-            System.out.println("Inserisci ID Punto di Emissione:");
-            Long idPunto = scanner.nextLong();
-            PuntoDiEmissione punto = em.find(PuntoDiEmissione.class, idPunto);
-            if (punto == null) {
-                System.out.println("Punto di emissione non trovato!");
-                return;
-            }
-
-            scanner.nextLine(); // consuma newline
-            System.out.println("Inserisci tipo distributore (AUTOMATICO, RIVENDITORE_AUTORIZZATO):");
-            String tipoDiStr = scanner.nextLine().toUpperCase();
-            TipoDistributore tipo = TipoDistributore.valueOf(tipoDiStr);
-
-            //Genera codice univoco
-            String codice = "BIG-" + System.currentTimeMillis();
-
-            //Crea il biglietto
-            Biglietto biglietto = new Biglietto();
-            biglietto.setMezzo(mezzo);
-            biglietto.setPuntoDiEmissione(punto);
-            biglietto.setTipoDistributore(tipo);
-            biglietto.setDataEmissione(LocalDate.now());
-            biglietto.setVidimazione(Vidimazione.NON_VIDIMATO);
-            biglietto.setUtente(utente);
-            
-            //Salva nel DB
-            em.getTransaction().begin();
-            em.persist(biglietto);
-            em.getTransaction().commit();
-
-            System.out.println("Biglietto creato con successo! Codice: " + codice);
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            System.out.println("Errore durante la creazione del biglietto: " + e.getMessage());
-        }
-    }
 
 
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
