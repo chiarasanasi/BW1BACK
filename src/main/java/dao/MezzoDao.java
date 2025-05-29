@@ -66,6 +66,23 @@ public class MezzoDao {
         em.getTransaction().commit();
     }
 
+
+    public long ripetizioneTrattaTramiteMezzo(Long idMezzo, Long idTratta) {
+        String jpql = """
+        SELECT COUNT(p)
+        FROM Percorrenza p
+        WHERE p.mezzo.id = :idMezzo AND p.tratta.id = :idTratta
+    """;
+
+        TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+        query.setParameter("idMezzo", idMezzo);
+        query.setParameter("idTratta", idTratta);
+
+        return query.getSingleResult();
+    }
+
+
+
     public Mezzo findByCapacitaAndTipo(int capacita, TipoMezzo tipo) {
         TypedQuery<Mezzo> query = em.createQuery(
                 "SELECT m FROM Mezzo m WHERE m.capacita = :capacita AND m.tipo = :tipo", Mezzo.class);
@@ -73,6 +90,7 @@ public class MezzoDao {
         query.setParameter("tipo", tipo);
         return query.getSingleResult();
     }
+
 
 
 
