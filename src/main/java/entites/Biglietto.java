@@ -24,7 +24,26 @@ public class Biglietto extends TitoloDiViaggio {
     public Biglietto() {
     }
 
-    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione,Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Vidimazione vidimazione, Utente utente) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
+        this.vidimazione = vidimazione;
+        this.utente = utente;
+    }
+
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Vidimazione vidimazione, Utente utente, Mezzo mezzo, LocalDate dataVidimazione) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
+        this.mezzo = mezzo;
+        this.dataVidimazione = dataVidimazione;
+        this.vidimazione = vidimazione;
+        this.utente = utente;
+    }
+
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
+        this.mezzo = mezzo;
+    }
+
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
         super(dataEmissione, tipoDistributore, puntoDiEmissione);
         this.mezzo = mezzo;
         this.vidimazione = vidimazione;
