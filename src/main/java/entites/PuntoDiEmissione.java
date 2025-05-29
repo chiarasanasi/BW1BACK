@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "punto_di_emissione")
-public abstract class PuntoDiEmissione {
+public class PuntoDiEmissione {
     @Id
     @GeneratedValue
     private Long id;
@@ -18,6 +18,9 @@ public abstract class PuntoDiEmissione {
         this.nome = nome;
         this.titoloDiViaggioList = (titoloDiViaggioList != null) ? titoloDiViaggioList : new ArrayList<>();
 
+    }
+
+    public PuntoDiEmissione(EntityManager em) {
     }
 
     public String getNome() {

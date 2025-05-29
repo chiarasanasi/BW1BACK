@@ -1,0 +1,42 @@
+package dao;
+
+import entites.PuntoDiEmissione;
+import jakarta.persistence.EntityManager;
+
+import java.util.List;
+
+public class PuntoDiEmissioneDao {
+    private EntityManager em;
+
+    public PuntoDiEmissioneDao(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(PuntoDiEmissione punto) {
+        em.getTransaction().begin();
+        em.persist(punto);
+        em.getTransaction().commit();
+        System.out.println("Il punto di emissione " + punto.getId() + " è stato aggiunto.");
+    }
+
+    public PuntoDiEmissione getById(Long id) {
+        return em.find(PuntoDiEmissione.class, id);
+    }
+
+    public void remove(Long id) {
+        PuntoDiEmissione punto = getById(id);
+
+        if (punto != null) {
+            em.getTransaction().begin();
+            em.remove(punto);
+            em.getTransaction().commit();
+            System.out.println("Il punto di emissione con ID " + id + " è stato rimosso.");
+        } else {
+            System.out.println("Il punto di emissione con ID " + id + " non esiste.");
+        }
+    }
+    public PuntoDiEmissione creazionePuntoDiEmissione(String nome,  List titoloDiViaggioList){
+        PuntoDiEmissione nuovoPuntodiEmissione = new PuntoDiEmissione(nome,titoloDiViaggioList);
+        return nuovoPuntodiEmissione;
+    }
+}

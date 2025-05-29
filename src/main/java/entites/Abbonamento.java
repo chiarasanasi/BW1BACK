@@ -16,16 +16,17 @@ public class Abbonamento extends TitoloDiViaggio {
     private Tessera tessera;
     @Enumerated(EnumType.STRING)
     private Validita validita;
-
+    private LocalDate dataScadenza;
     public Abbonamento() {
     }
 
-
-    public Abbonamento(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Validita validita, Tessera tessera) {
+    public Abbonamento(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Tessera tessera, Validita validita, LocalDate dataScadenza) {
         super(dataEmissione, tipoDistributore, puntoDiEmissione);
-        this.validita = validita;
         this.tessera = tessera;
+        this.validita = validita;
+        this.dataScadenza = dataScadenza;
     }
+
 
     public Long getId() {
         return id;
@@ -43,11 +44,29 @@ public class Abbonamento extends TitoloDiViaggio {
         this.validita = validita;
     }
 
+    public Tessera getTessera() {
+        return tessera;
+    }
+
+    public void setTessera(Tessera tessera) {
+        this.tessera = tessera;
+    }
+
+    public LocalDate getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public void setDataScadenza(LocalDate dataScadenza) {
+        this.dataScadenza = dataScadenza;
+    }
+
     @Override
     public String toString() {
         return "Abbonamento{" +
                 "id=" + id +
+                ", tessera=" + tessera +
                 ", validita=" + validita +
+                ", dataScadenza=" + dataScadenza +
                 "} " + super.toString();
     }
 }

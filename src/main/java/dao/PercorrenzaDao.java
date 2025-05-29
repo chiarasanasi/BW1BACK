@@ -8,6 +8,7 @@ import jakarta.persistence.Persistence;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class PercorrenzaDao {
@@ -65,6 +66,7 @@ public class PercorrenzaDao {
             em.close();
         }
     }
+
     public Double tempoMedioPercorrenza(Long trattaId) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -76,22 +78,29 @@ public class PercorrenzaDao {
             if (results.isEmpty()) {
                 return null;
             }
-            long totalMinutes= 0;
-            for(Object[] row :results){
-                LocalTime inizio =(LocalTime) row[0];
-                LocalTime fine =(LocalTime) row[1];
-                totalMinutes += java.time.Duration.between(inizio,fine).toMinutes();
+            long totalMinutes = 0;
+            for (Object[] row : results) {
+                LocalTime inizio = (LocalTime) row[0];
+                LocalTime fine = (LocalTime) row[1];
+                totalMinutes += java.time.Duration.between(inizio, fine).toMinutes();
             }
             return totalMinutes / (double) results.size();
-        }
-        finally {
-            em.close();
-        }
-        }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
 
-    public void chiudi() {
-        emf.close();
+        }
+        return null;
+
+    }
+    public Percorrenza creazionePercorrenza(LocalTime oraInizioTratta, LocalTime oraFineTratta){
+        Percorrenza nuovaPercorrenza = new Percorrenza(oraInizioTratta, oraFineTratta);
+        return nuovaPercorrenza;
+    }
+
+
 
     }
 
-}
+
+
+
