@@ -196,12 +196,10 @@ public class MainApp {
                         case 3 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.calcoloGiornoScadenzaTessera(tesseraUtenteLoggato.getId());
-                            break;
                         }
                         case 4 -> {
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
                             tesseraDao.rinnovoTessera(tesseraUtenteLoggato.getId());
-                            break;
                         }
                         case 5 ->{
                             Tessera tesseraUtenteLoggato = utenteLoggato.getTessera();
@@ -212,7 +210,6 @@ public class MainApp {
                             }else {
                                 System.out.println("Il tuo abbonamento non è valido");
                             }
-                            break;
                         }
                         case 6 -> {
                             System.out.println("Scegli la validità dell’abbonamento:");
@@ -228,7 +225,6 @@ public class MainApp {
                             PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
 
                             titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
-                            break;
                         }
 
 
@@ -236,11 +232,9 @@ public class MainApp {
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
-                            break;
                         }
                         default -> {
                             System.out.println("Scelta non valida.");
-                            break;
                         }
                     }
                 }
@@ -306,15 +300,12 @@ public class MainApp {
 
 
                             titoloDiViaggioDao.numeroDiBigliettiInUnDatoPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine));
-                            break;
                         }
                         case 2 -> {
                             mezzoDao.listaMezziManutenzione();
-                            break;
                         }
                         case 3 -> {
                             mezzoDao.listaMezziInServizio();
-                            break;
                         }
                         case 4 -> {
                             List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
@@ -429,20 +420,16 @@ public class MainApp {
                                 }
                                 em.getTransaction().commit();
                             }
-                            break;
                         }
 
                         case 5 -> {
                             System.out.println("pippa");
-                            break;
                         }
                         case 6 -> {
                             System.out.println("uguale a 5");
-                            break;
                         }
                         case 7 -> {
                             System.out.println("uguale a 6, bisogna mettere un metodo che prende tutti i biglietti");
-                            break;
                         }
                         case 8 -> {
                             System.out.println("Scegli uno di questi mezzi : " + "\n" +
@@ -463,7 +450,6 @@ public class MainApp {
                             } else if (sceltaMezzo == 4) {
                                 titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(m4.getId());
                             }
-                            break;
                         }
                         case 9 -> {
                             System.out.println("Ora ti chiederò di digitare anno, mese e giorno delle 2 date che segnano il periodo scelto");
@@ -494,16 +480,12 @@ public class MainApp {
                             scanner.nextLine();
 
                             titoloDiViaggioDao.ricercaBigliettiVidimatiPerPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine));
-                            break;
                         }
                         case 10 -> {
                             System.out.println("pippaaaa");
-                            break;
                         }
                         case 11 -> {
                             System.out.println("pippaaaaaaaaaa");
-                            break;
-
                         }
                         case 12 -> {
                             //tutte le tratte nel db
@@ -539,7 +521,6 @@ public class MainApp {
                             } else {
                                 System.out.println("Il tempo medio di percorrenza per la tratta scelta è: " + tempoMedio + " minuti.");
                             }
-                            break;
                         }
 
                         case 13 -> {
@@ -574,8 +555,6 @@ public class MainApp {
                             trattaDao.save(nuovaTratta);
 
                             System.out.println("Nuova tratta creata con successo!");
-                            break;
-
                         }
 
                         case 16 -> {
@@ -593,16 +572,13 @@ public class MainApp {
                             percorrenzaDao.salva(nuovaPercorrenza);
 
                             System.out.println("Nuova percorrenza creata con successo.");
-                            break;
                         }
                         case 0 -> {
                             System.out.println("Termina");
                             sceltaWhile = false;
-                            break;
                         }
                         default -> {
                             System.out.println("Scelta non valida.");
-                            break;
                         }
                     }
                 }
