@@ -45,13 +45,7 @@ public abstract class TitoloDiViaggio {
         this.dataEmissione = dataEmissione;
     }
 
-    public PuntoDiEmissione getPuntoDiEmissione() {
-        return puntoDiEmissione;
-    }
 
-    public void setPuntoDiEmissione(PuntoDiEmissione puntoDiEmissione) {
-        this.puntoDiEmissione = puntoDiEmissione;
-    }
 
     public TipoDistributore getTipoDistributore() {
         return tipoDistributore;
@@ -61,18 +55,12 @@ public abstract class TitoloDiViaggio {
         this.tipoDistributore = tipoDistributore;
     }
 
-   
-
     @Override
     public String toString() {
         return "TitoloDiViaggio{" +
-                //                ", dataScadenza=" + dataScadenza +
-                "id=" + id +
                 ", dataEmissione=" + dataEmissione +
+//                ", dataScadenza=" + dataScadenza +
                 ", tipoDistributore=" + tipoDistributore +
-                ", puntoDiEmissione=" + puntoDiEmissione +
                 '}';
     }
-
-
 }

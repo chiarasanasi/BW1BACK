@@ -5,10 +5,9 @@ import enumeration.TipoDistributore;
 import enumeration.Vidimazione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Scanner;
 
 public class TitoloDiViaggioDao {
 
@@ -29,7 +28,6 @@ public class TitoloDiViaggioDao {
         return em.find(TitoloDiViaggio.class, id);
     }
 
-
     public void remove(Long id) {
         TitoloDiViaggio titoloDiViaggio = getById(id);
 
@@ -42,7 +40,6 @@ public class TitoloDiViaggioDao {
             System.out.println("Il titolo di viaggio con ID " + id + " non esiste");
         }
     }
-
     public Biglietto creaBiglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo) {
         Biglietto nuovoBiglietto = new Biglietto(
                 dataEmissione,
@@ -54,7 +51,6 @@ public class TitoloDiViaggioDao {
         );
         return nuovoBiglietto;
     }
-
 
 
         public Long numeroDiBigliettiInUnDatoPeriodo (LocalDate inizio, LocalDate fine){
@@ -91,7 +87,6 @@ public class TitoloDiViaggioDao {
 
         }
 
-
         public List<Biglietto> ricercaBigliettiVidimatiPerPeriodo (LocalDate inizio, LocalDate fine){
             // Crea una query per selezionare tutti i biglietti vidimati in un determinato intervallo di tempo
             return em.createQuery(
@@ -111,6 +106,7 @@ public class TitoloDiViaggioDao {
         query.setParameter("stato", Vidimazione.VIDIMATO);
         return query.getResultList();
         }
+
 
     }
 
