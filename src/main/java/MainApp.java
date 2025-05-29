@@ -143,6 +143,8 @@ public class MainApp {
 
                 while (sceltaWhile){
                     System.out.println("MENU" + "\n" +
+                            "1 -> Crea Biglietto" + "\n" +
+                            "2 -> Crea Tessera" + "\n" +
                             "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
                             "2 -> Rinnova la tua tessera" + "\n" +
                             "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
@@ -216,7 +218,10 @@ public class MainApp {
                         "10 -> Ripetizione tratta tramite mezzo"  + "\n" +
                         "11 -> Ricerca del tempo effettivo di una corsa tramite tratta"  + "\n" +
                         "12 -> Tempo medio di percorrenza di una tratta dato un mezzo" + "\n" +
-                        "13 -> Crea nuova tratta" // Metodo Tratta
+                        "13 -> Crea nuova tratta"+ "\n" +
+                        "14 -> Aggiungi Mezzo"+ "\n" +
+                        "15 -> Crea Punto di emissione" + "\n" +
+                        "16 -> Crea Percorrenza"
 
                 );
                 int scelta = scanner.nextInt();
