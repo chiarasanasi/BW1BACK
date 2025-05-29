@@ -355,7 +355,7 @@ public class MainApp {
                         case 8 -> {
                             System.out.println("Inserisci l'ID del mezzo:");
                             Long idMezzo = scanner.nextLong();
-                            scanner.nextLine(); // per consumare il newline
+                            scanner.nextLine();
 
                             List<Biglietto> biglietti = titoloDiViaggioDao.ricercaBigliettiVidimatiTramiteMezzo(idMezzo);
 
