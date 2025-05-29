@@ -6,6 +6,7 @@ import enumeration.Vidimazione;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,6 +43,17 @@ public class TitoloDiViaggioDao {
         }
     }
 
+    public Biglietto creaBiglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo) {
+        Biglietto nuovoBiglietto = new Biglietto(
+                dataEmissione,
+                tipoDistributore,
+                puntoDiEmissione,
+                mezzo,
+                Vidimazione.NON_VIDIMATO,
+                null // dataVidimazione sarà null finché non viene vidimato
+        );
+        return nuovoBiglietto;
+    }
 
 
 
