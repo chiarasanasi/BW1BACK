@@ -30,7 +30,7 @@ public class MainApp {
         Utente u1 = new Utente("Chiara","Sanasi","chiarasan","12345678", Ruolo.UTENTE_NORMALE);
         Utente u2 = new Utente("Salvatore","Gianquinto","salvatore","a2345678", Ruolo.UTENTE_NORMALE);
         Utente u3 = new Utente("Leonard","Dautaru","leo","b2345678", Ruolo.UTENTE_NORMALE);
-        Utente u4 = new Utente("Silvia","Gasperini","silvia","c2345678", Ruolo.UTENTE_NORMALE);
+        Utente u4 = new Utente("Silvia","Gasparini","silvia","c2345678", Ruolo.UTENTE_NORMALE);
         Utente u5 = new Utente("Roberto","Albergo","rob","d2345678", Ruolo.UTENTE_NORMALE);
         Utente u6 = new Utente("Roberto","Ciancio","ciancio","e2345678", Ruolo.UTENTE_NORMALE);
         Utente u7 = new Utente("Pietro","Sorbo","pietro","f2345678", Ruolo.UTENTE_NORMALE);
@@ -148,7 +148,7 @@ public class MainApp {
                             "1 -> Calcola il giorno della scadenza della tua tessera" + "\n" +
                             "2 -> Rinnova la tua tessera" + "\n" +
                             "3 -> Controlla la validità del tuo abbonamento tramite l'id della tessera" + "\n" +
-                            "4 -> Crea un nuovo abbonamento" + "\n" + // Abbonamento
+                            "4 -> Crea un nuovo abbonamento" + "\n" +
                             "0 -> Termina il programma ! "
                     );
                     scelta = scanner.nextInt();
@@ -176,7 +176,7 @@ public class MainApp {
                             }
                         }
 
-                        // Metodo Abbonamento
+
                         case 4 -> {
                             System.out.println("Scegli la validità dell’abbonamento:");
                             System.out.println("1 -> SETTIMANALE");
@@ -191,6 +191,35 @@ public class MainApp {
                             PuntoDiEmissione punto = null; // PuntoDiEmissione ancora non disponibile, quindi null
 
                             titoloDiViaggioDao.creaAbbonamentoPerUtente(utenteLoggato, validita, tipoDistributore, punto);
+                        }
+
+                        case 2 -> {
+                            System.out.println("Creazione Tessera");
+
+                            System.out.print("Inserisci l'ID dell'utente a cui assegnare la tessera: ");
+
+                            Long utenteId = scanner.nextLong();
+                            scanner.nextLine();
+
+                            Utente utente = utenteDao.get(utenteId);
+
+                            if (utente == null) {
+                                System.out.println("Utente non trovato.");
+                                break;
+                            }
+
+                            if (utente.getTessera() != null) {
+                                System.out.println("L'utente ha già una tessera.");
+                                break;
+                            }
+
+                            LocalDate dataEmissione = LocalDate.now();
+                            Tessera nuovaTessera = tesseraDao.creaTessera(dataEmissione, utente);
+                            tesseraDao.saveTessera(nuovaTessera);
+
+                            utenteDao.salva(utente); // aggiorna legame utente-tessera
+
+                            System.out.println("Tessera creata e assegnata all’utente " + utente.getNome() + " con successo!");
                         }
 
                         case 0 -> {
@@ -394,9 +423,8 @@ public class MainApp {
                         }
                     }
 
-                    // Metodo Tratta
                     case 13 -> {
-                        System.out.println("=== Creazione Nuova Tratta ===");
+                        System.out.println("Creazione Nuova Tratta");
 
                         System.out.print("Inserisci il luogo di partenza: ");
                         String partenza = scanner.nextLine();
@@ -429,6 +457,24 @@ public class MainApp {
                         System.out.println("Nuova tratta creata con successo!");
 
                     }
+
+                    case 16 -> {
+                        System.out.println("Creazione Nuova Percorrenza");
+
+                        System.out.print("Inserisci ora di inizio (HH:mm): ");
+                        String inputInizio = scanner.nextLine();
+                        LocalTime oraInizio = LocalTime.parse(inputInizio);
+
+                        System.out.print("Inserisci ora di fine (HH:mm): ");
+                        String inputFine = scanner.nextLine();
+                        LocalTime oraFine = LocalTime.parse(inputFine);
+
+                        Percorrenza nuovaPercorrenza = percorrenzaDao.creazionePercorrenza(oraInizio, oraFine);
+                        percorrenzaDao.salva(nuovaPercorrenza);
+
+                        System.out.println("Nuova percorrenza creata con successo.");
+                    }
+
 
 
                 }
