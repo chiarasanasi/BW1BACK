@@ -51,7 +51,7 @@ public class Percorrenza {
         return tratta;
     }
 
-    public void setTratte(Tratta tratta) {
+    public void setTratta(Tratta tratta) {
         this.tratta = tratta;
     }
 
@@ -59,7 +59,7 @@ public class Percorrenza {
         return mezzo;
     }
 
-    public void setMezzi(Mezzo mezzo) {
+    public void setMezzo(Mezzo mezzo) {
         this.mezzo = mezzo;
     }
 

@@ -3,6 +3,7 @@ package dao;
 import entites.Mezzo;
 import entites.ServizioManutenzione;
 import enumeration.StatoServizio;
+import enumeration.TipoMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
@@ -65,6 +66,7 @@ public class MezzoDao {
         em.getTransaction().commit();
     }
 
+
     public long ripetizioneTrattaTramiteMezzo(Long idMezzo, Long idTratta) {
         String jpql = """
         SELECT COUNT(p)
@@ -76,6 +78,16 @@ public class MezzoDao {
         query.setParameter("idMezzo", idMezzo);
         query.setParameter("idTratta", idTratta);
 
+        return query.getSingleResult();
+    }
+
+
+
+    public Mezzo findByCapacitaAndTipo(int capacita, TipoMezzo tipo) {
+        TypedQuery<Mezzo> query = em.createQuery(
+                "SELECT m FROM Mezzo m WHERE m.capacita = :capacita AND m.tipo = :tipo", Mezzo.class);
+        query.setParameter("capacita", capacita);
+        query.setParameter("tipo", tipo);
         return query.getSingleResult();
     }
 

@@ -20,13 +20,13 @@ public class Abbonamento extends TitoloDiViaggio {
     public Abbonamento() {
     }
 
-    public Abbonamento(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione,Tessera tessera, Validita validita, LocalDate dataScadenza) {
+    public Abbonamento(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Tessera tessera, Validita validita, LocalDate dataScadenza) {
         super(dataEmissione, tipoDistributore, puntoDiEmissione);
-
         this.tessera = tessera;
         this.validita = validita;
         this.dataScadenza = dataScadenza;
     }
+
 
     public Long getId() {
         return id;
