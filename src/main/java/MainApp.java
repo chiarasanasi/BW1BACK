@@ -219,10 +219,10 @@ public class MainApp {
                         "10 -> Ripetizione tratta tramite mezzo"  + "\n" +
                         "11 -> Ricerca del tempo effettivo di una corsa tramite tratta"  + "\n" +
                         "12 -> Tempo medio di percorrenza di una tratta dato un mezzo" + "\n" +
-                        "13 -> Crea nuova tratta" + "\n" +
-                        "14 -> Crea percorrenza" + "\n" +
-                        "15 -> Crea punto di emissione"
-
+                        "13 -> Crea nuova tratta"+ "\n" +
+                        "14 -> Aggiungi Mezzo"+ "\n" +
+                        "15 -> Crea Punto di emissione" + "\n" +
+                        "16 -> Crea Percorrenza"
                 );
                 int scelta = scanner.nextInt();
                 scanner.nextLine();
