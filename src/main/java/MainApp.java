@@ -126,14 +126,47 @@ public class MainApp {
         int loginOregistrazione = scanner.nextInt();
         scanner.nextLine();
 
+        Utente utenteLoggato = null;
+
         if (loginOregistrazione == 1) {
             System.out.println("Digita il tuo username");
             String username = scanner.nextLine();
             System.out.println("Digita la tua password");
             String password = scanner.nextLine();
 
-            Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
+            try {
+                utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
+            } catch (Exception e) {
+                System.out.println("Errore durante il login. Controlla le credenziali.");
+            }
+        } else if (loginOregistrazione == 2) {
+            System.out.println("REGISTRAZIONE NUOVO UTENTE");
 
+            System.out.print("Inserisci il tuo nome: ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Inserisci il tuo cognome: ");
+            String cognome = scanner.nextLine();
+
+            System.out.print("Scegli uno username: ");
+            String newUsername = scanner.nextLine();
+
+            System.out.print("Scegli una password: ");
+            String newPassword = scanner.nextLine();
+
+            Ruolo ruolo = Ruolo.UTENTE_NORMALE;
+
+            Utente nuovoUtente = new Utente(nome, cognome, newUsername, newPassword, ruolo);
+            utenteDao.salva(nuovoUtente);
+
+            System.out.println("Registrazione completata con successo!");
+            System.out.println("Benvenut* " + nome + " " + cognome + ". Ora puoi effettuare il login.");
+
+            return; // Termina qui per evitare di proseguire senza login valido
+        } else {
+            System.out.println("Scelta non valida. Terminazione programma.");
+            return;
+        }
 
             if (utenteLoggato != null && utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)) {
 
@@ -378,7 +411,46 @@ public class MainApp {
                             System.out.println("pippa");
                         }
                         case 6 -> {
-                            System.out.println("uguale a 5");
+                            // Recupera i punti di emissione
+                            List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p", PuntoDiEmissione.class).getResultList();
+
+                            if (punti.isEmpty()) {
+                                System.out.println("Non ci sono punti di emissione registrati nel database.");
+                             break;
+                            }
+
+                            System.out.println("Scegli un punto di emissione tra i seguenti:");
+                            for (int i = 0; i < punti.size(); i++) {
+                                PuntoDiEmissione p = punti.get(i);
+                                System.out.println(i + " -> Punto ID: " + p.getId() + " - Nome: " + p.getNome());
+                            }
+
+                            System.out.println("Inserisci il numero corrispondente al punto di emissione:");
+                            int sceltaPunto = scanner.nextInt();
+                            scanner.nextLine(); // consuma newline
+
+                            if (sceltaPunto < 0 || sceltaPunto >= punti.size()) {
+                                System.out.println("Scelta non valida.");
+
+                            }
+
+                            PuntoDiEmissione puntoScelto = punti.get(sceltaPunto);
+
+                            // Recupera i biglietti associati a quel punto
+                            List<Biglietto> biglietti = em.createQuery("SELECT b FROM Biglietto b WHERE b.puntoDiEmissione = :punto", Biglietto.class)
+                                    .setParameter("punto", puntoScelto)
+                                    .getResultList();
+
+                            if (biglietti.isEmpty()) {
+                                System.out.println("Nessun biglietto emesso da questo punto.");
+                            } else {
+                                System.out.println("Biglietti emessi dal punto: " + puntoScelto.getNome());
+                                for (Biglietto b : biglietti) {
+                                    System.out.println("ID: " + b.getId() + ", Data Emissione: " + b.getDataEmissione() +
+                                            ", Vidimato: " + (b.getVidimazione() == Vidimazione.VIDIMATO)+
+                                            ", Mezzo: " + (b.getMezzo() != null ? b.getMezzo().getId() : "N/A"));
+                                }
+                            }
                         }
                         case 7 -> {
                             System.out.println(titoloDiViaggioDao.ricercaBiglietti());
@@ -428,10 +500,24 @@ public class MainApp {
                             System.out.println(titoloDiViaggioDao.ricercaBigliettiVidimatiPerPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine)));
                         }
                         case 10 -> {
-                            System.out.println("pippaaaa");
+                            System.out.println("Ripetizione di una tratta tramite un mezzo");
 
+                            System.out.print("Inserisci l'ID del mezzo: ");
+                            Long idMezzo = scanner.nextLong();
+                            scanner.nextLine();
 
+                            System.out.print("Inserisci l'ID della tratta: ");
+                            Long idTratta = scanner.nextLong();
+                            scanner.nextLine();
+
+                            try {
+                                long conteggio = mezzoDao.ripetizioneTrattaTramiteMezzo(idMezzo, idTratta);
+                                System.out.println("La tratta con ID " + idTratta + " è stata percorsa " + conteggio + " volte dal mezzo con ID " + idMezzo);
+                            } catch (Exception e) {
+                                System.out.println("Errore durante la ricerca. Controlla che gli ID inseriti siano corretti.");
+                            }
                         }
+
                         case 11 -> {
                             System.out.println("Inserisci l'ID della tratta:");
 
@@ -572,35 +658,7 @@ public class MainApp {
                     }
 
                 }
-            } else if (loginOregistrazione == 2) {
-                System.out.println("REGISTRAZIONE NUOVO UTENTE");
-
-                System.out.print("Inserisci il tuo nome: ");
-                String nome = scanner.nextLine();
-
-                System.out.print("Inserisci il tuo cognome: ");
-                String cognome = scanner.nextLine();
-
-                System.out.print("Scegli uno username: ");
-                String newUsername = scanner.nextLine();
-
-                System.out.print("Scegli una password: ");
-                String newPassword = scanner.nextLine();
-
-                Ruolo ruolo = Ruolo.UTENTE_NORMALE;
-
-                Utente nuovoUtente = new Utente(nome, cognome, newUsername, newPassword, ruolo);
-
-                utenteDao.salva(nuovoUtente);
-
-                System.out.println("Registrazione completata con successo!");
-                System.out.println("Benvenut* " + nome + " " + cognome + ". Ora puoi effettuare il login.");
-            } else {
-                //da continuare
-                System.out.println("ne registrazione ne login");
             }
-
 
         }
     }
-}
