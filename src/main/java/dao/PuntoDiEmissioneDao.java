@@ -3,14 +3,13 @@ package dao;
 import entites.DistributoreAutomatico;
 import entites.PuntoDiEmissione;
 import entites.RivenditoreAutorizzato;
+import entites.TitoloDiViaggio;
 import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import entites.TitoloDiViaggio;
-
 
 public class PuntoDiEmissioneDao {
     private EntityManager em;
@@ -58,8 +57,6 @@ public class PuntoDiEmissioneDao {
         return rivenditore;
     }
 
-
-
     // Metodo 9: lista punti di emissione divisi per tipo
     public Map<String, List<PuntoDiEmissione>> listaPuntiDiEmissione() {
         List<PuntoDiEmissione> distributori = em.createQuery(
@@ -86,5 +83,10 @@ public class PuntoDiEmissioneDao {
                 .getResultList();
     }
 
-
+    // Metodo 11: punti di emissione che hanno emesso almeno un titolo di viaggio
+    public List<PuntoDiEmissione> listaPuntiDiEmissioneConTitoli() {
+        String jpql = "SELECT DISTINCT t.puntoDiEmissione FROM TitoloDiViaggio t WHERE t.puntoDiEmissione IS NOT NULL";
+        return em.createQuery(jpql, PuntoDiEmissione.class)
+                .getResultList();
+    }
 }
