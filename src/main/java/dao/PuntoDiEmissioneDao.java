@@ -59,7 +59,6 @@ public class PuntoDiEmissioneDao {
     }
 
 
-
     // Metodo 9: lista punti di emissione divisi per tipo
     public Map<String, List<PuntoDiEmissione>> listaPuntiDiEmissione() {
         List<PuntoDiEmissione> distributori = em.createQuery(
@@ -85,6 +84,6 @@ public class PuntoDiEmissioneDao {
                 .setParameter("id", idPuntoEmissione)
                 .getResultList();
     }
-
-
 }
+
+
