@@ -602,10 +602,24 @@ public class MainApp {
                             System.out.println(titoloDiViaggioDao.ricercaBigliettiVidimatiPerPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine)));
                         }
                         case 10 -> {
-                            System.out.println("pippaaaa");
+                            System.out.println("Ripetizione di una tratta tramite un mezzo");
 
+                            System.out.print("Inserisci l'ID del mezzo: ");
+                            Long idMezzo = scanner.nextLong();
+                            scanner.nextLine();
 
+                            System.out.print("Inserisci l'ID della tratta: ");
+                            Long idTratta = scanner.nextLong();
+                            scanner.nextLine();
+
+                            try {
+                                long conteggio = mezzoDao.ripetizioneTrattaTramiteMezzo(idMezzo, idTratta);
+                                System.out.println("La tratta con ID " + idTratta + " è stata percorsa " + conteggio + " volte dal mezzo con ID " + idMezzo);
+                            } catch (Exception e) {
+                                System.out.println("Errore durante la ricerca. Controlla che gli ID inseriti siano corretti.");
+                            }
                         }
+
                         case 11 -> {
                             System.out.println("Inserisci l'ID della tratta:");
 
