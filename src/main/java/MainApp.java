@@ -31,7 +31,7 @@ public class MainApp {
         Utente u2 = new Utente("Salvatore", "Gianquinto", "salvatore", "a2345678", Ruolo.UTENTE_NORMALE);
         Utente u3 = new Utente("Leonard", "Dautaru", "leo", "b2345678", Ruolo.UTENTE_NORMALE);
         Utente u4 = new Utente("Silvia", "Gasparini", "silvia", "c2345678", Ruolo.UTENTE_NORMALE);
-        Utente u5 = new Utente("Roberto", "Albergo", "rob", "d2345678", Ruolo.UTENTE_NORMALE);
+        Utente u5 = new Utente("Roberto", "Albergo", "rob", "258741", Ruolo.UTENTE_NORMALE);
         Utente u6 = new Utente("Roberto", "Ciancio", "ciancio", "e2345678", Ruolo.UTENTE_NORMALE);
         Utente u7 = new Utente("Pietro", "Sorbo", "pietro", "f2345678", Ruolo.UTENTE_NORMALE);
 
@@ -191,6 +191,7 @@ public class MainApp {
                             System.out.print("Inserisci tipo distributore (AUTOMATICO, RIVENDITORE_AUTORIZZATO): ");
                             String tipoStr = scanner.nextLine().toUpperCase();
                             TipoDistributore tipo = TipoDistributore.valueOf(tipoStr);
+
 
                             LocalDate dataEmissione = LocalDate.now();
 
