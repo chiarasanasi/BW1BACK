@@ -347,7 +347,6 @@ public class MainApp {
                             System.out.println(mezzoDao.listaMezziInServizio());
                         }
                         case 4 -> {
-//mettere questo
                             List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
 
                             if (mezzi.isEmpty()) {
@@ -357,26 +356,10 @@ public class MainApp {
 
                                 for (int i = 0; i < mezzi.size(); i++) {
                                     Mezzo mezzo = mezzi.get(i);
-                                    System.out.print(i + " -> Mezzo ID: " + mezzo.getId());
-
-                                    List<Percorrenza> percorrenze = mezzo.getMezzoPercorrenze();
-                                    if (percorrenze == null || percorrenze.isEmpty()) {
-                                        System.out.println(" (nessuna percorrenza assegnata)");
-                                    } else {
-                                        System.out.println(" (con le seguenti percorrenze):");
-                                        for (Percorrenza p : percorrenze) {
-                                            Tratta t = p.getTratta();
-                                            if (t != null) {
-                                                System.out.println("- " + t.getZonaDiPartenza() + " da " + t.getCapolinea() +
-                                                        " (tempo previsto: " + t.getTempoPercorrenzaPrevisto() + ")");
-                                            } else {
-                                                System.out.println("- Percorrenza senza tratta associata.");
-                                            }
-                                        }
-                                    }
+                                    System.out.print(i + " -> " + mezzo + "\n");
                                 }
 
-                                System.out.println("Digita il numero del mezzo che vuoi aggiornare:");
+                                System.out.println("Digita il numero corrispondente al mezzo che vuoi aggiornare:");
                                 int sceltaUpdateMezzo = scanner.nextInt();
                                 scanner.nextLine(); // Consuma il newline
 
@@ -386,94 +369,9 @@ public class MainApp {
                                 }
 
                                 Mezzo mezzoScelto = mezzi.get(sceltaUpdateMezzo);
-                                ServizioManutenzione servizio = mezzoScelto.getServizioManutenzione();
 
+                                servizioManutenzioneDao.aggiornaServizioManutenzione(mezzoScelto, em);
 
-                                if (servizio == null) {
-                                    System.out.println("Il mezzo selezionato non ha un ServizioManutenzione associato. Ne verrà creato uno nuovo.");
-
-                                    //  stato servizio
-                                    System.out.println("Inserisci lo stato del servizio (IN_SERVIZIO / IN_MANUTENZIONE):");
-                                    String statoInput = scanner.nextLine().toUpperCase();
-                                    StatoServizio statoServizio;
-                                    try {
-                                        statoServizio = StatoServizio.valueOf(statoInput);
-                                    } catch (IllegalArgumentException e) {
-                                        System.out.println("Valore non valido. Stato impostato a IN_SERVIZIO di default.");
-                                        statoServizio = StatoServizio.IN_SERVIZIO;
-                                    }
-
-                                    if (statoServizio.equals(StatoServizio.IN_SERVIZIO)) {
-                                        // Richiesta date
-                                        System.out.println("Ora dovrai inserire le date di inizio servizio. TUTTE con il seguente formato --> yyyy-mm-dd");
-
-                                        try {
-                                            System.out.println("Inserisci la data di inizio servizio :");
-                                            LocalDate inizioServizio = LocalDate.parse(scanner.nextLine());
-
-                                            System.out.println("Inserisci la data di fine prevista :");
-                                            LocalDate fineServizioPrevista = LocalDate.parse(scanner.nextLine());
-
-
-                                            servizio = new ServizioManutenzione(statoServizio, inizioServizio, fineServizioPrevista, true);
-
-
-                                            mezzoScelto.setServizioManutenzione(servizio); // --> lato proprietario
-                                            mezzoDao.save(mezzoScelto);
-
-                                            System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
-                                        } catch (IllegalArgumentException e) {
-                                            System.out.println("Stato del servizio non valido. Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-
-                                        } catch (DateTimeParseException e) {
-                                            System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-                                        }
-                                    } else if (statoServizio.equals(StatoServizio.IN_MANUTENZIONE)) {
-                                        // Richiesta date
-                                        System.out.println("Ora dovrai inserire le date di inizio manutenzione. TUTTE con il seguente formato --> yyyy-mm-dd");
-
-                                        try {
-                                            System.out.println("Inserisci la data di inizio manutenzione :");
-                                            LocalDate inizioManutenzione = LocalDate.parse(scanner.nextLine());
-
-                                            System.out.println("Inserisci la data di fine prevista :");
-                                            LocalDate fineManutenzionePrevista = LocalDate.parse(scanner.nextLine());
-
-
-                                            servizio = new ServizioManutenzione(statoServizio, inizioManutenzione, fineManutenzionePrevista);
-
-                                            mezzoScelto.setServizioManutenzione(servizio); // --> lato proprietario
-                                            mezzoDao.save(mezzoScelto);
-
-                                            System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
-                                        } catch (IllegalArgumentException e) {
-                                            System.out.println("Stato del servizio non valido. Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-
-                                        } catch (DateTimeParseException e) {
-                                            System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-                                        }
-                                    }
-                                } else {
-                                    StatoServizio stato = servizio.getStatoServizio();
-                                    if (stato == StatoServizio.IN_SERVIZIO) {
-                                        servizio.setStatoServizio(StatoServizio.IN_MANUTENZIONE);
-                                        System.out.println("Lo stato di servizio del mezzo ora è IN_MANUTENZIONE.");
-                                    } else if (stato == StatoServizio.IN_MANUTENZIONE) {
-                                        servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
-                                        System.out.println("Lo stato di servizio del mezzo ora è IN_SERVIZIO.");
-                                    } else {
-                                        servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
-                                        System.out.println("Lo stato era nullo. Settato di default a IN_SERVIZIO.");
-                                    }
-                                }
                             }
                         }
                         case 5 -> {
