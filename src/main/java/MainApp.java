@@ -733,8 +733,22 @@ public class MainApp {
 
 
                     case 12 -> {
+                        System.out.print("Inserisci l'ID della tratta: ");
+                        Long trattaId = scanner.nextLong();
+                        System.out.print("Inserisci l'ID del mezzo: ");
+                        Long mezzoId = scanner.nextLong();
 
+                        Double tempoMedio = percorrenzaDao.tempoMedioPercorrenzaPerTrattaEMezzo(trattaId, mezzoId);
+
+                        if (tempoMedio != null) {
+                            System.out.println("Tempo medio di percorrenza per la tratta " + trattaId +
+                                    " con il mezzo " + mezzoId + ": " + tempoMedio + " minuti.");
+                        } else {
+                            System.out.println("Nessuna percorrenza trovata per la tratta " + trattaId +
+                                    " con il mezzo " + mezzoId + ".");
+                        }
                     }
+                    
                     // Metodo Tratta
                     case 13 -> {
                         System.out.println("=== Creazione Nuova Tratta ===");
