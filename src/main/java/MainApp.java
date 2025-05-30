@@ -30,38 +30,7 @@ public class MainApp {
         PuntoDiEmissioneDao puntoDiEmissioneDao = new PuntoDiEmissioneDao(em);
         ServizioManutenzioneDao servizioManutenzioneDao = new ServizioManutenzioneDao();
 
-//
-//        Utente u1 = new Utente("Chiara", "Sanasi", "chiarasan", "12345678", Ruolo.UTENTE_NORMALE);
-//        Utente u2 = new Utente("Salvatore", "Gianquinto", "salvatore", "a2345678", Ruolo.UTENTE_NORMALE);
-//        Utente u3 = new Utente("Leonard", "Dautaru", "leo", "b2345678", Ruolo.UTENTE_NORMALE);
-//        Utente u4 = new Utente("Silvia", "Gasparini", "silvia", "c2345678", Ruolo.UTENTE_NORMALE);
-//        Utente u5 = new Utente("Roberto", "Albergo", "rob", "d2345678", Ruolo.UTENTE_NORMALE);
-//        Utente u6 = new Utente("Roberto", "Ciancio", "ciancio", "e2345678", Ruolo.UTENTE_NORMALE);
-//        Utente u7 = new Utente("Pietro", "Sorbo", "pietro", "f2345678", Ruolo.UTENTE_NORMALE);
-//
-//        Utente u8 = new Utente("Vincenzo", "Napoli", "vinz", "g2345678", Ruolo.AMMINISTRATORE);
-//
-//        utenteDao.salva(u1);
-//        utenteDao.salva(u2);
-//        utenteDao.salva(u3);
-//        utenteDao.salva(u4);
-//        utenteDao.salva(u5);
-//        utenteDao.salva(u6);
-//        utenteDao.salva(u7);
-//        utenteDao.salva(u8);
-//
-//
-//
-//        Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
-//        Mezzo m2 = new Mezzo(300, TipoMezzo.TRAM);
-//
-//        mezzoDao.save(m1);
-//        mezzoDao.save(m2);
-//
-//
 
-        PuntoDiEmissione punto1 = new PuntoDiEmissione("Roma");
-        puntoDiEmissioneDao.save(punto1);
 
 //        ---------------------------------------------LOGIN / REGISTRAZIONE -----------------------------------------------------
         System.out.println("BENVENUTO!!");
