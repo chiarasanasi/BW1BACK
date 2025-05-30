@@ -5,6 +5,7 @@ import entites.PuntoDiEmissione;
 import entites.RivenditoreAutorizzato;
 import entites.TitoloDiViaggio;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,36 +58,25 @@ public class PuntoDiEmissioneDao {
         return rivenditore;
     }
 
-    // Metodo 9: lista punti di emissione divisi per tipo
-    public Map<String, List<PuntoDiEmissione>> listaPuntiDiEmissione() {
-        List<PuntoDiEmissione> distributori = em.createQuery(
-                        "SELECT p FROM PuntoDiEmissione p WHERE p.tipo = :tipo", PuntoDiEmissione.class)
-                .setParameter("tipo", "DISTRIBUTORE")
-                .getResultList();
-
-        List<PuntoDiEmissione> rivenditori = em.createQuery(
-                        "SELECT p FROM PuntoDiEmissione p WHERE p.tipo = :tipo", PuntoDiEmissione.class)
-                .setParameter("tipo", "RIVENDITORE")
-                .getResultList();
-
-        Map<String, List<PuntoDiEmissione>> mappa = new HashMap<>();
-        mappa.put("Distributori Automatici", distributori);
-        mappa.put("Rivenditori Autorizzati", rivenditori);
-        return mappa;
-    }
 
     // Metodo 10: biglietti per punto di emissione
-    public List<TitoloDiViaggio> listaBigliettiPerPuntoDiEmissione(Long idPuntoEmissione) {
-        String jpql = "SELECT t FROM TitoloDiViaggio t WHERE t.puntoDiEmissione.id = :id";
-        return em.createQuery(jpql, TitoloDiViaggio.class)
-                .setParameter("id", idPuntoEmissione)
-                .getResultList();
-    }
+    //public List<TitoloDiViaggio> listaBigliettiPerPuntoDiEmissione(Long idPuntoEmissione) {
+       // TypedQuery<TitoloDiViaggio> = "SELECT b FROM TitoloDiViaggio t WHERE t.puntoDiEmissione.id = :id";
+       // return em.createQuery(jpql, TitoloDiViaggio.class)
+        //        .setParameter("id", idPuntoEmissione)
+          //      .getResultList();
+
+
+
+
 
     // Metodo 11: punti di emissione che hanno emesso almeno un titolo di viaggio
     public List<PuntoDiEmissione> listaPuntiDiEmissioneConTitoli() {
-        String jpql = "SELECT DISTINCT t.puntoDiEmissione FROM TitoloDiViaggio t WHERE t.puntoDiEmissione IS NOT NULL";
-        return em.createQuery(jpql, PuntoDiEmissione.class)
-                .getResultList();
+        TypedQuery<PuntoDiEmissione> query = em.createQuery("SELECT p FROM PuntoDiEmissione p ", PuntoDiEmissione.class);
+        return query.getResultList();
+
     }
+
 }
+
+
