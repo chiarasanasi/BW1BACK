@@ -18,13 +18,14 @@ public class PuntoDiEmissione {
     public PuntoDiEmissione() {
     }
 
-    public PuntoDiEmissione(String nome, List titoloDiViaggioList) {
+    public PuntoDiEmissione(String nome, List<TitoloDiViaggio> titoloDiViaggioList) {
         this.nome = nome;
-        this.titoloDiViaggioList = (titoloDiViaggioList != null) ? titoloDiViaggioList : new ArrayList<>();
+        this.titoloDiViaggioList = titoloDiViaggioList;
 
     }
 
-    public PuntoDiEmissione(EntityManager em) {
+    public PuntoDiEmissione(String nome) {
+        this.nome = nome;
     }
 
     public String getNome() {

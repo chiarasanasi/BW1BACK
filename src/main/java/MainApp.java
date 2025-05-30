@@ -4,6 +4,9 @@ import enumeration.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,7 +30,7 @@ public class MainApp {
         PuntoDiEmissioneDao puntoDiEmissioneDao = new PuntoDiEmissioneDao(em);
         ServizioManutenzioneDao servizioManutenzioneDao = new ServizioManutenzioneDao();
 
-
+//
 //        Utente u1 = new Utente("Chiara", "Sanasi", "chiarasan", "12345678", Ruolo.UTENTE_NORMALE);
 //        Utente u2 = new Utente("Salvatore", "Gianquinto", "salvatore", "a2345678", Ruolo.UTENTE_NORMALE);
 //        Utente u3 = new Utente("Leonard", "Dautaru", "leo", "b2345678", Ruolo.UTENTE_NORMALE);
@@ -47,78 +50,18 @@ public class MainApp {
 //        utenteDao.salva(u7);
 //        utenteDao.salva(u8);
 //
-//        Tessera ts1 = new Tessera(LocalDate.of(2020, 1, 1));
-//        Tessera ts2 = new Tessera(LocalDate.of(2020, 1, 1));
-//        Tessera ts3 = new Tessera(LocalDate.of(2020, 1, 1));
-//        Tessera ts4 = new Tessera(LocalDate.of(2020, 1, 1));
 //
-//        tesseraDao.saveTessera(ts1);
-//        tesseraDao.saveTessera(ts2);
-//        tesseraDao.saveTessera(ts3);
-//        tesseraDao.saveTessera(ts4);
-//
-//
-//        u1.setTessera(ts1);
-//        u2.setTessera(ts2);
-//        u3.setTessera(ts3);
-//        u4.setTessera(ts4);
-//
-//        utenteDao.salva(u1);
-//        utenteDao.salva(u2);
-//        utenteDao.salva(u3);
-//        utenteDao.salva(u4);
 //
 //        Mezzo m1 = new Mezzo(150, TipoMezzo.AUTOBUS);
-//        Mezzo m2 = new Mezzo(250, TipoMezzo.AUTOBUS);
-//        Mezzo m3 = new Mezzo(300, TipoMezzo.TRAM);
-//        Mezzo m4 = new Mezzo(350, TipoMezzo.TRAM);
+//        Mezzo m2 = new Mezzo(300, TipoMezzo.TRAM);
 //
 //        mezzoDao.save(m1);
 //        mezzoDao.save(m2);
-//        mezzoDao.save(m3);
-//        mezzoDao.save(m4);
 //
-//        ServizioManutenzione s1 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO, LocalDate.of(2000, 1, 1), LocalDate.of(2000, 3, 1), LocalDate.of(2000, 3, 2), LocalDate.now());
-//        ServizioManutenzione s2 = new ServizioManutenzione(StatoServizio.IN_SERVIZIO, LocalDate.of(2022, 3, 12), LocalDate.of(2022, 6, 1), LocalDate.of(2022, 6, 3), LocalDate.now());
-//        ServizioManutenzione s3 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE, LocalDate.of(2025, 5, 1), LocalDate.now(), LocalDate.of(2023, 1, 1), LocalDate.of(2025, 4, 30));
-//        ServizioManutenzione s4 = new ServizioManutenzione(StatoServizio.IN_MANUTENZIONE, LocalDate.of(2020, 1, 1), LocalDate.now(), LocalDate.of(2019, 3, 2), LocalDate.of(2019, 12, 31));
 //
-//        servizioManutenzioneDao.salva(s1);
-//        servizioManutenzioneDao.salva(s2);
-//        servizioManutenzioneDao.salva(s3);
-//        servizioManutenzioneDao.salva(s4);
-//
-//        Percorrenza p1 = new Percorrenza(LocalTime.of(5, 0), LocalTime.of(23, 59));
-//        Percorrenza p2 = new Percorrenza(LocalTime.of(6, 0), LocalTime.of(1, 0));
-//        Percorrenza p3 = new Percorrenza(LocalTime.of(12, 0), LocalTime.of(3, 0));
-//        Percorrenza p4 = new Percorrenza(LocalTime.of(15, 0), LocalTime.of(22, 59));
-//
-//        percorrenzaDao.salva(p1);
-//        percorrenzaDao.salva(p2);
-//        percorrenzaDao.salva(p3);
-//        percorrenzaDao.salva(p4);
-//
-//        m1.setMezzoPercorrenze(List.of(p1, p2));
-//        m2.setMezzoPercorrenze(List.of(p2, p3));
-//        m3.setMezzoPercorrenze(List.of(p1, p4));
-//        m4.setMezzoPercorrenze(List.of(p3, p4));
-//
-//        mezzoDao.save(m1);
-//        mezzoDao.save(m2);
-//        mezzoDao.save(m3);
-//        mezzoDao.save(m4);
-//
-//        Tratta t1 = new Tratta("Roma", "Milano", LocalTime.of(2, 30), LocalTime.of(2, 45));
-//        Tratta t2 = new Tratta("Napoli", "Bari", LocalTime.of(1, 15), LocalTime.of(1, 20));
-//        Tratta t3 = new Tratta("Torino", "Venezia", LocalTime.of(2, 0), LocalTime.of(2, 5));
-//
-//        Tratta t4 = new Tratta("Firenze", "Pisa", LocalTime.of(0, 45), LocalTime.of(0, 50));
-//
-//        trattaDao.save(t1);
-//        trattaDao.save(t2);
-//        trattaDao.save(t3);
-//        trattaDao.save(t4);
 
+        PuntoDiEmissione punto1 = new PuntoDiEmissione("Roma");
+        puntoDiEmissioneDao.save(punto1);
 
 //        ---------------------------------------------LOGIN / REGISTRAZIONE -----------------------------------------------------
         System.out.println("BENVENUTO!!");
@@ -208,31 +151,24 @@ public class MainApp {
                             }
                         }
 
-                        Mezzo mezzo = null;
-                        while (mezzo == null) {
-                            try {
-                                System.out.print("Inserisci ID Mezzo: ");
-                                Long idMezzo = scanner.nextLong();
-                                mezzo = em.find(Mezzo.class, idMezzo);
-                                if (mezzo == null) {
-                                    System.out.println("Mezzo non trovato! Riprova.");
-                                }
-                            } catch (Exception e) {
-                                System.out.println("Input non valido per ID mezzo. Inserisci un numero.");
-                                scanner.nextLine();
-                            }
-                        }
                         PuntoDiEmissione punto = null;
                         while (punto == null) {
                             try {
-                                System.out.print("Inserisci ID Punto di Emissione: ");
-                                Long idPunto = scanner.nextLong();
-                                punto = em.find(PuntoDiEmissione.class, idPunto);
+                                List<PuntoDiEmissione> puntiDiEmissione = em.createQuery("select p from PuntoDiEmissione p", PuntoDiEmissione.class).getResultList();
+                                for (int i = 0; i < puntiDiEmissione.size(); i++) {
+                                    PuntoDiEmissione puntoDiEmissione = puntiDiEmissione.get(i);
+                                    System.out.print(i + " -> " + puntoDiEmissione + "\n");
+                                }
+
+                                System.out.print("Inserisci numero del  Punto di Emissione: ");
+                                int numero = scanner.nextInt();
+
+                                punto = puntiDiEmissione.get(numero);
                                 if (punto == null) {
                                     System.out.println("Punto di emissione non trovato! Riprova.");
                                 }
                             } catch (Exception e) {
-                                System.out.println("Input non valido per ID punto di emissione.");
+                                System.out.println("Input non valido per  punto di emissione.");
                                 scanner.nextLine();
                             }
                         }
@@ -249,7 +185,7 @@ public class MainApp {
                         }
                         try {
                             LocalDate dataEmissione = LocalDate.now();
-                            Biglietto nuovoBiglietto = titoloDiViaggioDao.creaBiglietto(dataEmissione, tipo, punto, mezzo);
+                            Biglietto nuovoBiglietto = titoloDiViaggioDao.creaBiglietto(dataEmissione, tipo, punto,utente);
                             nuovoBiglietto.setUtente(utente);
 
                             em.getTransaction().begin();
@@ -257,6 +193,7 @@ public class MainApp {
                             em.getTransaction().commit();
 
                             System.out.println("Biglietto creato con successo!");
+                            System.out.println(nuovoBiglietto);
                         } catch (Exception e) {
                             System.out.println("Errore durante la creazione del biglietto: " + e.getMessage());
                             e.printStackTrace();
@@ -875,7 +812,24 @@ public class MainApp {
                             Percorrenza nuovaPercorrenza = percorrenzaDao.creazionePercorrenza(oraInizio, oraFine);
                             percorrenzaDao.salva(nuovaPercorrenza);
 
-                            System.out.println(" Nuova percorrenza creata con successo.");
+                            TypedQuery<Tratta> query = em.createQuery("select t from Tratta t", Tratta.class);
+                            List<Tratta> tratte = query.getResultList();
+
+                            System.out.println("Scegli tra le seguenti tratte quella a cui vuoi assegnare la percorezza appena creata");
+                            for (int i = 0; i < tratte.size(); i++) {
+                                Tratta tratta = tratte.get(i);
+                                System.out.println(i + " -> " + tratta + "\n");
+                            }
+
+                            int sceltaTratta = scanner.nextInt();
+                            scanner.nextLine(); // Consuma il newline
+
+                            List<Percorrenza> percorrenze = List.of(nuovaPercorrenza);
+                            tratte.get(sceltaTratta).setTrattaPercorrenze(percorrenze);
+
+                            System.out.println(" Nuova percorrenza creata con successo e aggiunta alla tratta desiderata.");
+                            System.out.println( "Dettagli assegnazione : " + "\n" +
+                                    tratte.get(sceltaTratta).getTrattaPercorrenze());
                         } catch (DateTimeParseException e) {
                             System.out.println(" Formato orario non valido. Usa il formato corretto: HH:mm (es. 14:30).");
                         }

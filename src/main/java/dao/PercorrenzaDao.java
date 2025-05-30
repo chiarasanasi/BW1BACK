@@ -96,31 +96,31 @@ public class PercorrenzaDao {
     public Double tempoMedioPercorrenzaPerMezzo(Long mezzoId) {
         EntityManager em = emf.createEntityManager();
         try {
-            TypedQuery<Percorrenza> query = em.createQuery("SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.mezzo.id = :mezzoId", Percorrenza.class);
-                    query.setParameter("mezzoId", mezzoId);
-                    query.getResultList();
-                    List<Percorrenza> results = query.getResultList();
+            TypedQuery<Percorrenza> query = em.createQuery(
+                    "SELECT p FROM Percorrenza p WHERE p.mezzo.id = :mezzoId",
+                    Percorrenza.class
+            );
+            query.setParameter("mezzoId", mezzoId);
+            List<Percorrenza> results = query.getResultList();
 
             if (results.isEmpty()) {
                 System.out.println("NON c'è nessuna percorrenza");
-            } else if(results.size() > 0){
+            } else {
+                long totalMinutes = 0;
+                for (Percorrenza p : results) {
+                    LocalTime inizio = p.getOraInizioTratta();
+                    LocalTime fine = p.getOraFineTratta();
 
-            }
+                    long durata = java.time.Duration.between(inizio, fine).toMinutes();
+                    if (durata < 0) {
+                        durata += 24 * 60;
+                    }
 
-            long totalMinutes = 0;
-            for (Object[] row : results) {
-                LocalTime inizio = (LocalTime) row[0];
-                LocalTime fine = (LocalTime) row[1];
-
-                long durata = java.time.Duration.between(inizio, fine).toMinutes();
-                if (durata < 0) {
-                    durata += 24 * 60; // Gestisce gli orari dopo la mezzanotte
+                    totalMinutes += durata;
                 }
 
-                totalMinutes += durata;
+                System.out.println("Totale minuti: " + totalMinutes);
             }
-
-            return totalMinutes / (double) results.size();
 
         } catch (Exception e) {
             System.out.println("Errore nel calcolo tempo medio per mezzo: " + e.getMessage());
