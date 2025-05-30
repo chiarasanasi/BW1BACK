@@ -480,7 +480,46 @@ public class MainApp {
                             System.out.println("pippa");
                         }
                         case 6 -> {
-                            System.out.println("uguale a 5");
+                            // Recupera i punti di emissione
+                            List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p", PuntoDiEmissione.class).getResultList();
+
+                            if (punti.isEmpty()) {
+                                System.out.println("Non ci sono punti di emissione registrati nel database.");
+                             break;
+                            }
+
+                            System.out.println("Scegli un punto di emissione tra i seguenti:");
+                            for (int i = 0; i < punti.size(); i++) {
+                                PuntoDiEmissione p = punti.get(i);
+                                System.out.println(i + " -> Punto ID: " + p.getId() + " - Nome: " + p.getNome());
+                            }
+
+                            System.out.println("Inserisci il numero corrispondente al punto di emissione:");
+                            int sceltaPunto = scanner.nextInt();
+                            scanner.nextLine(); // consuma newline
+
+                            if (sceltaPunto < 0 || sceltaPunto >= punti.size()) {
+                                System.out.println("Scelta non valida.");
+
+                            }
+
+                            PuntoDiEmissione puntoScelto = punti.get(sceltaPunto);
+
+                            // Recupera i biglietti associati a quel punto
+                            List<Biglietto> biglietti = em.createQuery("SELECT b FROM Biglietto b WHERE b.puntoDiEmissione = :punto", Biglietto.class)
+                                    .setParameter("punto", puntoScelto)
+                                    .getResultList();
+
+                            if (biglietti.isEmpty()) {
+                                System.out.println("Nessun biglietto emesso da questo punto.");
+                            } else {
+                                System.out.println("Biglietti emessi dal punto: " + puntoScelto.getNome());
+                                for (Biglietto b : biglietti) {
+                                    System.out.println("ID: " + b.getId() + ", Data Emissione: " + b.getDataEmissione() +
+                                            ", Vidimato: " + (b.getVidimazione() == Vidimazione.VIDIMATO)+
+                                            ", Mezzo: " + (b.getMezzo() != null ? b.getMezzo().getId() : "N/A"));
+                                }
+                            }
                         }
                         case 7 -> {
                             System.out.println(titoloDiViaggioDao.ricercaBiglietti());
