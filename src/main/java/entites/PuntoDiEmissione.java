@@ -15,7 +15,10 @@ public class PuntoDiEmissione {
     @OneToMany (mappedBy = "puntoDiEmissione")
     private List<TitoloDiViaggio> titoloDiViaggioList;
 
-    public PuntoDiEmissione(String nome,  List titoloDiViaggioList) {
+    public PuntoDiEmissione() {
+    }
+
+    public PuntoDiEmissione(String nome, List titoloDiViaggioList) {
         this.nome = nome;
         this.titoloDiViaggioList = (titoloDiViaggioList != null) ? titoloDiViaggioList : new ArrayList<>();
 

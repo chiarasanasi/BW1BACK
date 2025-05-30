@@ -3,19 +3,16 @@ package entites;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jdk.jfr.Experimental;
 
 import java.util.List;
 
 @Entity
 
 public class DistributoreAutomatico extends PuntoDiEmissione {
-    @Id
-    @GeneratedValue
-    private Long id;
-
     private Boolean attivo;
 
+    public DistributoreAutomatico() {
+    }
 
     public DistributoreAutomatico(String nome, List<TitoloDiViaggio> titoloDiViaggioList, boolean attivo) {
         super(nome,  titoloDiViaggioList);

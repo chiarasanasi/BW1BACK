@@ -5,6 +5,7 @@ import entites.Percorrenza;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -86,7 +87,7 @@ public class PercorrenzaDao {
             }
             return totalMinutes / (double) results.size();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERRORE");
 
         }
         return null;
@@ -119,12 +120,16 @@ public class PercorrenzaDao {
     public Double tempoMedioPercorrenzaPerMezzo(Long mezzoId) {
         EntityManager em = emf.createEntityManager();
         try {
-            String jpql = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.mezzo.id = :mezzoId";
-            List<Object[]> results = em.createQuery(jpql, Object[].class)
-                    .setParameter("mezzoId", mezzoId)
-                    .getResultList();
+            TypedQuery<Percorrenza> query = em.createQuery("SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.mezzo.id = :mezzoId", Percorrenza.class);
+                    query.setParameter("mezzoId", mezzoId);
+                    query.getResultList();
+                    List<Percorrenza> results = query.getResultList();
 
-            if (results.isEmpty()) return null;
+            if (results.isEmpty()) {
+                System.out.println("NON c'è nessuna percorrenza");
+            } else if(results.size() > 0){
+
+            }
 
             long totalMinutes = 0;
             for (Object[] row : results) {
