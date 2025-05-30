@@ -429,8 +429,8 @@ public class MainApp {
             System.out.println("Premi un tasto per accedere al Menù degli Amministratori");
             scanner.next();
 
-
-            while (true) {
+            boolean sceltaWhile = true;
+            while (sceltaWhile) {
                 System.out.println("MENU" + "\n" +
                         "1 -> Calcola il numero di biglietti in un dato periodo" + "\n" +
                         "2 -> Lista dei mezzi in manutenzione" + "\n" +
@@ -447,7 +447,8 @@ public class MainApp {
                         "13 -> Crea nuova tratta" + "\n" +
                         "14 -> Aggiungi Mezzo" + "\n" +
                         "15 -> Crea Punto di emissione" + "\n" +
-                        "16 -> Crea Percorrenza"
+                        "16 -> Crea Percorrenza"+ "\n" +
+                        "0 - > Uscita"
 
                 );
                 int scelta = scanner.nextInt();
@@ -878,6 +879,11 @@ public class MainApp {
                         } catch (DateTimeParseException e) {
                             System.out.println(" Formato orario non valido. Usa il formato corretto: HH:mm (es. 14:30).");
                         }
+                    }
+
+                    case 0 -> {
+                        System.out.println("Termina");
+                        sceltaWhile = false;
                     }
                 }
             }
