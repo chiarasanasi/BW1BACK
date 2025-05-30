@@ -126,14 +126,47 @@ public class MainApp {
         int loginOregistrazione = scanner.nextInt();
         scanner.nextLine();
 
+        Utente utenteLoggato = null;
+
         if (loginOregistrazione == 1) {
             System.out.println("Digita il tuo username");
             String username = scanner.nextLine();
             System.out.println("Digita la tua password");
             String password = scanner.nextLine();
 
-            Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
+            try {
+                utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
+            } catch (Exception e) {
+                System.out.println("Errore durante il login. Controlla le credenziali.");
+            }
+        } else if (loginOregistrazione == 2) {
+            System.out.println("REGISTRAZIONE NUOVO UTENTE");
 
+            System.out.print("Inserisci il tuo nome: ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Inserisci il tuo cognome: ");
+            String cognome = scanner.nextLine();
+
+            System.out.print("Scegli uno username: ");
+            String newUsername = scanner.nextLine();
+
+            System.out.print("Scegli una password: ");
+            String newPassword = scanner.nextLine();
+
+            Ruolo ruolo = Ruolo.UTENTE_NORMALE;
+
+            Utente nuovoUtente = new Utente(nome, cognome, newUsername, newPassword, ruolo);
+            utenteDao.salva(nuovoUtente);
+
+            System.out.println("Registrazione completata con successo!");
+            System.out.println("Benvenut* " + nome + " " + cognome + ". Ora puoi effettuare il login.");
+
+            return; // Termina qui per evitare di proseguire senza login valido
+        } else {
+            System.out.println("Scelta non valida. Terminazione programma.");
+            return;
+        }
 
             if (utenteLoggato != null && utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)) {
 
@@ -674,35 +707,7 @@ public class MainApp {
                     }
 
                 }
-            } else if (loginOregistrazione == 2) {
-                System.out.println("REGISTRAZIONE NUOVO UTENTE");
-
-                System.out.print("Inserisci il tuo nome: ");
-                String nome = scanner.nextLine();
-
-                System.out.print("Inserisci il tuo cognome: ");
-                String cognome = scanner.nextLine();
-
-                System.out.print("Scegli uno username: ");
-                String newUsername = scanner.nextLine();
-
-                System.out.print("Scegli una password: ");
-                String newPassword = scanner.nextLine();
-
-                Ruolo ruolo = Ruolo.UTENTE_NORMALE;
-
-                Utente nuovoUtente = new Utente(nome, cognome, newUsername, newPassword, ruolo);
-
-                utenteDao.salva(nuovoUtente);
-
-                System.out.println("Registrazione completata con successo!");
-                System.out.println("Benvenut* " + nome + " " + cognome + ". Ora puoi effettuare il login.");
-            } else {
-                //da continuare
-                System.out.println("ne registrazione ne login");
             }
-
 
         }
     }
-}
