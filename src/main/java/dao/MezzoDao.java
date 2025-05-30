@@ -22,7 +22,7 @@ public class MezzoDao {
         em.getTransaction().begin();
         em.persist(mezzo);
         em.getTransaction().commit();
-        System.out.println("Il mezzo " + mezzo.getId() + " è stato aggiunto al DB");
+        System.out.println("Il mezzo con ID " + mezzo.getId() + " è stato aggiunto al DB");
     }
 
     public Mezzo getById(Long id){

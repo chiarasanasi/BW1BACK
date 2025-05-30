@@ -126,14 +126,47 @@ public class MainApp {
         int loginOregistrazione = scanner.nextInt();
         scanner.nextLine();
 
+        Utente utenteLoggato = null;
+
         if (loginOregistrazione == 1) {
             System.out.println("Digita il tuo username");
             String username = scanner.nextLine();
             System.out.println("Digita la tua password");
             String password = scanner.nextLine();
 
-            Utente utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
+            try {
+                utenteLoggato = utenteDao.trovaTramiteUsernamePassword(username, password);
+            } catch (Exception e) {
+                System.out.println("Errore durante il login. Controlla le credenziali.");
+            }
+        } else if (loginOregistrazione == 2) {
+            System.out.println("REGISTRAZIONE NUOVO UTENTE");
 
+            System.out.print("Inserisci il tuo nome: ");
+            String nome = scanner.nextLine();
+
+            System.out.print("Inserisci il tuo cognome: ");
+            String cognome = scanner.nextLine();
+
+            System.out.print("Scegli uno username: ");
+            String newUsername = scanner.nextLine();
+
+            System.out.print("Scegli una password: ");
+            String newPassword = scanner.nextLine();
+
+            Ruolo ruolo = Ruolo.UTENTE_NORMALE;
+
+            Utente nuovoUtente = new Utente(nome, cognome, newUsername, newPassword, ruolo);
+            utenteDao.salva(nuovoUtente);
+
+            System.out.println("Registrazione completata con successo!");
+            System.out.println("Benvenut* " + nome + " " + cognome + ". Ora puoi effettuare il login.");
+
+            return; // Termina qui per evitare di proseguire senza login valido
+        } else {
+            System.out.println("Scelta non valida. Terminazione programma.");
+            return;
+        }
 
             if (utenteLoggato != null && utenteLoggato.getRuolo().equals(Ruolo.UTENTE_NORMALE)) {
 
@@ -338,16 +371,15 @@ public class MainApp {
 
                             titoloDiViaggioDao.numeroDiBigliettiInUnDatoPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine));
                         }
-                  
+
                         case 2 -> {
                             System.out.println(mezzoDao.listaMezziManutenzione());
 
                         }
                         case 3 -> {
-                            System.out.println( mezzoDao.listaMezziInServizio());
+                            System.out.println(mezzoDao.listaMezziInServizio());
                         }
                         case 4 -> {
-//mettere questo
                             List<Mezzo> mezzi = em.createQuery("SELECT m FROM Mezzo m", Mezzo.class).getResultList();
 
                             if (mezzi.isEmpty()) {
@@ -357,26 +389,10 @@ public class MainApp {
 
                                 for (int i = 0; i < mezzi.size(); i++) {
                                     Mezzo mezzo = mezzi.get(i);
-                                    System.out.print(i + " -> Mezzo ID: " + mezzo.getId());
-
-                                    List<Percorrenza> percorrenze = mezzo.getMezzoPercorrenze();
-                                    if (percorrenze == null || percorrenze.isEmpty()) {
-                                        System.out.println(" (nessuna percorrenza assegnata)");
-                                    } else {
-                                        System.out.println(" (con le seguenti percorrenze):");
-                                        for (Percorrenza p : percorrenze) {
-                                            Tratta t = p.getTratta();
-                                            if (t != null) {
-                                                System.out.println("- " + t.getZonaDiPartenza() + " da " + t.getCapolinea() +
-                                                        " (tempo previsto: " + t.getTempoPercorrenzaPrevisto() + ")");
-                                            } else {
-                                                System.out.println("- Percorrenza senza tratta associata.");
-                                            }
-                                        }
-                                    }
+                                    System.out.print(i + " -> " + mezzo + "\n");
                                 }
 
-                                System.out.println("Digita il numero del mezzo che vuoi aggiornare:");
+                                System.out.println("Digita il numero corrispondente al mezzo che vuoi aggiornare:");
                                 int sceltaUpdateMezzo = scanner.nextInt();
                                 scanner.nextLine(); // Consuma il newline
 
@@ -386,95 +402,9 @@ public class MainApp {
                                 }
 
                                 Mezzo mezzoScelto = mezzi.get(sceltaUpdateMezzo);
-                                ServizioManutenzione servizio = mezzoScelto.getServizioManutenzione();
 
+                                servizioManutenzioneDao.aggiornaServizioManutenzione(mezzoScelto, em);
 
-                                if (servizio == null) {
-                                    System.out.println("Il mezzo selezionato non ha un ServizioManutenzione associato. Ne verrà creato uno nuovo.");
-
-                                    //  stato servizio
-                                    System.out.println("Inserisci lo stato del servizio (IN_SERVIZIO / IN_MANUTENZIONE):");
-                                    String statoInput = scanner.nextLine().toUpperCase();
-                                    StatoServizio statoServizio;
-                                    try {
-                                        statoServizio = StatoServizio.valueOf(statoInput);
-                                    } catch (IllegalArgumentException e) {
-                                        System.out.println("Valore non valido. Stato impostato a IN_SERVIZIO di default.");
-                                        statoServizio = StatoServizio.IN_SERVIZIO;
-                                    }
-
-                                    if(statoServizio.equals(StatoServizio.IN_SERVIZIO)) {
-                                        // Richiesta date
-                                        System.out.println("Ora dovrai inserire le date di inizio servizio. TUTTE con il seguente formato --> yyyy-mm-dd");
-
-                                        try {
-                                            System.out.println("Inserisci la data di inizio servizio :");
-                                            LocalDate inizioServizio = LocalDate.parse(scanner.nextLine());
-
-                                            System.out.println("Inserisci la data di fine prevista :");
-                                            LocalDate fineServizioPrevista = LocalDate.parse(scanner.nextLine());
-
-
-                                            servizio = new ServizioManutenzione(statoServizio, inizioServizio, fineServizioPrevista, true);
-
-
-                                            mezzoScelto.setServizioManutenzione(servizio); // --> lato proprietario
-                                            mezzoDao.save(mezzoScelto);
-
-                                            System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
-                                        } catch (IllegalArgumentException e) {
-                                            System.out.println("Stato del servizio non valido. Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-
-                                        } catch (DateTimeParseException e) {
-                                            System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-                                        }
-                                    }else if(statoServizio.equals(StatoServizio.IN_MANUTENZIONE)){
-                                        // Richiesta date
-                                        System.out.println("Ora dovrai inserire le date di inizio manutenzione. TUTTE con il seguente formato --> yyyy-mm-dd");
-
-                                        try {
-                                            System.out.println("Inserisci la data di inizio manutenzione :");
-                                            LocalDate inizioManutenzione = LocalDate.parse(scanner.nextLine());
-
-                                            System.out.println("Inserisci la data di fine prevista :");
-                                            LocalDate fineManutenzionePrevista = LocalDate.parse(scanner.nextLine());
-
-
-                                            servizio = new ServizioManutenzione(statoServizio,inizioManutenzione,fineManutenzionePrevista);
-
-                                            mezzoScelto.setServizioManutenzione(servizio); // --> lato proprietario
-                                            mezzoDao.save(mezzoScelto);
-
-                                            System.out.println("Creato nuovo ServizioManutenzione con stato " + statoServizio);
-                                        }
-                                        catch (IllegalArgumentException e) {
-                                            System.out.println("Stato del servizio non valido. Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-
-                                        } catch (DateTimeParseException e) {
-                                            System.out.println("Una delle date inserite non è nel formato corretto (yyyy-mm-dd). Operazione annullata.");
-                                            em.getTransaction().rollback();
-                                            break;
-                                        }
-                                    }
-                                } else {
-                                    StatoServizio stato = servizio.getStatoServizio();
-                                    if (stato == StatoServizio.IN_SERVIZIO) {
-                                        servizio.setStatoServizio(StatoServizio.IN_MANUTENZIONE);
-                                        System.out.println("Lo stato di servizio del mezzo ora è IN_MANUTENZIONE.");
-                                    } else if (stato == StatoServizio.IN_MANUTENZIONE) {
-                                        servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
-                                        System.out.println("Lo stato di servizio del mezzo ora è IN_SERVIZIO.");
-                                    } else {
-                                        servizio.setStatoServizio(StatoServizio.IN_SERVIZIO);
-                                        System.out.println("Lo stato era nullo. Settato di default a IN_SERVIZIO.");
-                                    }
-                                }
                             }
                         }
                         case 5 -> {
@@ -493,7 +423,46 @@ public class MainApp {
 
 
                         case 6 -> {
-                            System.out.println("uguale a 5");
+                            // Recupera i punti di emissione
+                            List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p", PuntoDiEmissione.class).getResultList();
+
+                            if (punti.isEmpty()) {
+                                System.out.println("Non ci sono punti di emissione registrati nel database.");
+                             break;
+                            }
+
+                            System.out.println("Scegli un punto di emissione tra i seguenti:");
+                            for (int i = 0; i < punti.size(); i++) {
+                                PuntoDiEmissione p = punti.get(i);
+                                System.out.println(i + " -> Punto ID: " + p.getId() + " - Nome: " + p.getNome());
+                            }
+
+                            System.out.println("Inserisci il numero corrispondente al punto di emissione:");
+                            int sceltaPunto = scanner.nextInt();
+                            scanner.nextLine(); // consuma newline
+
+                            if (sceltaPunto < 0 || sceltaPunto >= punti.size()) {
+                                System.out.println("Scelta non valida.");
+
+                            }
+
+                            PuntoDiEmissione puntoScelto = punti.get(sceltaPunto);
+
+                            // Recupera i biglietti associati a quel punto
+                            List<Biglietto> biglietti = em.createQuery("SELECT b FROM Biglietto b WHERE b.puntoDiEmissione = :punto", Biglietto.class)
+                                    .setParameter("punto", puntoScelto)
+                                    .getResultList();
+
+                            if (biglietti.isEmpty()) {
+                                System.out.println("Nessun biglietto emesso da questo punto.");
+                            } else {
+                                System.out.println("Biglietti emessi dal punto: " + puntoScelto.getNome());
+                                for (Biglietto b : biglietti) {
+                                    System.out.println("ID: " + b.getId() + ", Data Emissione: " + b.getDataEmissione() +
+                                            ", Vidimato: " + (b.getVidimazione() == Vidimazione.VIDIMATO)+
+                                            ", Mezzo: " + (b.getMezzo() != null ? b.getMezzo().getId() : "N/A"));
+                                }
+                            }
                         }
                         case 7 -> {
                             System.out.println(titoloDiViaggioDao.ricercaBiglietti());
@@ -543,10 +512,24 @@ public class MainApp {
                             System.out.println(titoloDiViaggioDao.ricercaBigliettiVidimatiPerPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine)));
                         }
                         case 10 -> {
-                            System.out.println("pippaaaa");
+                            System.out.println("Ripetizione di una tratta tramite un mezzo");
 
+                            System.out.print("Inserisci l'ID del mezzo: ");
+                            Long idMezzo = scanner.nextLong();
+                            scanner.nextLine();
 
+                            System.out.print("Inserisci l'ID della tratta: ");
+                            Long idTratta = scanner.nextLong();
+                            scanner.nextLine();
+
+                            try {
+                                long conteggio = mezzoDao.ripetizioneTrattaTramiteMezzo(idMezzo, idTratta);
+                                System.out.println("La tratta con ID " + idTratta + " è stata percorsa " + conteggio + " volte dal mezzo con ID " + idMezzo);
+                            } catch (Exception e) {
+                                System.out.println("Errore durante la ricerca. Controlla che gli ID inseriti siano corretti.");
+                            }
                         }
+
                         case 11 -> {
                             System.out.println("Inserisci l'ID della tratta:");
 
@@ -687,35 +670,7 @@ public class MainApp {
                     }
 
                 }
-            } else if (loginOregistrazione == 2) {
-                System.out.println("REGISTRAZIONE NUOVO UTENTE");
-
-                System.out.print("Inserisci il tuo nome: ");
-                String nome = scanner.nextLine();
-
-                System.out.print("Inserisci il tuo cognome: ");
-                String cognome = scanner.nextLine();
-
-                System.out.print("Scegli uno username: ");
-                String newUsername = scanner.nextLine();
-
-                System.out.print("Scegli una password: ");
-                String newPassword = scanner.nextLine();
-
-                Ruolo ruolo = Ruolo.UTENTE_NORMALE;
-
-                Utente nuovoUtente = new Utente(nome, cognome, newUsername, newPassword, ruolo);
-
-                utenteDao.salva(nuovoUtente);
-
-                System.out.println("Registrazione completata con successo!");
-                System.out.println("Benvenut* " + nome + " " + cognome + ". Ora puoi effettuare il login.");
-            } else {
-                //da continuare
-                System.out.println("ne registrazione ne login");
             }
-
 
         }
     }
-}

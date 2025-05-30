@@ -28,14 +28,7 @@ public class ServizioManutenzione {
     public ServizioManutenzione() {
     }
 
-    public ServizioManutenzione(StatoServizio statoServizio, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione, LocalDate dataInizioServizio, LocalDate dataFineServizio) {
-        this.statoServizio = statoServizio;
-        this.dataInizioManutenzione = dataInizioManutenzione;
-        this.dataFineManutenzione = dataFineManutenzione;
-        this.dataInizioServizio = dataInizioServizio;
-        this.dataFineServizio = dataFineServizio;
-    }
-
+    //costruttore per mezzo in servizio
     public ServizioManutenzione(StatoServizio statoServizio, LocalDate dataInizioServizio, LocalDate dataFineServizio, boolean isServizio) {
         this.statoServizio = statoServizio;
         if (isServizio) {
@@ -49,6 +42,16 @@ public class ServizioManutenzione {
         this.dataInizioManutenzione = dataInizioManutenzione;
         this.dataFineManutenzione = dataFineManutenzione;
     }
+
+    public ServizioManutenzione(StatoServizio statoServizio, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione, LocalDate dataInizioServizio, LocalDate dataFineServizio) {
+        this.statoServizio = statoServizio;
+        this.dataInizioManutenzione = dataInizioManutenzione;
+        this.dataFineManutenzione = dataFineManutenzione;
+        this.dataInizioServizio = dataInizioServizio;
+        this.dataFineServizio = dataFineServizio;
+    }
+
+
 
     public Long getId() {
         return id;
