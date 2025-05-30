@@ -1,3 +1,4 @@
+
 package dao;
 
 import entites.DistributoreAutomatico;
@@ -61,10 +62,10 @@ public class PuntoDiEmissioneDao {
 
     // Metodo 10: biglietti per punto di emissione
     //public List<TitoloDiViaggio> listaBigliettiPerPuntoDiEmissione(Long idPuntoEmissione) {
-       // TypedQuery<TitoloDiViaggio> = "SELECT b FROM TitoloDiViaggio t WHERE t.puntoDiEmissione.id = :id";
-       // return em.createQuery(jpql, TitoloDiViaggio.class)
-        //        .setParameter("id", idPuntoEmissione)
-          //      .getResultList();
+    // TypedQuery<TitoloDiViaggio> = "SELECT b FROM TitoloDiViaggio t WHERE t.puntoDiEmissione.id = :id";
+    // return em.createQuery(jpql, TitoloDiViaggio.class)
+    //        .setParameter("id", idPuntoEmissione)
+    //      .getResultList();
 
 
 
