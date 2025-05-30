@@ -1,5 +1,6 @@
 package entites;
 
+import enumeration.TipoDistributore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -55,4 +56,6 @@ public class PuntoDiEmissione {
                 ", titoloDiViaggioList=" + titoloDiViaggioList +
                 '}';
     }
+
+
 }

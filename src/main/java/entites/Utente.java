@@ -3,6 +3,8 @@ package entites;
 import enumeration.Ruolo;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Utente {
     @Id
@@ -22,7 +24,8 @@ public class Utente {
     @OneToOne
     @JoinColumn(name = "tessera_id")
     private Tessera tessera;
-
+    @OneToMany(mappedBy = "utente")
+    private Set<Biglietto> biglietti;
     public Utente() {
     }
 
@@ -32,6 +35,15 @@ public class Utente {
         this.username = username;
         this.password = password;
         this.ruolo = ruolo;
+    }
+
+    public Utente(String nome, String cognome, String username, String password, Ruolo ruolo, Set<Biglietto> biglietti) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.username = username;
+        this.password = password;
+        this.ruolo = ruolo;
+        this.biglietti = biglietti;
     }
 
     public Long getId() {
@@ -90,6 +102,14 @@ public class Utente {
         this.ruolo = ruolo;
     }
 
+    public Set<Biglietto> getBiglietti() {
+        return biglietti;
+    }
+
+    public void setBiglietti(Set<Biglietto> biglietti) {
+        this.biglietti = biglietti;
+    }
+
     @Override
     public String toString() {
         return "Utente{" +
@@ -100,6 +120,7 @@ public class Utente {
                 ", password='" + password + '\'' +
                 ", ruolo=" + ruolo +
                 ", tessera=" + tessera +
+                ", biglietti=" + biglietti +
                 '}';
     }
 }

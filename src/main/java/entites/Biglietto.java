@@ -18,12 +18,32 @@ public class Biglietto extends TitoloDiViaggio {
     private Vidimazione vidimazione;
     @Column(name = "data_vidimazione")
     private LocalDate dataVidimazione;
-
-
+    @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Utente utente;
     public Biglietto() {
     }
 
-    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione,Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Vidimazione vidimazione, Utente utente) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
+        this.vidimazione = vidimazione;
+        this.utente = utente;
+    }
+
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Vidimazione vidimazione, Utente utente, Mezzo mezzo, LocalDate dataVidimazione) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
+        this.mezzo = mezzo;
+        this.dataVidimazione = dataVidimazione;
+        this.vidimazione = vidimazione;
+        this.utente = utente;
+    }
+
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo) {
+        super(dataEmissione, tipoDistributore, puntoDiEmissione);
+        this.mezzo = mezzo;
+    }
+
+    public Biglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo, Vidimazione vidimazione, LocalDate dataVidimazione) {
         super(dataEmissione, tipoDistributore, puntoDiEmissione);
         this.mezzo = mezzo;
         this.vidimazione = vidimazione;
@@ -62,6 +82,14 @@ public class Biglietto extends TitoloDiViaggio {
         this.dataVidimazione = dataVidimazione;
     }
 
+    public Utente getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
+
     @Override
     public String toString() {
         return "Biglietto{" +
@@ -69,6 +97,7 @@ public class Biglietto extends TitoloDiViaggio {
                 ", mezzo=" + mezzo +
                 ", vidimazione=" + vidimazione +
                 ", dataVidimazione=" + dataVidimazione +
+                ", utente=" + utente +
                 "} " + super.toString();
     }
 }

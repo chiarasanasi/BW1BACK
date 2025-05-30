@@ -51,6 +51,8 @@ public class ServizioManutenzione {
         this.dataFineServizio = dataFineServizio;
     }
 
+
+
     public Long getId() {
         return id;
     }

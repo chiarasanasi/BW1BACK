@@ -1,12 +1,16 @@
 package dao;
 
+import entites.DistributoreAutomatico;
 import entites.PuntoDiEmissione;
+import entites.RivenditoreAutorizzato;
+import entites.TitoloDiViaggio;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import entites.TitoloDiViaggio;
-
 
 public class PuntoDiEmissioneDao {
     private EntityManager em;
@@ -38,38 +42,41 @@ public class PuntoDiEmissioneDao {
         }
     }
 
-    public PuntoDiEmissione creazionePuntoDiEmissione(String nome, List titoloDiViaggioList) {
-        PuntoDiEmissione nuovoPuntodiEmissione = new PuntoDiEmissione(nome, titoloDiViaggioList);
-        return nuovoPuntodiEmissione;
+    public DistributoreAutomatico creazionePuntoDiEmissione(String nome) {
+        DistributoreAutomatico distributore = new DistributoreAutomatico(nome, new ArrayList<>(), true);
+        em.getTransaction().begin();
+        em.persist(distributore);
+        em.getTransaction().commit();
+        return distributore;
     }
 
-
-
-    // Metodo 9: lista punti di emissione divisi per tipo
-    public Map<String, List<PuntoDiEmissione>> listaPuntiDiEmissione() {
-        List<PuntoDiEmissione> distributori = em.createQuery(
-                        "SELECT p FROM PuntoDiEmissione p WHERE p.tipo = :tipo", PuntoDiEmissione.class)
-                .setParameter("tipo", "DISTRIBUTORE")
-                .getResultList();
-
-        List<PuntoDiEmissione> rivenditori = em.createQuery(
-                        "SELECT p FROM PuntoDiEmissione p WHERE p.tipo = :tipo", PuntoDiEmissione.class)
-                .setParameter("tipo", "RIVENDITORE")
-                .getResultList();
-
-        Map<String, List<PuntoDiEmissione>> mappa = new HashMap<>();
-        mappa.put("Distributori Automatici", distributori);
-        mappa.put("Rivenditori Autorizzati", rivenditori);
-        return mappa;
+    public RivenditoreAutorizzato creazioneRivenditoreAutorizzato(String nome, String indirizzo) {
+        RivenditoreAutorizzato rivenditore = new RivenditoreAutorizzato(nome, new ArrayList<>(), indirizzo);
+        em.getTransaction().begin();
+        em.persist(rivenditore);
+        em.getTransaction().commit();
+        return rivenditore;
     }
+
 
     // Metodo 10: biglietti per punto di emissione
-    public List<TitoloDiViaggio> listaBigliettiPerPuntoDiEmissione(Long idPuntoEmissione) {
-        String jpql = "SELECT t FROM TitoloDiViaggio t WHERE t.puntoDiEmissione.id = :id";
-        return em.createQuery(jpql, TitoloDiViaggio.class)
-                .setParameter("id", idPuntoEmissione)
-                .getResultList();
+    //public List<TitoloDiViaggio> listaBigliettiPerPuntoDiEmissione(Long idPuntoEmissione) {
+       // TypedQuery<TitoloDiViaggio> = "SELECT b FROM TitoloDiViaggio t WHERE t.puntoDiEmissione.id = :id";
+       // return em.createQuery(jpql, TitoloDiViaggio.class)
+        //        .setParameter("id", idPuntoEmissione)
+          //      .getResultList();
+
+
+
+
+
+    // Metodo 11: punti di emissione che hanno emesso almeno un titolo di viaggio
+    public List<PuntoDiEmissione> listaPuntiDiEmissioneConTitoli() {
+        TypedQuery<PuntoDiEmissione> query = em.createQuery("SELECT p FROM PuntoDiEmissione p ", PuntoDiEmissione.class);
+        return query.getResultList();
+
     }
 
-
 }
+
+
