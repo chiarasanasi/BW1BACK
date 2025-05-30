@@ -408,8 +408,20 @@ public class MainApp {
                             }
                         }
                         case 5 -> {
-                            System.out.println("pippa");
+                            List<PuntoDiEmissione> puntiConTitoli = puntoDiEmissioneDao.listaPuntiDiEmissioneConTitoli();
+
+                            if (puntiConTitoli.isEmpty()) {
+                                System.out.println("Nessun punto di emissione ha ancora emesso titoli di viaggio.");
+                            } else {
+                                System.out.println("Punti di emissione che hanno emesso almeno un titolo di viaggio:");
+                                for (PuntoDiEmissione punto : puntiConTitoli) {
+                                    System.out.println("- ID: " + punto.getId() + ", Nome: " + punto.getNome() +
+                                            ", Numero titoli emessi: " + punto.getTitoloDiViaggioList().size());
+                                }
+                            }
                         }
+
+
                         case 6 -> {
                             // Recupera i punti di emissione
                             List<PuntoDiEmissione> punti = em.createQuery("SELECT p FROM PuntoDiEmissione p", PuntoDiEmissione.class).getResultList();
