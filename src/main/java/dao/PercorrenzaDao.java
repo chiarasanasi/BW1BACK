@@ -5,6 +5,7 @@ import entites.Percorrenza;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -70,28 +71,36 @@ public class PercorrenzaDao {
     public Double tempoMedioPercorrenza(Long trattaId) {
         EntityManager em = emf.createEntityManager();
         try {
-            String query = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p JOIN p.tratte t WHERE t.id = :trattaId";
-            List<Object[]> results = em.createQuery(query, Object[].class)
-                    .setParameter("trattaId", trattaId)
-                    .getResultList();
+            TypedQuery<Object[]> query = em.createQuery(
+                    "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.tratta.id = :trattaId",
+                    Object[].class
+            );
+            query.setParameter("trattaId", trattaId);
+
+            List<Object[]> results = query.getResultList();
 
             if (results.isEmpty()) {
                 return null;
             }
+
             long totalMinutes = 0;
             for (Object[] row : results) {
                 LocalTime inizio = (LocalTime) row[0];
                 LocalTime fine = (LocalTime) row[1];
                 totalMinutes += java.time.Duration.between(inizio, fine).toMinutes();
             }
+
             return totalMinutes / (double) results.size();
+
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-
+            System.out.println("Errore durante il calcolo del tempo medio: " + e.getMessage());
+        } finally {
+            em.close();
         }
-        return null;
 
+        return null;
     }
+
 
     public List<Long> ricercaTempiEffettiviTramiteTratta(Long trattaId) {
         EntityManager em = emf.createEntityManager();
@@ -119,10 +128,13 @@ public class PercorrenzaDao {
     public Double tempoMedioPercorrenzaPerMezzo(Long mezzoId) {
         EntityManager em = emf.createEntityManager();
         try {
-            String jpql = "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.mezzo.id = :mezzoId";
-            List<Object[]> results = em.createQuery(jpql, Object[].class)
-                    .setParameter("mezzoId", mezzoId)
-                    .getResultList();
+            TypedQuery<Object[]> query = em.createQuery(
+                    "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p WHERE p.mezzo.id = :mezzoId",
+                    Object[].class
+            );
+            query.setParameter("mezzoId", mezzoId);
+
+            List<Object[]> results = query.getResultList();
 
             if (results.isEmpty()) return null;
 
@@ -130,9 +142,56 @@ public class PercorrenzaDao {
             for (Object[] row : results) {
                 LocalTime inizio = (LocalTime) row[0];
                 LocalTime fine = (LocalTime) row[1];
-                totalMinutes += java.time.Duration.between(inizio, fine).toMinutes();
+
+                long durata = java.time.Duration.between(inizio, fine).toMinutes();
+                if (durata < 0) {
+                    durata += 24 * 60; // Gestisce gli orari dopo la mezzanotte
+                }
+
+                totalMinutes += durata;
             }
+
             return totalMinutes / (double) results.size();
+
+        } catch (Exception e) {
+            System.out.println("Errore nel calcolo tempo medio per mezzo: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return null;
+    }
+
+    public Double tempoMedioPercorrenzaPerTrattaEMezzo(Long trattaId, Long mezzoId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Object[]> query = em.createQuery(
+                    "SELECT p.oraInizioTratta, p.oraFineTratta FROM Percorrenza p " +
+                            "WHERE p.tratta.id = :trattaId AND p.mezzo.id = :mezzoId",
+                    Object[].class
+            );
+            query.setParameter("trattaId", trattaId);
+            query.setParameter("mezzoId", mezzoId);
+
+            List<Object[]> results = query.getResultList();
+
+            if (results.isEmpty()) return null;
+
+            long totalMinutes = 0;
+            for (Object[] row : results) {
+                LocalTime inizio = (LocalTime) row[0];
+                LocalTime fine = (LocalTime) row[1];
+
+                long durata = java.time.Duration.between(inizio, fine).toMinutes();
+                if (durata < 0) {
+                    durata += 24 * 60;
+                }
+
+                totalMinutes += durata;
+            }
+
+            return totalMinutes / (double) results.size();
+
         } finally {
             em.close();
         }
