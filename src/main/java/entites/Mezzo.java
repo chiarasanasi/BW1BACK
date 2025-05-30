@@ -16,12 +16,6 @@ public class Mezzo {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_mezzo")
     private TipoMezzo tipoMezzo;
-    @Column(name = "periodo_servizio")
-    private LocalDate periodoServizio;
-    @Column(name = "periodo_manutenzione")
-    private LocalDate periodoManutenzione;
-//
-//    private ServizioManutenzione servizioEffettivo;
 
     @OneToMany(mappedBy = "mezzo")
     private List<Biglietto> bigliettiVidimati;
@@ -29,6 +23,7 @@ public class Mezzo {
     private List<Percorrenza> mezzoPercorrenze;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "servizio_manutenzione_id")
+
     private ServizioManutenzione servizioManutenzione;
 
     public Mezzo() {
@@ -64,21 +59,7 @@ public class Mezzo {
         this.tipoMezzo = tipoMezzo;
     }
 
-    public LocalDate getPeriodoServizio() {
-        return periodoServizio;
-    }
 
-    public void setPeriodoServizio(LocalDate periodoServizio) {
-        this.periodoServizio = periodoServizio;
-    }
-
-    public LocalDate getPeriodoManutenzione() {
-        return periodoManutenzione;
-    }
-
-    public void setPeriodoManutenzione(LocalDate periodoManutenzione) {
-        this.periodoManutenzione = periodoManutenzione;
-    }
 
     public ServizioManutenzione getServizioManutenzione() {
         return servizioManutenzione;
@@ -87,13 +68,7 @@ public class Mezzo {
     public void setServizioManutenzione(ServizioManutenzione servizioManutenzione) {
         this.servizioManutenzione = servizioManutenzione;
     }
-//    public ServizioManutenzione getServizioEffettivo() {
-//        return servizioEffettivo;
-//    }
-//
-//    public void setServiziEffettivi(ServizioManutenzione servizioEffettivo) {
-//        this.servizioEffettivo = servizioEffettivo;
-//    }
+
 
     public List<Biglietto> getBigliettiVidimati() {
         return bigliettiVidimati;
@@ -117,10 +92,9 @@ public class Mezzo {
                 "id=" + id +
                 ", capienza=" + capienza +
                 ", tipoMezzo=" + tipoMezzo +
-                ", periodoServizio=" + periodoServizio +
-                ", periodoManutenzione=" + periodoManutenzione +
-//                ", servizio Effettivo=" + servizioEffettivo +
                 ", bigliettiVidimati=" + bigliettiVidimati +
+                ", mezzoPercorrenze=" + mezzoPercorrenze +
+                ", servizioManutenzione=" + servizioManutenzione +
                 '}';
     }
 }

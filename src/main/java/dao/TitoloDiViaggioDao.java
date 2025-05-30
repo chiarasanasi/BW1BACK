@@ -41,14 +41,12 @@ public class TitoloDiViaggioDao {
             System.out.println("Il titolo di viaggio con ID " + id + " non esiste");
         }
     }
-    public Biglietto creaBiglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione, Mezzo mezzo) {
+    public Biglietto creaBiglietto(LocalDate dataEmissione, TipoDistributore tipoDistributore, PuntoDiEmissione puntoDiEmissione,Utente utente) {
         Biglietto nuovoBiglietto = new Biglietto(
                 dataEmissione,
                 tipoDistributore,
-                puntoDiEmissione,
-                mezzo,
-                Vidimazione.NON_VIDIMATO,
-                null // dataVidimazione sarà null finché non viene vidimato
+                puntoDiEmissione,utente,
+                Vidimazione.NON_VIDIMATO// dataVidimazione sarà null finché non viene vidimato
         );
         return nuovoBiglietto;
     }

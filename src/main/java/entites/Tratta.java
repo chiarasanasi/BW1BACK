@@ -75,6 +75,14 @@ public class Tratta {
         this.id = id;
     }
 
+    public List<Percorrenza> getTrattaPercorrenze() {
+        return trattaPercorrenze;
+    }
+
+    public void setTrattaPercorrenze(List<Percorrenza> trattaPercorrenze) {
+        this.trattaPercorrenze = trattaPercorrenze;
+    }
+
     // To String
     @Override
     public String toString() {
