@@ -8,7 +8,6 @@ import jakarta.persistence.Persistence;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -339,6 +338,7 @@ public class MainApp {
 
                             titoloDiViaggioDao.numeroDiBigliettiInUnDatoPeriodo(LocalDate.of(annoDataInizio, meseDataInizio, giornoDataInizio), LocalDate.of(annoDataFine, meseDataFine, giornoDataFine));
                         }
+                  
                         case 2 -> {
                             System.out.println(mezzoDao.listaMezziManutenzione());
 
